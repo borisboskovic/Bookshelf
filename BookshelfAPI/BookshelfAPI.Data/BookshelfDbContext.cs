@@ -3,21 +3,22 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using BookshelfAPI.Data.Models;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 #nullable disable
 
 namespace BookshelfAPI.Data
 {
-    public partial class BookshelfContext : DbContext
+    public partial class BookshelfDbContext : IdentityDbContext<BookshelfUser, BookshelfRole, int>
     {
         public IConfiguration Configuration { get; }
 
-        public BookshelfContext(IConfiguration configuration)
+        public BookshelfDbContext(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
-        public BookshelfContext(DbContextOptions<BookshelfContext> options, IConfiguration configuration)
+        public BookshelfDbContext(DbContextOptions<BookshelfDbContext> options, IConfiguration configuration)
             : base(options)
         {
             Configuration = configuration;
@@ -30,13 +31,15 @@ namespace BookshelfAPI.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                //optionsBuilder.UseSqlServer("Server=(LocalDB)\\MSSQLLocalDB;Database=Bookshelf;Trusted_Connection=True;");
                 optionsBuilder.UseSqlServer(Configuration.GetConnectionString("Bookshelf"));
+                optionsBuilder.EnableDetailedErrors();
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
             modelBuilder.HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS");
 
             modelBuilder.Entity<Author>(entity =>
