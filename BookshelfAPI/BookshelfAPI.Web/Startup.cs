@@ -32,7 +32,7 @@ namespace BookshelfAPI.Web
                 options.UseSqlServer(Configuration.GetConnectionString("Bookshelf"));
             });
 
-            services.AddIdentity<BookshelfUser, IdentityRole<int>>(options =>
+            services.AddIdentityCore<BookshelfUser>(options =>
             {
                 options.Password.RequireLowercase = false;
                 options.Password.RequireUppercase = false;
@@ -53,11 +53,7 @@ namespace BookshelfAPI.Web
             var secret = Configuration["TokenConstants:Secret"]; //TODO: Use user secrets for this
             var secretBytes = Encoding.UTF8.GetBytes(secret);
             var key = new SymmetricSecurityKey(secretBytes);
-            services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = "OAuth";
-                options.DefaultChallengeScheme = "OAuth";
-            })
+            services.AddAuthentication("OAuth")
                 .AddJwtBearer("OAuth", options =>
                 {
                     options.TokenValidationParameters = new TokenValidationParameters()
