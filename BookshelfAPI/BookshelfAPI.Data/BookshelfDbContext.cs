@@ -4,12 +4,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using BookshelfAPI.Data.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 
 #nullable disable
 
 namespace BookshelfAPI.Data
 {
-    public partial class BookshelfDbContext : IdentityDbContext<BookshelfUser, BookshelfRole, int>
+    public partial class BookshelfDbContext : IdentityDbContext<BookshelfUser, IdentityRole<int>, int>
     {
         public IConfiguration Configuration { get; }
 
