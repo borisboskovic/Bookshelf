@@ -4,14 +4,16 @@ using BookshelfAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BookshelfAPI.Data.Migrations
 {
     [DbContext(typeof(BookshelfDbContext))]
-    partial class BookshelfDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210330203426_BookshelfUser_AditionalFields")]
+    partial class BookshelfUser_AditionalFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

@@ -1,4 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using BookshelfAPI.Data.Helpers;
+using BookshelfAPI.Services;
+using BookshelfAPI.Services.DTOs;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -6,6 +9,7 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BookshelfAPI.Web.Controllers
 {
@@ -13,10 +17,12 @@ namespace BookshelfAPI.Web.Controllers
     public class UserController : ControllerBase
     {
         private readonly IConfiguration _configuration;
+        private readonly IUserService _userService;
 
-        public UserController(IConfiguration configuration)
+        public UserController(IConfiguration configuration, IUserService userService)
         {
             _configuration = configuration;
+            _userService = userService;
         }
 
 
@@ -67,6 +73,14 @@ namespace BookshelfAPI.Web.Controllers
             var tokenJson = new JwtSecurityTokenHandler().WriteToken(token);
 
             return Ok(new { access_token = tokenJson });
+        }
+
+
+        [HttpPost("Register")]
+        public async Task<IActionResult> Register(UserRegisterDto model)
+        {
+            var result = await _userService.RegisterAsync(model);
+            return (result == LocalizationCodes.Success) ? Ok() : BadRequest(result);
         }
     }
 }
