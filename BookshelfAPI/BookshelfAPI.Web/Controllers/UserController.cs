@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace BookshelfAPI.Web.Controllers
 {
+    [ApiController]
     [Route("/api/[Controller]")]
     public class UserController : ControllerBase
     {

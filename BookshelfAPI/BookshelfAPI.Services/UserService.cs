@@ -31,7 +31,8 @@ namespace BookshelfAPI.Services
             {
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                Email = model.LastName,
+                Email = model.Email,
+                UserName = model.Email,
                 DateOfBirth = model.DateOfBirth,
                 RegistrationTime = DateTime.Now,
             };

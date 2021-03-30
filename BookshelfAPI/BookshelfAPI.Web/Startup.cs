@@ -1,5 +1,6 @@
 using BookshelfAPI.Data;
 using BookshelfAPI.Data.Models;
+using BookshelfAPI.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -46,6 +47,9 @@ namespace BookshelfAPI.Web
                 .AddEntityFrameworkStores<BookshelfDbContext>()
                 .AddSignInManager<SignInManager<BookshelfUser>>()
                 .AddDefaultTokenProviders();
+
+            //Application services
+            services.AddTransient<IUserService, UserService>();
 
             //Authentication
             var issuer = Configuration["TokenConstants:Issuer"];
