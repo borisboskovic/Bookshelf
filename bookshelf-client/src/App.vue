@@ -1,4 +1,7 @@
-<template>Hello World</template>
+<template>
+  <div class="sass-test">Sass test</div>
+  Hello World
+</template>
 
 <script>
 export default {
@@ -7,7 +10,13 @@ export default {
 };
 </script>
 
-<style language="scss">
+<style lang="scss">
+.sass-test {
+  &:hover {
+    color: red;
+    cursor: pointer;
+  }
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
