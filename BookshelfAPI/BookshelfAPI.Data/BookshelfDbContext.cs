@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Identity;
 
 namespace BookshelfAPI.Data
 {
-    public partial class BookshelfDbContext : IdentityDbContext<BookshelfUser, IdentityRole<int>, int>
+    public partial class BookshelfDbContext : IdentityDbContext<BookshelfUser, IdentityRole, string>
     {
         public IConfiguration Configuration { get; }
 

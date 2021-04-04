@@ -3,7 +3,7 @@ using System;
 
 namespace BookshelfAPI.Data.Models
 {
-    public class BookshelfUser : IdentityUser<int>
+    public class BookshelfUser : IdentityUser
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }

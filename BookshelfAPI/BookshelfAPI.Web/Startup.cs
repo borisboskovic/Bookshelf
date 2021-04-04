@@ -1,6 +1,7 @@
 using BookshelfAPI.Data;
 using BookshelfAPI.Data.Models;
 using BookshelfAPI.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
 namespace BookshelfAPI.Web
@@ -43,13 +45,17 @@ namespace BookshelfAPI.Web
                 options.Password.RequiredLength = 8;
                 options.User.RequireUniqueEmail = true;
                 options.SignIn.RequireConfirmedEmail = true;
+                options.User.RequireUniqueEmail = true;
+                options.Lockout.AllowedForNewUsers = false;
             })
+                .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<BookshelfDbContext>()
                 .AddSignInManager<SignInManager<BookshelfUser>>()
                 .AddDefaultTokenProviders();
 
             //Application services
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IRoleService, RoleService>();
 
             //Authentication
             var issuer = Configuration["TokenConstants:Issuer"];
@@ -71,6 +77,22 @@ namespace BookshelfAPI.Web
                         IssuerSigningKey = key,
                     };
                 });
+
+            //Authorization
+            services.AddAuthorizationCore(options =>
+            {
+                var defaultAuthorizationBuilder = new AuthorizationPolicyBuilder();
+                var defaultAuthorizationPolicy = defaultAuthorizationBuilder
+                    .AddAuthenticationSchemes(new string[] { "OAuth" })
+                    .RequireAuthenticatedUser()
+                    .RequireClaim(JwtRegisteredClaimNames.Sub)
+                    .RequireClaim(JwtRegisteredClaimNames.Email)
+                    .RequireClaim("role")
+                    .RequireClaim(JwtRegisteredClaimNames.Iat)
+                    .Build();
+
+                options.DefaultPolicy = defaultAuthorizationPolicy;
+            });
 
             services.AddControllers();
         }

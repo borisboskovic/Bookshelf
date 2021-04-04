@@ -11,6 +11,7 @@ namespace BookshelfAPI.Services.DTOs
         public string Email { get; set; }
         public DateTime? DateOfBirth { get; set; }
         [Required]
+        [MinLength(8)]
         public string Password { get; set; }
     }
 }
