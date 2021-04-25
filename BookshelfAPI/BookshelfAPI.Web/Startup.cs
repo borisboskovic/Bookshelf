@@ -1,6 +1,7 @@
 using BookshelfAPI.Data;
 using BookshelfAPI.Data.Models;
 using BookshelfAPI.Services;
+using BookshelfAPI.Services.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -53,13 +54,7 @@ namespace BookshelfAPI.Web
                 .AddSignInManager<SignInManager<BookshelfUser>>()
                 .AddDefaultTokenProviders();
 
-            //Application services
-            services.AddTransient<IUserService, UserService>();
-            services.AddTransient<IRoleService, RoleService>();
-
             //Authentication
-            var issuer = Configuration["TokenConstants:Issuer"];
-            var audience = Configuration["TokenConstants:Audience"];
             var secret = Configuration["TokenConstants:Secret"]; //TODO: Use user secrets for this
             var secretBytes = Encoding.UTF8.GetBytes(secret);
             var key = new SymmetricSecurityKey(secretBytes);
@@ -69,9 +64,9 @@ namespace BookshelfAPI.Web
                     options.TokenValidationParameters = new TokenValidationParameters()
                     {
                         ValidateIssuer = true,
-                        ValidIssuer = issuer,
+                        ValidIssuer = Configuration["TokenConstants:Issuer"],
                         ValidateAudience = true,
-                        ValidAudience = audience,
+                        ValidAudience = Configuration["TokenConstants:Audience"],
                         ValidateLifetime = true,
                         ValidateIssuerSigningKey = true,
                         IssuerSigningKey = key,
@@ -93,6 +88,11 @@ namespace BookshelfAPI.Web
 
                 options.DefaultPolicy = defaultAuthorizationPolicy;
             });
+
+            //Application services
+            services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IRoleService, RoleService>();
+            services.AddSingleton(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
 
             services.AddControllers();
         }

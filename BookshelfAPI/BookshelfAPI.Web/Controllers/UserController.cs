@@ -45,6 +45,12 @@ namespace BookshelfAPI.Web.Controllers
 
             var authenticationResult = await _userService.AuthenticateAsync(requestModel.email, requestModel.password);
 
+            if(authenticationResult.StatusCode == LocalizationCodes.LoginFail_EmailNotConfirmed)
+            {
+                await _userService.SendConfirmationEmailAsync(requestModel.email, requestModel.password);
+                return BadRequest(LocalizationCodes.LoginFail_EmailNotConfirmed);
+            }
+
             return authenticationResult.StatusCode == LocalizationCodes.Success ?
                 Ok(new { access_token = authenticationResult.TokenJson, issued_at = DateTime.Now }) :
                 BadRequest(authenticationResult.StatusCode);
@@ -58,6 +64,25 @@ namespace BookshelfAPI.Web.Controllers
             var result = await _userService.RegisterAsync(model);
 
             return (result == LocalizationCodes.Success) ? Ok() : BadRequest(result);
+        }
+
+
+
+        //Get email confirmation token
+        //Sending email with confirmation link
+        [HttpGet("ConfirmEmail")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetEmailConfirmationToken([FromBody] object requestBody)
+        {
+            var requestModel = new
+            {
+                email = "",
+                password = ""
+            };
+            requestModel = JsonConvert.DeserializeAnonymousType(requestBody.ToString(), requestModel);
+
+            var result = await _userService.SendConfirmationEmailAsync(requestModel.email, requestModel.password);
+            return (result == LocalizationCodes.Success) ? Ok() : BadRequest(LocalizationCodes.LoginFail_WrongCredentials);
         }
     }
 }

@@ -2,6 +2,8 @@
 using BookshelfAPI.Data.Helpers;
 using BookshelfAPI.Data.Models;
 using BookshelfAPI.Services.DTOs;
+using BookshelfAPI.Services.Helpers;
+using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +23,7 @@ namespace BookshelfAPI.Services
         private readonly IConfiguration _configuration;
         private readonly BookshelfDbContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly EmailConfiguration _emailConfiguration;
 
         public BookshelfUser User
         {
@@ -35,19 +38,14 @@ namespace BookshelfAPI.Services
             UserManager<BookshelfUser> userManager,
             IConfiguration configuration,
             BookshelfDbContext context,
-            IHttpContextAccessor httpContextAccessor)
+            IHttpContextAccessor httpContextAccessor,
+            EmailConfiguration emailConfiguration)
         {
             _userManager = userManager;
             _configuration = configuration;
             _context = context;
             _httpContextAccessor = httpContextAccessor;
-        }
-
-
-
-        public void EditUser()
-        {
-            throw new NotImplementedException();
+            _emailConfiguration = emailConfiguration;
         }
 
 
@@ -86,22 +84,26 @@ namespace BookshelfAPI.Services
 
         public async Task<AuthenticationResultDto> AuthenticateAsync(string email, string password)
         {
+            var authenticationResult = new AuthenticationResultDto();
+
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
             {
-                return new AuthenticationResultDto
-                {
-                    StatusCode = LocalizationCodes.LoginFail_UserNotFound
-                };
+                authenticationResult.StatusCode = LocalizationCodes.LoginFail_UserNotFound;
+                return authenticationResult;
             }
 
             var isPasswordCorrect = await _userManager.CheckPasswordAsync(user, password);
             if (!isPasswordCorrect)
             {
-                return new AuthenticationResultDto
-                {
-                    StatusCode = LocalizationCodes.LoginFail_WrongPassword
-                };
+                authenticationResult.StatusCode = LocalizationCodes.LoginFail_WrongPassword;
+                return authenticationResult;
+            }
+
+            if (!user.EmailConfirmed)
+            {
+                authenticationResult.StatusCode = LocalizationCodes.LoginFail_EmailNotConfirmed;
+                return authenticationResult;
             }
 
             var roles = await _userManager.GetRolesAsync(user);
@@ -140,6 +142,64 @@ namespace BookshelfAPI.Services
                 StatusCode = LocalizationCodes.Success,
                 TokenJson = tokenJson
             };
+        }
+        
+
+
+        public async Task<int> SendConfirmationEmailAsync(string email, string password)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+            var isPasswordCorrect = await _userManager.CheckPasswordAsync(user, password);
+            if(user == null || !isPasswordCorrect)
+            {
+                return LocalizationCodes.LoginFail_WrongCredentials;
+            }
+            if (user.EmailConfirmed)
+            {
+                return LocalizationCodes.EmailConfirmation_AlreadyConfirmed;
+            }
+
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+            using (var client = new SmtpClient())
+            {
+                try
+                {
+                    await client.ConnectAsync(_emailConfiguration.SmtpServer, _emailConfiguration.Port, true);
+                    client.AuthenticationMechanisms.Remove("XOAUTH2");
+                    await client.AuthenticateAsync(_emailConfiguration.UserName, _emailConfiguration.Password);
+
+                    var message = EmailMessageHelper
+                        .CreateEmailConfirmationMessage(_emailConfiguration.From, email, token);
+
+                    await client.SendAsync(message);
+                }
+                catch
+                {
+                    //TODO: Log exception
+                }
+                finally
+                {
+                    await client.DisconnectAsync(true);
+                    client.Dispose();
+                }
+            }
+            return LocalizationCodes.Success;
+        }
+
+
+
+        public async Task<int> ConfirmEmailAsync(string token)
+        {
+            var result = await _userManager.ConfirmEmailAsync(User, token);
+            return (result.Succeeded) ? LocalizationCodes.Success : LocalizationCodes.Fail;
+        }
+
+
+
+        public void EditUser()
+        {
+            throw new NotImplementedException();
         }
     }
 }
