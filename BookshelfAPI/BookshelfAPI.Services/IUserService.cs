@@ -10,7 +10,7 @@ namespace BookshelfAPI.Services
         public Task<int> RegisterAsync(UserRegisterDto model);
         public Task<AuthenticationResultDto> AuthenticateAsync(string email, string password);
         public Task<int> SendConfirmationEmailAsync(string email, string password);
-        public Task<int> ConfirmEmailAsync(string token);
+        public Task<int> ConfirmEmailAsync(string email, string password, string token);
         public void EditUser();
     }
 }

@@ -189,9 +189,20 @@ namespace BookshelfAPI.Services
 
 
 
-        public async Task<int> ConfirmEmailAsync(string token)
+        public async Task<int> ConfirmEmailAsync(string email, string password, string token)
         {
-            var result = await _userManager.ConfirmEmailAsync(User, token);
+            var user = await _userManager.FindByEmailAsync(email);
+            var isPasswordCorrect = await _userManager.CheckPasswordAsync(user, password);
+            if(user == null || !isPasswordCorrect)
+            {
+                return LocalizationCodes.LoginFail_WrongCredentials;
+            }
+            if (user.EmailConfirmed)
+            {
+                return LocalizationCodes.EmailConfirmation_AlreadyConfirmed;
+            }
+
+            var result = await _userManager.ConfirmEmailAsync(user, token);
             return (result.Succeeded) ? LocalizationCodes.Success : LocalizationCodes.Fail;
         }
 

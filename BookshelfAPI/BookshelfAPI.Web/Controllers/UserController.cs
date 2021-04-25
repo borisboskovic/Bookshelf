@@ -57,6 +57,7 @@ namespace BookshelfAPI.Web.Controllers
         }
 
 
+
         [HttpPost("Register")]
         [AllowAnonymous]
         public async Task<IActionResult> Register(UserRegisterDto model)
@@ -82,7 +83,25 @@ namespace BookshelfAPI.Web.Controllers
             requestModel = JsonConvert.DeserializeAnonymousType(requestBody.ToString(), requestModel);
 
             var result = await _userService.SendConfirmationEmailAsync(requestModel.email, requestModel.password);
-            return (result == LocalizationCodes.Success) ? Ok() : BadRequest(LocalizationCodes.LoginFail_WrongCredentials);
+            return (result == LocalizationCodes.Success) ? Ok() : BadRequest(result);
+        }
+
+
+
+        [HttpPost("ConfirmEmail")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ConfirmEmail([FromBody] object requestBody)
+        {
+            var requestModel = new
+            {
+                Email = "",
+                Password = "",
+                Token = ""
+            };
+            requestModel = JsonConvert.DeserializeAnonymousType(requestBody.ToString(), requestModel);
+
+            await _userService.ConfirmEmailAsync(requestModel.Email, requestModel.Password, requestModel.Token);
+            return Ok();
         }
     }
 }
