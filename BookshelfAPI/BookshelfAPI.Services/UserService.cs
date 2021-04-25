@@ -177,6 +177,7 @@ namespace BookshelfAPI.Services
                 catch
                 {
                     //TODO: Log exception
+                    return LocalizationCodes.EmailConfirmation_CouldntSendEmail;
                 }
                 finally
                 {

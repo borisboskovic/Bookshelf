@@ -15,5 +15,6 @@
         public static readonly int LoginFail_EmailNotConfirmed = 1006;
 
         public static readonly int EmailConfirmation_AlreadyConfirmed = 1007;
+        public static readonly int EmailConfirmation_CouldntSendEmail = 1008;
     }
 }
