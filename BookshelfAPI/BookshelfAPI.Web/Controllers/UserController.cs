@@ -100,8 +100,8 @@ namespace BookshelfAPI.Web.Controllers
             };
             requestModel = JsonConvert.DeserializeAnonymousType(requestBody.ToString(), requestModel);
 
-            await _userService.ConfirmEmailAsync(requestModel.Email, requestModel.Password, requestModel.Token);
-            return Ok();
+            var result = await _userService.ConfirmEmailAsync(requestModel.Email, requestModel.Password, requestModel.Token);
+            return (result == LocalizationCodes.Success) ? Ok() : BadRequest();
         }
     }
 }

@@ -46,7 +46,6 @@ namespace BookshelfAPI.Web
                 options.Password.RequiredLength = 8;
                 options.User.RequireUniqueEmail = true;
                 options.SignIn.RequireConfirmedEmail = true;
-                options.User.RequireUniqueEmail = true;
                 options.Lockout.AllowedForNewUsers = false;
             })
                 .AddRoles<IdentityRole>()
@@ -87,6 +86,11 @@ namespace BookshelfAPI.Web
                     .Build();
 
                 options.DefaultPolicy = defaultAuthorizationPolicy;
+            });
+
+            services.AddLocalization(options =>
+            {
+                options.ResourcesPath = "Resources/Localization";
             });
 
             //Application services

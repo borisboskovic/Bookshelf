@@ -7,6 +7,7 @@ using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Localization;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
@@ -24,6 +25,7 @@ namespace BookshelfAPI.Services
         private readonly BookshelfDbContext _context;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly EmailConfiguration _emailConfiguration;
+        private readonly IStringLocalizer<UserService> _localizer;
 
         public BookshelfUser User
         {
@@ -39,13 +41,16 @@ namespace BookshelfAPI.Services
             IConfiguration configuration,
             BookshelfDbContext context,
             IHttpContextAccessor httpContextAccessor,
-            EmailConfiguration emailConfiguration)
+            EmailConfiguration emailConfiguration,
+            IStringLocalizer<UserService> localizer
+            )
         {
             _userManager = userManager;
             _configuration = configuration;
             _context = context;
             _httpContextAccessor = httpContextAccessor;
             _emailConfiguration = emailConfiguration;
+            _localizer = localizer;
         }
 
 
@@ -165,12 +170,15 @@ namespace BookshelfAPI.Services
             {
                 try
                 {
-                    await client.ConnectAsync(_emailConfiguration.SmtpServer, _emailConfiguration.Port, true);
-                    client.AuthenticationMechanisms.Remove("XOAUTH2");
-                    await client.AuthenticateAsync(_emailConfiguration.UserName, _emailConfiguration.Password);
+                    await client.ConnectAsync(_emailConfiguration.SmtpServer, _emailConfiguration.Port, false);
+                    //Use code bellow instead if authentication is required
+                    //await client.ConnectAsync(_emailConfiguration.SmtpServer, _emailConfiguration.Port, true);
+                    //client.AuthenticationMechanisms.Remove("XOAUTH2");
+                    //await client.AuthenticateAsync(_emailConfiguration.UserName, _emailConfiguration.Password);
 
+                    var baseURL = _configuration["TokenConstants:Audience"];
                     var message = EmailMessageHelper
-                        .CreateEmailConfirmationMessage(_emailConfiguration.From, email, token);
+                        .CreateEmailConfirmationMessage(_emailConfiguration.From, email, token, baseURL, _localizer);
 
                     await client.SendAsync(message);
                 }
