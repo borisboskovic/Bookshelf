@@ -52,7 +52,7 @@ namespace BookshelfAPI.Web.Controllers
             }
 
             return authenticationResult.StatusCode == LocalizationCodes.Success ?
-                Ok(new { access_token = authenticationResult.TokenJson, issued_at = DateTime.Now }) :
+                Ok(new { access_token = authenticationResult.TokenJson }) :
                 BadRequest(authenticationResult.StatusCode);
         }
 
