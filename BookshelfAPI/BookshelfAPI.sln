@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31005.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookshelfAPI.Web", "BookshelfAPI.Web\BookshelfAPI.Web.csproj", "{FF91113A-93BE-4AF6-8954-4EE24C336FE6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookshelfAPI.Web", "BookshelfAPI.Web\BookshelfAPI.Web.csproj", "{FF91113A-93BE-4AF6-8954-4EE24C336FE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookshelfAPI.Data", "BookshelfAPI.Data\BookshelfAPI.Data.csproj", "{3335675D-5F43-4A76-A6E3-55E3856FE49F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookshelfAPI.Data", "BookshelfAPI.Data\BookshelfAPI.Data.csproj", "{3335675D-5F43-4A76-A6E3-55E3856FE49F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BookshelfAPI.Services", "BookshelfAPI.Services\BookshelfAPI.Services.csproj", "{239F8A54-F7E2-4CD5-BA0E-E5B3D49E195F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BookshelfAPI.Services", "BookshelfAPI.Services\BookshelfAPI.Services.csproj", "{239F8A54-F7E2-4CD5-BA0E-E5B3D49E195F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

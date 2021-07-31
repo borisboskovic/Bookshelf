@@ -2,6 +2,7 @@ using BookshelfAPI.Data;
 using BookshelfAPI.Data.Models;
 using BookshelfAPI.Services;
 using BookshelfAPI.Services.Helpers;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +12,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using Serilog;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 
@@ -23,9 +26,10 @@ namespace BookshelfAPI.Web
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.File("Logs/log-.txt", rollingInterval: RollingInterval.Day)
+                .CreateLogger();
         }
-
-
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -95,13 +99,19 @@ namespace BookshelfAPI.Web
 
             //Application services
             services.AddTransient<IUserService, UserService>();
-            services.AddTransient<IRoleService, RoleService>();
             services.AddSingleton(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
+
+            services.AddFluentValidation(fv =>
+                    fv.RegisterValidatorsFromAssemblyContaining<Startup>()
+            );
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Bookshelf Web API", Version = "v1" });
+            });
         }
-
-
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
@@ -119,6 +129,12 @@ namespace BookshelfAPI.Web
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+            });
+
+            app.UseSwagger();
+            app.UseSwaggerUI(config =>
+            {
+                config.SwaggerEndpoint("/swagger/v1/swagger.json", "BookshelfAPI");
             });
         }
     }

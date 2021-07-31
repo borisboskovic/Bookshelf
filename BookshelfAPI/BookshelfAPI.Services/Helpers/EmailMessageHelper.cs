@@ -2,7 +2,6 @@
 using Microsoft.IdentityModel.Tokens;
 using MimeKit;
 using System.Text;
-using System.Threading;
 
 namespace BookshelfAPI.Services.Helpers
 {

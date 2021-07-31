@@ -1,8 +1,8 @@
 ﻿using BookshelfAPI.Data;
-using BookshelfAPI.Data.Helpers;
 using BookshelfAPI.Data.Models;
 using BookshelfAPI.Services.DTOs;
 using BookshelfAPI.Services.Helpers;
+using BookshelfAPI.Services.RequestModels.User;
 using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -53,11 +53,8 @@ namespace BookshelfAPI.Services
             _localizer = localizer;
         }
 
-
-
-        public async Task<int> RegisterAsync(UserRegisterDto model)
+        public async Task<ServiceResponse> RegisterAsync(Register_RequestModel model)
         {
-            //TODO: Tabela sa istorijom lozinki
             var user = new BookshelfUser
             {
                 FirstName = model.FirstName,
@@ -73,42 +70,53 @@ namespace BookshelfAPI.Services
 
             var result = await _userManager.CreateAsync(user, model.Password);
 
+            var response = new ServiceResponse();
             if (result.Succeeded)
             {
-                //TODO: Send confirmation Email. On login check not confirmed email error
+                _ = SendConfirmationEmailAsync(user);
                 await _userManager.AddToRoleAsync(user, "Reader");
-                return LocalizationCodes.Success;
+                response.Succeeded = true;
+                return response;
             }
             else
             {   //TODO: Provjeriti koje su moguće greške i vratiti odgovarajuće kodove
-                return LocalizationCodes.RegisterFail_Default;
+                foreach(var error in result.Errors)
+                {
+                    response.Errors.Add(error.Code, new string[] { error.Description });
+                }
+                response.Succeeded = false;
+                return response;
             }
         }
 
-
-
-        public async Task<AuthenticationResultDto> AuthenticateAsync(string email, string password)
+        public async Task<ServiceResponse> AuthenticateAsync(string email, string password)
         {
-            var authenticationResult = new AuthenticationResultDto();
-
             var user = await _userManager.FindByEmailAsync(email);
+            var response = new ServiceResponse();
             if (user == null)
             {
-                authenticationResult.StatusCode = LocalizationCodes.LoginFail_UserNotFound;
-                return authenticationResult;
+                //TODO: Localize
+                response.Errors.Add("LoginFailed", new string[] { "Wrong credentials. User not found." });
+                return response;
             }
 
             var isPasswordCorrect = await _userManager.CheckPasswordAsync(user, password);
             if (!isPasswordCorrect)
             {
-                authenticationResult.StatusCode = LocalizationCodes.LoginFail_WrongPassword;
-                return authenticationResult;
+                //TODO: Localize
+                response.Errors.Add("LoginFailed", new string[] { "Wrong password." });
+                return response;
             }
 
             if (!user.EmailConfirmed)
             {
-                authenticationResult.StatusCode = LocalizationCodes.LoginFail_EmailNotConfirmed;
-                return authenticationResult;
+                _ = SendConfirmationEmailAsync(user);
+                //TODO: Localize
+                response.Errors.Add(
+                    "LoginFailed",
+                    new string[] { "Email is not confirmed. Confirmation email has been sent." }
+                );
+                return response;
             }
 
             var roles = await _userManager.GetRolesAsync(user);
@@ -142,27 +150,17 @@ namespace BookshelfAPI.Services
 
             var tokenJson = new JwtSecurityTokenHandler().WriteToken(token);
 
-            return new AuthenticationResultDto
+            response.Succeeded = true;
+            response.Body = new AuthenticationResultDto
             {
-                StatusCode = LocalizationCodes.Success,
                 TokenJson = tokenJson
             };
+            return response;
         }
-        
 
-
-        public async Task<int> SendConfirmationEmailAsync(string email, string password)
+        private async Task<ServiceResponse> SendConfirmationEmailAsync(BookshelfUser user)
         {
-            var user = await _userManager.FindByEmailAsync(email);
-            var isPasswordCorrect = await _userManager.CheckPasswordAsync(user, password);
-            if(user == null || !isPasswordCorrect)
-            {
-                return LocalizationCodes.LoginFail_WrongCredentials;
-            }
-            if (user.EmailConfirmed)
-            {
-                return LocalizationCodes.EmailConfirmation_AlreadyConfirmed;
-            }
+            var response = new ServiceResponse();
 
             var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
@@ -178,14 +176,14 @@ namespace BookshelfAPI.Services
 
                     var baseURL = _configuration["TokenConstants:Audience"];
                     var message = EmailMessageHelper
-                        .CreateEmailConfirmationMessage(_emailConfiguration.From, email, token, baseURL, _localizer);
+                        .CreateEmailConfirmationMessage(_emailConfiguration.From, user.Email, token, baseURL, _localizer);
 
                     await client.SendAsync(message);
                 }
                 catch
                 {
                     //TODO: Log exception
-                    return LocalizationCodes.EmailConfirmation_CouldntSendEmail;
+                    return response;
                 }
                 finally
                 {
@@ -193,29 +191,39 @@ namespace BookshelfAPI.Services
                     client.Dispose();
                 }
             }
-            return LocalizationCodes.Success;
+            response.Succeeded = true;
+            return response;
         }
 
-
-
-        public async Task<int> ConfirmEmailAsync(string email, string password, string token)
+        public async Task<ServiceResponse> ConfirmEmailAsync(string email, string token)
         {
             var user = await _userManager.FindByEmailAsync(email);
-            var isPasswordCorrect = await _userManager.CheckPasswordAsync(user, password);
-            if(user == null || !isPasswordCorrect)
+
+            var response = new ServiceResponse();
+            if (user == null)
             {
-                return LocalizationCodes.LoginFail_WrongCredentials;
+                response.Errors.Add(
+                    "UserNotFound",
+                    new string[] { "We were not able to find a user with that email address" }
+                );
+                return response;
             }
             if (user.EmailConfirmed)
             {
-                return LocalizationCodes.EmailConfirmation_AlreadyConfirmed;
+                response.Errors.Add(
+                    "AlreadyConfirmed",
+                    new string[] { "That email address is already confirmed" }
+                );
+                return response;
             }
 
             var result = await _userManager.ConfirmEmailAsync(user, token);
-            return (result.Succeeded) ? LocalizationCodes.Success : LocalizationCodes.Fail;
+            if (result.Succeeded)
+            {
+                response.Succeeded = true;
+            }
+            return response;
         }
-
-
 
         public void EditUser()
         {

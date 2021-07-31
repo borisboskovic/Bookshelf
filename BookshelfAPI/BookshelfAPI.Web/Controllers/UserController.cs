@@ -1,10 +1,8 @@
-﻿using BookshelfAPI.Data.Helpers;
-using BookshelfAPI.Services;
-using BookshelfAPI.Services.DTOs;
+﻿using BookshelfAPI.Services;
+using BookshelfAPI.Services.RequestModels.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using System;
 using System.Threading.Tasks;
 
 namespace BookshelfAPI.Web.Controllers
@@ -33,61 +31,27 @@ namespace BookshelfAPI.Web.Controllers
 
         [HttpPost("Authenticate")]
         [AllowAnonymous]
-        public async Task<IActionResult> Authenticate([FromBody] object requestBody)
+        public async Task<IActionResult> Authenticate(Authenticatie_RequestModel requestModel)
         {
-            var requestModel = new
-            {
-                email = "",
-                password = ""
-            };
+            var result = await _userService.AuthenticateAsync(requestModel.Email, requestModel.Password);
 
-            requestModel = JsonConvert.DeserializeAnonymousType(requestBody.ToString(), requestModel);
-
-            var authenticationResult = await _userService.AuthenticateAsync(requestModel.email, requestModel.password);
-
-            if(authenticationResult.StatusCode == LocalizationCodes.LoginFail_EmailNotConfirmed)
-            {
-                await _userService.SendConfirmationEmailAsync(requestModel.email, requestModel.password);
-                return BadRequest(LocalizationCodes.LoginFail_EmailNotConfirmed);
-            }
-
-            return authenticationResult.StatusCode == LocalizationCodes.Success ?
-                Ok(new { access_token = authenticationResult.TokenJson }) :
-                BadRequest(authenticationResult.StatusCode);
+            return result.Succeeded
+                ? Ok(result)
+                : BadRequest(result);
         }
 
-
-
+        //TODO: Add validation
         [HttpPost("Register")]
         [AllowAnonymous]
-        public async Task<IActionResult> Register(UserRegisterDto model)
+        public async Task<IActionResult> Register(Register_RequestModel model)
         {
             var result = await _userService.RegisterAsync(model);
 
-            return (result == LocalizationCodes.Success) ? Ok() : BadRequest(result);
+            return (result.Succeeded) ? Ok() : BadRequest(result);
         }
 
 
-
-        //Get email confirmation token
-        //Sending email with confirmation link
-        [HttpGet("ConfirmEmail")]
-        [AllowAnonymous]
-        public async Task<IActionResult> GetEmailConfirmationToken([FromBody] object requestBody)
-        {
-            var requestModel = new
-            {
-                email = "",
-                password = ""
-            };
-            requestModel = JsonConvert.DeserializeAnonymousType(requestBody.ToString(), requestModel);
-
-            var result = await _userService.SendConfirmationEmailAsync(requestModel.email, requestModel.password);
-            return (result == LocalizationCodes.Success) ? Ok() : BadRequest(result);
-        }
-
-
-
+        //TODO: Da li je zaista potrebna lozinka ???
         [HttpPost("ConfirmEmail")]
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail([FromBody] object requestBody)
@@ -100,8 +64,23 @@ namespace BookshelfAPI.Web.Controllers
             };
             requestModel = JsonConvert.DeserializeAnonymousType(requestBody.ToString(), requestModel);
 
-            var result = await _userService.ConfirmEmailAsync(requestModel.Email, requestModel.Password, requestModel.Token);
-            return (result == LocalizationCodes.Success) ? Ok() : BadRequest();
+            var result = await _userService.ConfirmEmailAsync(requestModel.Email, requestModel.Token);
+            return (result.Succeeded) ? Ok(result) : BadRequest(result);
+        }
+
+
+
+        [HttpGet("ResetPassword")]
+        [AllowAnonymous]
+        public async Task<IActionResult> SendResetPasswordEmail([FromBody] object requestModel)
+        {
+            var model = new
+            {
+                Email = ""
+            };
+            model = JsonConvert.DeserializeAnonymousType(requestModel.ToString(), model);
+
+            return Ok(model.Email);
         }
     }
 }
