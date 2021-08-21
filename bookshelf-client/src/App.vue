@@ -1,32 +1,18 @@
 <template>
-	<div class="sass-test">
-		Sass test
-		<user-item></user-item>
-	</div>
+	<LayoutComponent>
+		<router-view />
+	</LayoutComponent>
 </template>
 
 <script>
-import UserItem from "./components/UserItem.vue";
+	import LayoutComponent from "./components/Layout/LayoutComponent.vue";
 
-export default {
-	name: "App",
-	components: { UserItem },
-};
+	export default {
+		components: { LayoutComponent },
+		name: "App",
+	};
 </script>
 
 <style lang="scss">
-.sass-test {
-	&:hover {
-		color: red;
-		cursor: pointer;
-	}
-}
-#app {
-	font-family: Avenir, Helvetica, Arial, sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	text-align: center;
-	color: #2c3e50;
-	margin-top: 60px;
-}
+	@import "./assets/style/main.scss";
 </style>

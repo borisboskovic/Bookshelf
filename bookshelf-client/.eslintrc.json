@@ -3,7 +3,7 @@
 		"browser": true,
 		"es6": true
 	},
-	"extends": ["eslint:recommended", "plugin:vue/essential"],
+	"extends": ["eslint:recommended", "plugin:vue/vue3-essential"],
 	"globals": {
 		"Atomics": "readonly",
 		"SharedArrayBuffer": "readonly"
@@ -15,13 +15,23 @@
 	"plugins": ["vue"],
 	"rules": {
 		"indent": ["error", "tab"],
+		"vue/script-indent": [
+			"error",
+			"tab",
+			{
+				"baseIndent": 1,
+				"switchCase": 1
+			}
+		],
 		"linebreak-style": ["error", "windows"],
-		"quotes": ["error", "double"],
-		"semi": ["error", "always"],
-		"arrow-parens": ["error", "always"],
-		"curly": ["error", "all"],
-		"no-unreachable": ["error"],
-		"no-unused-vars": ["error", "all"],
-		"no-var": ["error"]
-	}
+		"no-unused-vars": ["warn"]
+	},
+	"overrides": [
+		{
+			"files": ["*.vue"],
+			"rules": {
+				"indent": "off"
+			}
+		}
+	]
 }
