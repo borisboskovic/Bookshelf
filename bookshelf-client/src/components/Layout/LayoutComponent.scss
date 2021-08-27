@@ -1,11 +1,12 @@
 @import "../../assets/style/main.scss";
 
-.container {
-	background-color: map-get($colors, "event-pink-bg");
-	color: white;
-	font-weight: bold;
-	font-size: large;
-	display: block;
-	padding: 20px 50px;
-	border-radius: 5px;
+.layout-container {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	margin: 0 40px;
+}
+
+main {
+	flex-grow: 1;
 }

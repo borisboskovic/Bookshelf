@@ -1,5 +1,5 @@
 <template>
-	<div class="main-container">
+	<div class="layout-container">
 		<NavbarComponent />
 		<main>
 			<slot />
@@ -19,15 +19,4 @@
 
 <style lang="scss" scoped>
 	@import "./LayoutComponent.scss";
-
-	.main-container {
-		display: flex;
-		flex-direction: column;
-		background-color: bisque;
-		height: 100%;
-	}
-
-	main {
-		flex-grow: 1;
-	}
 </style>

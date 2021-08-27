@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace BookshelfAPI.Web.Controllers
 {
     [ApiController]
-    [Route("/api/[Controller]")]
+    [Route("/api/[Controller]/[Action]")]
     [Authorize(Roles = "Reader")]
     public class UserController : ControllerBase
     {
@@ -19,17 +19,13 @@ namespace BookshelfAPI.Web.Controllers
             _userService = userService;
         }
 
-
-
-        [HttpGet("Secret")]
+        //[HttpGet("Secret")]
         public IActionResult Secret()
         {
             return Ok(_userService.User);
         }
 
-
-
-        [HttpPost("Authenticate")]
+        [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Authenticate(Authenticatie_RequestModel requestModel)
         {
@@ -41,7 +37,7 @@ namespace BookshelfAPI.Web.Controllers
         }
 
         //TODO: Add validation
-        [HttpPost("Register")]
+        [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Register(Register_RequestModel model)
         {
@@ -50,9 +46,8 @@ namespace BookshelfAPI.Web.Controllers
             return (result.Succeeded) ? Ok() : BadRequest(result);
         }
 
-
         //TODO: Da li je zaista potrebna lozinka ???
-        [HttpPost("ConfirmEmail")]
+        [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> ConfirmEmail([FromBody] object requestBody)
         {
