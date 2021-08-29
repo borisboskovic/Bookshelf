@@ -1,12 +1,17 @@
 <template>
 	<div class="navbar-container">
 		<div class="logo-container">
-			<VectorImage :path="booksLogo" :width="50" :height="30" />
-			<span class="logo-text">BookShelf</span>
+			<NavbarItem :activeClass="''" to="/">
+				<VectorImage :path="booksLogo" :width="50" :height="30" />
+				<span class="logo-text">BookShelf</span>
+			</NavbarItem>
 		</div>
 		<div class="navbar-central-container">
-			<NavbarItem to="/">Početna</NavbarItem>
-			<NavbarItem to="/auth">Auth</NavbarItem>
+			<NavbarItem to="/">Home</NavbarItem>
+			<NavbarItem to="/my-books">My Books</NavbarItem>
+			<div class="search-container">
+				<SearchField />
+			</div>
 		</div>
 		<div class="profile-icon-container">
 			<ProfileDropdown />
@@ -17,6 +22,7 @@
 <script>
 	import NavbarItem from "./NavbarItem.vue";
 	import VectorImage from "../../Ui/VectorImage.vue";
+	import SearchField from "../../Ui/SearchField.vue";
 	import ProfileDropdown from "./ProfileDropdown.vue";
 	import { booksLogo } from "../../../assets/strings/icon-paths";
 
@@ -24,9 +30,10 @@
 		components: {
 			NavbarItem,
 			VectorImage,
+			SearchField,
 			ProfileDropdown,
 		},
-		setup() {
+		setup: () => {
 			return {
 				booksLogo,
 			};

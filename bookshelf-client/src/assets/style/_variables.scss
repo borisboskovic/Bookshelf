@@ -1,5 +1,11 @@
 $colors: (
-	accent: #3B94C6,
-	accent-light: rgba(59, 148, 198, 0.3)
-
+	accent: #3b94c6,
 );
+
+$colorVariants: (
+	accent-light: rgba(map-get($colors, "accent"), 0.75),
+	accent-lighter: rgba(map-get($colors, "accent"), 0.4),
+);
+
+$fontMain: "Playfair Display", serif;
+$boxShadow: 0 0 10px 1px map-get($colorVariants, "accent-lighter");

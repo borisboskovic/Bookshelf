@@ -1,15 +1,16 @@
 @import "../../../assets/style/main.scss";
 
-.navbar-item-container {
+.navbar-item-wrapper {
 	display: inline-flex;
-	padding: 0 25px;
-	// align-items: center;
-	// align-self: stretch;
+	padding-right: 48px;
+	align-self: stretch;
 }
 
 a {
 	color: map-get($colors, "accent");
 	text-decoration: none;
+	display: flex;
+	align-items: center;
 }
 
 .active-link {

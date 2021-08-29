@@ -1,5 +1,5 @@
 <template>
-	<div class="navbar-item-container">
+	<div class="navbar-item-wrapper">
 		<router-link :to="to" :active-class="activeClass">
 			<slot />
 		</router-link>

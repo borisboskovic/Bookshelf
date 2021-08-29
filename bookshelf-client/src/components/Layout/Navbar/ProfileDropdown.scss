@@ -1,3 +1,17 @@
+@import "../../../assets/style/main.scss";
+
+.profile-dropdown-container {
+	display: flex;
+	align-items: center;
+	cursor: pointer;
+	position: relative;
+}
+
+.profile-dropdown-container i {
+	margin-right: 10px;
+	color: map-get($colors, "accent");
+}
+
 .avatar-photo {
 	width: 44px;
 	height: 44px;
