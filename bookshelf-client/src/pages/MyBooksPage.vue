@@ -3,7 +3,14 @@
 </template>
 
 <script>
-	export default {};
+	import { onMounted } from "vue";
+	export default {
+		setup: () => {
+			onMounted(() => {
+				document.title = "BookSelf - My Books";
+			});
+		},
+	};
 </script>
 
 <style lang="scss" scoped></style>

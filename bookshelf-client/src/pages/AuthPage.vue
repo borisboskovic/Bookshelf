@@ -1,9 +1,14 @@
 <template>
-	<div>AuthPage</div>
+	<AuthFormContainer />
 </template>
 
 <script>
-	export default {};
+	import AuthFormContainer from "@/components/Auth/AuthFormContainer";
+	export default {
+		components: {
+			AuthFormContainer,
+		},
+	};
 </script>
 
 <style lang="scss" scoped></style>

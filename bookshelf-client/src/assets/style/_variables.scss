@@ -7,6 +7,8 @@ $colors: (
 $colorVariants: (
 	accent-light: rgba(map-get($colors, "accent"), 0.75),
 	accent-lighter: rgba(map-get($colors, "accent"), 0.4),
+	dark-text-light: rgba(map-get($colors, "dark-text"), 0.75),
+	dark-text-lighter: rgba(map-get($colors, "dark-text"), 0.4),
 );
 
 $fontMain: "Playfair Display", serif;
@@ -21,4 +23,5 @@ $fonts: (
 );
 
 $boxShadow: 0 0 10px 1px map-get($colorVariants, "accent-lighter");
+$shadowDark: 0 0 10px map-get($colorVariants, "dark-text-lighter");
 $borderThin: 1px map-get($colors, "accent") solid;

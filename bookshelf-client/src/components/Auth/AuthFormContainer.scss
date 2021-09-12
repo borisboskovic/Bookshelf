@@ -1,0 +1,56 @@
+@import "@/assets/style/main";
+
+.auth-outside-container {
+	position: relative;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.auth-container-background {
+	position: absolute;
+	inset: 0;
+	background-color: map-get($colors, "accent");
+	clip-path: polygon(40% 0, 100% 0, 100% 100%, 60% 100%);
+	z-index: -1;
+}
+
+.auth-inside-container {
+	box-shadow: $shadowDark;
+	background-color: map-get($colors, "light-background");
+	width: 80%;
+	height: 80%;
+	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.stripe-container {
+	background-color: map-get($colors, "accent");
+	width: 100%;
+	height: 100%;
+	clip-path: polygon(40% 0, 100% 0, 100% 100%, 60% 100%);
+	position: absolute;
+}
+
+.image-container {
+	position: absolute;
+	inset: 0;
+	overflow-y: hidden;
+	overflow-x: hidden;
+	clip-path: polygon(calc(40% + 1rem) 0, 100% 0, 100% 100%, calc(60% + 1rem) 100%);
+	display: flex;
+	justify-content: flex-end;
+
+	img {
+		height: 100%;
+	}
+}
+
+.form-switch-controls {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+}

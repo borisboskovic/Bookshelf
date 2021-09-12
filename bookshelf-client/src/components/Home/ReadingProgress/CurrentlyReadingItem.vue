@@ -1,13 +1,12 @@
 <template>
 	<div class="reading-item-container">
 		<div class="image-container">
-			<img :src="image" :alt="title" />
+			<router-link :to="`/book/${id}`">
+				<img :src="image" :alt="title" />
+			</router-link>
 		</div>
 		<div class="details-container">
 			<div>
-				<!-- <router-link :to="`book/${id}`" class="book-link">
-					<div class="title">{{ title }}</div>
-				</router-link> -->
 				<div class="title">
 					<router-link :to="`/book/${id}`">
 						{{ title }}
@@ -51,14 +50,9 @@
 				const percentage = ((props.pagesRead / props.totalPages) * 100).toFixed(0);
 				return `${props.pagesRead}/${props.totalPages} (${percentage}%)`;
 			});
-			const showAllAuthorsHandler = () => {
-				console.log("Show others");
-				//TODO: Implement
-			};
 
 			return {
 				progressLabel,
-				showAllAuthorsHandler,
 			};
 		},
 	};
