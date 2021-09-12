@@ -1,9 +1,9 @@
 <template>
-	<div>AuthPage</div>
+	Author
 </template>
 
 <script>
 	export default {};
 </script>
 
-<style lang="scss" scoped></style>
+<style></style>

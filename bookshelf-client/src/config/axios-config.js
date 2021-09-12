@@ -1,6 +1,6 @@
 import axios from "axios";
 import { BASE_URL } from ".";
-import { logout } from "../services/auth-service.js";
+import { logout } from "@/services/auth-service.js";
 
 const instance = axios.create({
 	baseURL: BASE_URL,

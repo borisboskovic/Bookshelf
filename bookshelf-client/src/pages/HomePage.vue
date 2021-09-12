@@ -1,7 +1,18 @@
-<template><div>Home Page</div></template>
+<template>
+	<div class="sidebar">
+		<CurrentlyReadingList />
+	</div>
+</template>
 
 <script>
-	export default {};
+	import CurrentlyReadingList from "@/components/Home/ReadingProgress/CurrentlyReadingList.vue";
+	export default {
+		components: {
+			CurrentlyReadingList,
+		},
+	};
 </script>
 
-<style scoped></style>
+<style lang="scss" scoped>
+	@import "./HomePage";
+</style>

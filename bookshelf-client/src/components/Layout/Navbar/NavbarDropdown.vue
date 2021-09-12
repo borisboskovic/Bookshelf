@@ -1,18 +1,18 @@
 <template>
-	<div class="profile-dropdown-container" @click="toggleDropdownOpened">
+	<div class="navbar-dropdown-container" @click="toggleDropdownOpened">
 		<i class="fa fa-caret-down fa-lg" aria-hidden="true"></i>
 		<img class="avatar-photo" :src="defaultImage" alt="Avatar image" />
-		<ProfileMenu v-if="isDropdownOpened" />
+		<NavbarMenu v-if="isDropdownOpened" />
 	</div>
 </template>
 
 <script>
 	import { ref } from "vue";
-	import ProfileMenu from "./ProfileMenu.vue";
-	import defaultImage from "../../../assets/images/rasters/avatar-placeholder.png";
+	import NavbarMenu from "./NavbarMenu.vue";
+	import defaultImage from "@/assets/images/rasters/avatar-placeholder.png";
 	export default {
 		components: {
-			ProfileMenu,
+			NavbarMenu,
 		},
 		setup: () => {
 			const isDropdownOpened = ref(false);
@@ -31,5 +31,5 @@
 </script>
 
 <style lang="scss" scoped>
-	@import "./ProfileDropdown";
+	@import "./NavbarDropdown";
 </style>

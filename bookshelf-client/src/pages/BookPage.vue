@@ -1,9 +1,9 @@
 <template>
-	<div>AuthPage</div>
+	Book
 </template>
 
 <script>
 	export default {};
 </script>
 
-<style lang="scss" scoped></style>
+<style></style>

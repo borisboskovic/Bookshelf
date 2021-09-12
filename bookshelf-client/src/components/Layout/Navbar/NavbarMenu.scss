@@ -1,11 +1,11 @@
-@import "../../../assets/style/main.scss";
+@import "@/assets/style/main.scss";
 
 .menu-container {
 	position: absolute;
-	top: 3rem;
+	top: 2.5rem;
 	right: 0;
 	width: 300px;
-	background-color: white;
+	background-color: map-get($colors, "light-background");
 	box-shadow: $boxShadow;
 	border-radius: 3px;
 }
@@ -16,7 +16,7 @@ ul {
 
 li {
 	list-style-type: none;
-	border-bottom: 1px map-get($colors, "accent") solid;
+	border-bottom: $borderThin;
 	color: map-get($colors, "accent");
 	padding: 7px 0;
 
@@ -37,5 +37,4 @@ li i {
 
 li span {
 	font-size: 14px;
-	font-style: italic;
 }

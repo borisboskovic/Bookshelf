@@ -9,29 +9,32 @@
 		<div class="navbar-central-container">
 			<NavbarItem to="/">Home</NavbarItem>
 			<NavbarItem to="/my-books">My Books</NavbarItem>
+			<NavigationSelect />
 			<div class="search-container">
 				<SearchField />
 			</div>
 		</div>
 		<div class="profile-icon-container">
-			<ProfileDropdown />
+			<NavbarDropdown />
 		</div>
 	</div>
 </template>
 
 <script>
 	import NavbarItem from "./NavbarItem.vue";
-	import VectorImage from "../../Ui/VectorImage.vue";
-	import SearchField from "../../Ui/SearchField.vue";
-	import ProfileDropdown from "./ProfileDropdown.vue";
-	import { booksLogo } from "../../../assets/strings/icon-paths";
+	import NavigationSelect from "./NavigationSelect.vue";
+	import VectorImage from "@/components/Ui/VectorImage.vue";
+	import SearchField from "@/components/Ui/SearchField.vue";
+	import NavbarDropdown from "./NavbarDropdown.vue";
+	import { booksLogo } from "@/assets/strings/icon-paths";
 
 	export default {
 		components: {
 			NavbarItem,
+			NavigationSelect,
 			VectorImage,
 			SearchField,
-			ProfileDropdown,
+			NavbarDropdown,
 		},
 		setup: () => {
 			return {

@@ -1,5 +1,7 @@
 $colors: (
 	accent: #3b94c6,
+	light-background: white,
+	dark-text: black,
 );
 
 $colorVariants: (
@@ -8,4 +10,15 @@ $colorVariants: (
 );
 
 $fontMain: "Playfair Display", serif;
+
+$fonts: (
+	heading-l: 21px $fontMain,
+	bold-lg: bold 18px $fontMain,
+	bold-md: bold 16px $fontMain,
+	regular-lg: 500 18px $fontMain,
+	regular-md: 14px $fontMain,
+	regular-sm: 12px $fontMain,
+);
+
 $boxShadow: 0 0 10px 1px map-get($colorVariants, "accent-lighter");
+$borderThin: 1px map-get($colors, "accent") solid;

@@ -1,10 +1,10 @@
-@import "../../../assets/style/main.scss";
+@import "@/assets/style/main.scss";
 
 .navbar-container {
 	display: flex;
-	min-height: 64px;
+	min-height: 56px;
 	justify-content: space-between;
-	border-bottom: 1px map-get($colors, "accent") solid;
+	border-bottom: $borderThin;
 }
 
 .logo-container {
@@ -30,7 +30,7 @@
 
 .search-container {
 	display: flex;
-	width: 300px;
+	width: 250px;
 	justify-content: stretch;
 }
 

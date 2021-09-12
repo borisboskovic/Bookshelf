@@ -1,0 +1,13 @@
+@import "@/assets/style/main.scss";
+
+.navigation-select-container {
+	display: flex;
+	align-items: center;
+	padding-right: 48px;
+	color: map-get($colors, "accent");
+	cursor: pointer;
+}
+
+.navigation-select-container i {
+	margin-left: 5px;
+}

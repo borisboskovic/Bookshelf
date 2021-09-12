@@ -1,0 +1,28 @@
+@import "@/assets/style/main.scss";
+
+.list-container {
+	border-bottom: $borderThin;
+}
+
+.caption {
+	font: map-get($fonts, "heading-l");
+	margin-bottom: 10px;
+}
+
+.currently-reading-list {
+	display: flex;
+	flex-direction: column;
+}
+
+.dot-separator {
+	margin: 0 10px;
+}
+
+.actions-container {
+	margin-bottom: 5px;
+}
+
+.action-control:hover {
+	text-decoration: underline;
+	cursor: pointer;
+}

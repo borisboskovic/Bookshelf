@@ -1,0 +1,21 @@
+@import "@/assets/style//main.scss";
+
+input[type="button"] {
+	border: $borderThin;
+	background-color: map-get($colors, "light-background");
+	color: map-get($colors, "accent");
+	font: map-get($fonts, "regular-sm");
+	padding: 4px 24px;
+	border-radius: 30px;
+	cursor: pointer;
+
+	&:hover {
+		background-color: map-get($colors, "accent");
+		color: map-get($colors, "light-background");
+	}
+
+	&:active {
+		background-color: map-get($colors, "light-background");
+		color: map-get($colors, "accent");
+	}
+}

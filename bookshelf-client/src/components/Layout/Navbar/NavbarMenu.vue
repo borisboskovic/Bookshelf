@@ -18,7 +18,7 @@
 </template>
 
 <script>
-	import { logout } from "../../../services/auth-service";
+	import { logout } from "@/services/auth-service";
 	export default {
 		setup: () => {
 			const profileItemHandler = () => {
@@ -42,5 +42,5 @@
 </script>
 
 <style lang="scss" scoped>
-	@import "./ProfileMenu";
+	@import "./NavbarMenu";
 </style>
