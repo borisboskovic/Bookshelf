@@ -6,18 +6,10 @@
 			<div class="image-container">
 				<img :src="booksImage" alt="Books on shelf" />
 			</div>
-			<LoginForm v-if="isLoginForm" />
-			<div class="form-switch-controls">
-				<div v-if="!isLoginForm" class="log-in-siwtch">
-					<span>Already have an account?</span>
-					&nbsp;
-					<span @click="setIsLoginForm(true)">Log in</span>
-				</div>
-				<div v-else class="register-switch">
-					<span>Don't have an account?</span>
-					&nbsp;
-					<span @click="setIsLoginForm(false)">Register</span>
-				</div>
+			<div class="form-container">
+				<LoginForm v-if="formType === 'login'" :setForm="setFormType" />
+				<RegisterForm v-if="formType === 'register'" :setForm="setFormType" />
+				<ForgotPassword v-if="formType === 'reset'" :setForm="setFormType" />
 			</div>
 		</div>
 	</div>
@@ -26,21 +18,41 @@
 <script>
 	import { ref, onMounted, onUpdated } from "vue";
 	import LoginForm from "./LogInForm.vue";
-	import booksImage from "@/assets/images/rasters/books-on-shelf.jpg";
+	import RegisterForm from "./RegisterForm.vue";
+	import ForgotPassword from "./ForgotPassword.vue";
+	import booksImage from "@/assets/images/rasters/pile-of-books.jpg";
 
 	export default {
 		components: {
 			LoginForm,
+			RegisterForm,
+			ForgotPassword,
 		},
 		setup: () => {
-			const isLoginForm = ref(true);
+			const formType = ref("login"); // login, register, reset
 
-			const setIsLoginForm = (nextVal) => {
-				isLoginForm.value = nextVal;
+			const setFormType = (nextVal) => {
+				formType.value = nextVal;
 			};
 
 			const updateDocumentTitle = () => {
-				document.title = isLoginForm.value ? "BookShelf - Log in" : "BookShelf - Register";
+				switch (formType.value) {
+					case "login":
+						document.title = "BookShelf - Log in";
+						break;
+
+					case "register":
+						document.title = "BookShelf - Register";
+						break;
+
+					case "reset":
+						document.title = "BookShelf - Reset Password";
+						break;
+
+					default:
+						document.title = "BookShelf";
+						break;
+				}
 			};
 
 			onMounted(updateDocumentTitle);
@@ -48,8 +60,8 @@
 			onUpdated(updateDocumentTitle);
 
 			return {
-				isLoginForm,
-				setIsLoginForm,
+				formType,
+				setFormType,
 				booksImage,
 			};
 		},

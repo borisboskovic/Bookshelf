@@ -1,11 +1,5 @@
 @import "@/assets/style/main";
 
-.login-form-container {
-	z-index: 1;
-	display: flex;
-	flex-direction: column;
-}
-
 .card-container {
 	width: 400px;
 	height: 300px;
@@ -13,4 +7,68 @@
 	box-shadow: $shadowDark;
 	border-radius: 5px;
 	padding: 20px 30px;
+	display: flex;
+	flex-direction: column;
+}
+
+.form {
+	flex-grow: 1;
+}
+
+.form-control {
+	display: flex;
+	flex-direction: column;
+}
+
+// Input START
+.form-control {
+	color: map-get($colors, "subtle-text");
+	font-family: "Open Sans";
+	padding-top: 2rem;
+}
+
+.form-control label {
+	font-size: 12px;
+	text-transform: uppercase;
+	font-weight: bold;
+}
+
+.form-control input[type="text"],
+.form-control input[type="password"] {
+	border: none;
+	border-bottom: 2px map-get($colors, "subtle-text") solid;
+	font-size: 18px;
+	outline: none;
+
+	&:focus {
+		border-bottom: 2px map-get($colors, "accent") solid;
+	}
+}
+// END
+
+.forgot-password {
+	cursor: pointer;
+
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
+.additional-controls {
+	position: absolute;
+	bottom: 5px;
+	left: 10px;
+}
+.additional-controls span {
+	cursor: pointer;
+	font-weight: bold;
+
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
+.subtle-label {
+	color: map-get($colors, "subtle-text");
+	font: map-get($fonts, "regular-md");
 }
