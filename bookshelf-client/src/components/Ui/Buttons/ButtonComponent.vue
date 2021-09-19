@@ -1,5 +1,7 @@
 <template>
-	<input type="button" :value="text" />
+	<button :class="buttonClasses">
+		<slot />
+	</button>
 </template>
 
 <script>
@@ -13,6 +15,12 @@
 					return ["small", "normal", "large"].indexOf(value) !== -1;
 				},
 			},
+		},
+		setup: (props) => {
+			const buttonClasses = `button-element ${props.size}`;
+			return {
+				buttonClasses,
+			};
 		},
 	};
 </script>

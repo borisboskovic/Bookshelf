@@ -19,7 +19,9 @@
 				<span>{{ progressLabel }}</span>
 			</div>
 			<div class="button-container">
-				<ButtonComponent :text="'Update progress'" />
+				<ButtonComponent size="small">
+					Update progress
+				</ButtonComponent>
 			</div>
 		</div>
 	</div>

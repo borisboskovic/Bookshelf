@@ -2,38 +2,45 @@
 	<div>
 		<div class="card-container">
 			<h3>Log in</h3>
-			<form class="form" @submit="(e) => e.preventDefault()">
+
+			<Form :validation-schema="loginFormSchema" @submit="loginSubmitHandler">
 				<div class="form-control">
-					<label for="email">Email address</label>
-					<input type="text" name="email" />
+					<InputField label="Email adress" name="email" type="email" />
 				</div>
 				<div class="form-control">
-					<label for="password">Password</label>
-					<input type="password" name="password" />
+					<InputField label="Password" name="password" type="password" />
 				</div>
-				<div class="form-control">
-					<ButtonComponent :text="'Log in'" :size="'normal'" />
+				<div class="button-container">
+					<ButtonComponent :size="'large'">
+						Log In
+					</ButtonComponent>
 				</div>
-			</form>
+			</Form>
 		</div>
 		<div class="forgot-password subtle-label" @click="navigateResetPassword">
 			Forgot your password?
 		</div>
 	</div>
 	<div class="additional-controls subtle-label">
-		Already regsitred?
-		<span @click="navigateRegister">Sign in</span>
+		Dont have an account?
+		<span @click="navigateRegister">Register</span>
 	</div>
 </template>
 
 <script>
+	import { Form } from "vee-validate";
+	import { loginFormSchema } from "@/helpers/validaton-schemas/login-form-validation";
+	import InputField from "@/components/Ui/Validation/InputField.vue";
 	import ButtonComponent from "@/components/Ui/Buttons/ButtonComponent";
+
 	export default {
 		props: {
 			setForm: Function,
 		},
 		components: {
 			ButtonComponent,
+			Form,
+			InputField,
 		},
 		setup: (props) => {
 			const navigateResetPassword = () => {
@@ -44,9 +51,15 @@
 				props.setForm("register");
 			};
 
+			const loginSubmitHandler = (values) => {
+				console.log("Submit", values);
+			};
+
 			return {
 				navigateResetPassword,
 				navigateRegister,
+				loginFormSchema,
+				loginSubmitHandler,
 			};
 		},
 	};

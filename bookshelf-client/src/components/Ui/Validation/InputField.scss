@@ -1,0 +1,30 @@
+@import "@/assets/style/main.scss";
+
+.input-label {
+	font-size: 12px;
+	text-transform: uppercase;
+	font-weight: bold;
+	margin-bottom: 5px;
+}
+
+.input-component {
+	border: none;
+	border-bottom: 2px map-get($colors, "subtle-text") solid;
+	font-size: 16px;
+	padding: 4px 0;
+	outline: none;
+
+	&:focus {
+		border-bottom: 2px map-get($colors, "accent") solid;
+	}
+}
+
+.error-container {
+	font-size: 12px;
+	height: 1rem;
+}
+
+.error-message {
+	color: red;
+	font-size: 12px;
+}
