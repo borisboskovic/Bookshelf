@@ -10,5 +10,7 @@ namespace BookshelfAPI.Data.Models
         public DateTime? DateOfBirth { get; set; }
         public DateTime RegistrationTime { get; set; }
         public bool Active { get; set; } = true;
+
+        public virtual Language Language { get; set; }
     }
 }
