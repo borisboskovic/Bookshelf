@@ -1,6 +1,6 @@
 <template>
 	<label :for="name" class="input-label">{{ label }}</label>
-	<Field :name="name" :type="type" class="input-component" :events="['change']" />
+	<Field :name="name" :type="type" class="input-component" />
 	<div class="error-container">
 		<ErrorMessage :name="name" class="error-message" />
 	</div>
@@ -8,6 +8,7 @@
 
 <script>
 	import { Field, ErrorMessage } from "vee-validate";
+
 	export default {
 		components: {
 			Field,

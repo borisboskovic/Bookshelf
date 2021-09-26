@@ -9,24 +9,31 @@
 	flex-direction: column;
 }
 
-.form-control {
-	display: flex;
-	flex-direction: column;
-	width: 20rem;
-}
-
-.form-control {
-	color: map-get($colors, "subtle-text");
-	font-family: "Open Sans";
-	padding-top: 2rem;
-}
-
-.forgot-password {
+.action-label {
 	cursor: pointer;
 
 	&:hover {
 		text-decoration: underline;
 	}
+}
+
+.subtle-label {
+	color: map-get($colors, "subtle-text");
+	font: map-get($fonts, "regular-md");
+}
+
+.form-control {
+	display: flex;
+	flex-direction: column;
+	width: 20rem;
+	color: map-get($colors, "subtle-text");
+	font-family: "Open Sans";
+	padding-top: 2rem;
+}
+
+.button-container {
+	text-align: center;
+	margin-top: 1.5rem;
 }
 
 .additional-controls {
@@ -41,14 +48,4 @@
 	&:hover {
 		text-decoration: underline;
 	}
-}
-
-.subtle-label {
-	color: map-get($colors, "subtle-text");
-	font: map-get($fonts, "regular-md");
-}
-
-.button-container {
-	text-align: center;
-	margin-top: 1.5rem;
 }

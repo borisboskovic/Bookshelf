@@ -17,7 +17,7 @@
 				</div>
 			</Form>
 		</div>
-		<div class="forgot-password subtle-label" @click="navigateResetPassword">
+		<div class="action-label subtle-label" @click="navigateResetPassword">
 			Forgot your password?
 		</div>
 	</div>
@@ -66,5 +66,5 @@
 </script>
 
 <style lang="scss" scoped>
-	@import "./LoginForm";
+	@import "./FormStyles";
 </style>
