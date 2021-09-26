@@ -885,7 +885,7 @@ go
 /* Table: BookOnBookshelf                                       */
 /*==============================================================*/
 create table BookOnBookshelf (
-   User_Id              varchar(450)         not null,
+   User_Id              nvarchar(450)         not null,
    BookShelf_Id         int                  not null,
    Book_Id              int                  not null,
    BookIssue_Id         int                  not null,
@@ -951,11 +951,11 @@ go
 /* Table: CommentReaction                                       */
 /*==============================================================*/
 create table CommentReaction (
-   User_Id              varchar(450)         not null,
+   User_Id              nvarchar(450)         not null,
    Book_Id              int                  not null,
    BookIssue_Id         int                  not null,
-   Review_User_Id       varchar(450)         not null,
-   CommentAuthor_Id     varchar(450)         not null,
+   Review_User_Id       nvarchar(450)         not null,
+   CommentAuthor_Id     nvarchar(450)         not null,
    "Like"               bit                  not null,
    constraint PK_COMMENTREACTION primary key (User_Id, Book_Id, BookIssue_Id, Review_User_Id, CommentAuthor_Id)
 )
@@ -988,7 +988,7 @@ go
 /* Table: CurrentlyReading                                      */
 /*==============================================================*/
 create table CurrentlyReading (
-   User_Id              varchar(450)         not null,
+   User_Id              nvarchar(450)         not null,
    Book_Id              int                  not null,
    BookIssue_Id         int                  not null,
    AddedOn              datetime             not null,
@@ -1046,7 +1046,7 @@ go
 /* Table: "Read"                                                */
 /*==============================================================*/
 create table "Read" (
-   User_Id              varchar(450)         not null,
+   User_Id              nvarchar(450)         not null,
    Book_Id              int                  not null,
    BookIssue_Id         int                  not null,
    AddedOn              datetime             not null,
@@ -1082,7 +1082,7 @@ go
 /*==============================================================*/
 create table ReadingChallange (
    Id                   int                  identity,
-   User_Id              varchar(450)         not null,
+   User_Id              nvarchar(450)         not null,
    Year_Id              int                  not null,
    BooksPledged         int                  not null,
    constraint PK_READINGCHALLANGE primary key (Id)
@@ -1115,7 +1115,7 @@ go
 create table Review (
    Book_Id              int                  not null,
    BookIssue_Id         int                  not null,
-   User_Id              varchar(450)         not null,
+   User_Id              nvarchar(450)         not null,
    Rating               int                  null,
    Review               varchar(4000)        null,
    PostedOn             datetime             not null,
@@ -1150,8 +1150,8 @@ go
 create table ReviewComment (
    Book_Id              int                  not null,
    BookIssue_Id         int                  not null,
-   Review_User_Id       varchar(450)         not null,
-   CommentAuthor_Id     varchar(450)         not null,
+   Review_User_Id       nvarchar(450)         not null,
+   CommentAuthor_Id     nvarchar(450)         not null,
    Content              varchar(4000)        null,
    constraint PK_REVIEWCOMMENT primary key (Book_Id, BookIssue_Id, Review_User_Id, CommentAuthor_Id)
 )
@@ -1183,10 +1183,10 @@ go
 /* Table: ReviewReaction                                        */
 /*==============================================================*/
 create table ReviewReaction (
-   User_Id              varchar(450)         not null,
+   User_Id              nvarchar(450)         not null,
    Book_Id              int                  not null,
    BookIssue_Id         int                  not null,
-   Review_User_Id       varchar(450)         not null,
+   Review_User_Id       nvarchar(450)         not null,
    "Like"               bit                  not null,
    constraint PK_REVIEWREACTION primary key (User_Id, Book_Id, BookIssue_Id, Review_User_Id)
 )
@@ -1242,7 +1242,7 @@ go
 /*==============================================================*/
 create table UserBookShelf (
    Id                   int                  identity,
-   User_Id              varchar(450)         not null,
+   User_Id              nvarchar(450)         not null,
    Name                 varchar(256)         not null,
    Descripton           varchar(4000)        null,
    "Public"             bit                  not null,
@@ -1265,7 +1265,7 @@ go
 /* Table: WantToRead                                            */
 /*==============================================================*/
 create table WantToRead (
-   User_Id              varchar(450)         not null,
+   User_Id              nvarchar(450)         not null,
    Book_Id              int                  not null,
    BookIsse_Id          int                  not null,
    AddedOn              datetime             not null,

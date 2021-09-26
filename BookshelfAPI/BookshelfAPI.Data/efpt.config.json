@@ -1,0 +1,125 @@
+﻿{
+   "CodeGenerationMode": 0,
+   "ContextClassName": "BookshelfContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": true,
+   "ModelNamespace": null,
+   "OutputContextPath": null,
+   "OutputPath": "Models",
+   "ProjectRootNamespace": "BookshelfAPI.Data",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 0,
+   "Tables": [
+      {
+         "Name": "[dbo].[Author]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Book]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[BookAuthor]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[BookEdition]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[BookInReadingChallange]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[BookIssue]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[BookIssueInEdition]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[BookOnBookshelf]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[BookTag]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[CommentReaction]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[CurrentlyReading]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Language]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Publisher]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Read]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ReadingChallange]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Review]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ReviewComment]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ReviewReaction]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Series]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Tag]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[UserBookShelf]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[WantToRead]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Year]",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": "(LocalDB)\\MSSQLLocalDB.Bookshelf",
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": true,
+   "UseDbContextSplitting": false,
+   "UseFluentApiOnly": false,
+   "UseHandleBars": false,
+   "UseInflector": false,
+   "UseLegacyPluralizer": false,
+   "UseNoConstructor": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UseSchemaFolders": false,
+   "UseSpatial": false
+}

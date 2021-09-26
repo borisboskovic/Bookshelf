@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BookshelfAPI.Data.Migrations
 {
     [DbContext(typeof(BookshelfDbContext))]
-    [Migration("20210404083807_AddedIdentity")]
-    partial class AddedIdentity
+    [Migration("20210926141715_Identity_Initial")]
+    partial class Identity_Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -19,68 +19,8 @@ namespace BookshelfAPI.Data.Migrations
             modelBuilder
                 .HasAnnotation("Relational:Collation", "SQL_Latin1_General_CP1_CI_AS")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
-                .HasAnnotation("ProductVersion", "5.0.4")
+                .HasAnnotation("ProductVersion", "5.0.9")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("BookshelfAPI.Data.Models.Author", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(64)");
-
-                    b.Property<string>("Surname")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(128)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Author");
-                });
-
-            modelBuilder.Entity("BookshelfAPI.Data.Models.Book", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AutId")
-                        .HasColumnType("int")
-                        .HasColumnName("Aut_Id");
-
-                    b.Property<string>("Isbn")
-                        .HasMaxLength(10)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(10)")
-                        .HasColumnName("ISBN");
-
-                    b.Property<string>("Isbn13")
-                        .HasMaxLength(13)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(13)")
-                        .HasColumnName("ISBN13");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex(new[] { "AutId" }, "Writen By_FK");
-
-                    b.ToTable("Book");
-                });
 
             modelBuilder.Entity("BookshelfAPI.Data.Models.BookshelfUser", b =>
                 {
@@ -293,17 +233,6 @@ namespace BookshelfAPI.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("BookshelfAPI.Data.Models.Book", b =>
-                {
-                    b.HasOne("BookshelfAPI.Data.Models.Author", "Aut")
-                        .WithMany("Books")
-                        .HasForeignKey("AutId")
-                        .HasConstraintName("FK_BOOK_WRITEN BY_AUTHOR")
-                        .IsRequired();
-
-                    b.Navigation("Aut");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -353,11 +282,6 @@ namespace BookshelfAPI.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("BookshelfAPI.Data.Models.Author", b =>
-                {
-                    b.Navigation("Books");
                 });
 #pragma warning restore 612, 618
         }

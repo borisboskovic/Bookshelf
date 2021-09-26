@@ -32,7 +32,7 @@ namespace BookshelfAPI.Services
             get
             {
                 var userId = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-                return _context.Users.FirstOrDefault(user => user.Id == userId); ;
+                return _context.Users.FirstOrDefault(user => user.Id == userId);
             }
         }
 

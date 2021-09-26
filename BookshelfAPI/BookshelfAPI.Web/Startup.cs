@@ -2,6 +2,8 @@ using BookshelfAPI.Data;
 using BookshelfAPI.Data.Models;
 using BookshelfAPI.Services;
 using BookshelfAPI.Services.Helpers;
+using BookshelfAPI.Services.Interfaces.Admin;
+using BookshelfAPI.Services.Services.Admin;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -99,6 +101,7 @@ namespace BookshelfAPI.Web
 
             //Application services
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IRoleService, RoleService>();
             services.AddSingleton(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
 
             services.AddControllers().AddNewtonsoftJson();
@@ -109,7 +112,19 @@ namespace BookshelfAPI.Web
 
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Bookshelf Web API", Version = "v1" });
+                c.EnableAnnotations();
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = "Bookshelf API",
+                    Version = "v1",
+                    Description = "All endpoints for Bookshelf API",
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Boris Boskovic",
+                        Email = "boris.boskovic92@gmail.com"
+                    }
+                });
+                c.IgnoreObsoleteActions();
             });
         }
 
@@ -134,7 +149,8 @@ namespace BookshelfAPI.Web
             app.UseSwagger();
             app.UseSwaggerUI(config =>
             {
-                config.SwaggerEndpoint("/swagger/v1/swagger.json", "BookshelfAPI");
+                config.SwaggerEndpoint("/swagger/v1/swagger.json", "Bookshelf API");
+                config.DocumentTitle = "Bookshelf API";
             });
         }
     }

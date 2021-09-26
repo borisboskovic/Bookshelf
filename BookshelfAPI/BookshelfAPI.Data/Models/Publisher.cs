@@ -9,29 +9,27 @@ using Microsoft.EntityFrameworkCore;
 
 namespace BookshelfAPI.Data.Models
 {
-    public partial class Author
+    public partial class Publisher
     {
-        public Author()
+        public Publisher()
         {
-            BookAuthor = new HashSet<BookAuthor>();
+            BookEdition = new HashSet<BookEdition>();
+            BookIssue = new HashSet<BookIssue>();
         }
 
         [Key]
         public int Id { get; set; }
         [Required]
-        [StringLength(64)]
+        [StringLength(512)]
         public string Name { get; set; }
-        [Required]
-        [StringLength(128)]
-        public string Surname { get; set; }
-        [Column(TypeName = "datetime")]
-        public DateTime DateOfBirth { get; set; }
-        [Column(TypeName = "datetime")]
-        public DateTime? DateOfDeath { get; set; }
         [StringLength(2000)]
         public string ImageUrl { get; set; }
+        [StringLength(200)]
+        public string Address { get; set; }
 
-        [InverseProperty("Author")]
-        public virtual ICollection<BookAuthor> BookAuthor { get; set; }
+        [InverseProperty("Publisher")]
+        public virtual ICollection<BookEdition> BookEdition { get; set; }
+        [InverseProperty("Publisher")]
+        public virtual ICollection<BookIssue> BookIssue { get; set; }
     }
 }

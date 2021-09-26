@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace BookshelfAPI.Data.Migrations
 {
-    public partial class AddedIdentity : Migration
+    public partial class Identity_Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -49,20 +49,6 @@ namespace BookshelfAPI.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Author",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "varchar(64)", unicode: false, maxLength: 64, nullable: false),
-                    Surname = table.Column<string>(type: "varchar(128)", unicode: false, maxLength: 128, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Author", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -171,28 +157,6 @@ namespace BookshelfAPI.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Book",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Aut_Id = table.Column<int>(type: "int", nullable: false),
-                    Title = table.Column<string>(type: "varchar(256)", unicode: false, maxLength: 256, nullable: false),
-                    ISBN = table.Column<string>(type: "varchar(10)", unicode: false, maxLength: 10, nullable: true),
-                    ISBN13 = table.Column<string>(type: "varchar(13)", unicode: false, maxLength: 13, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Book", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_BOOK_WRITEN BY_AUTHOR",
-                        column: x => x.Aut_Id,
-                        principalTable: "Author",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -231,11 +195,6 @@ namespace BookshelfAPI.Data.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "Writen By_FK",
-                table: "Book",
-                column: "Aut_Id");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -256,16 +215,10 @@ namespace BookshelfAPI.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "Book");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "Author");
         }
     }
 }
