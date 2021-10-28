@@ -1,14 +1,14 @@
 <template>
 	<div class="auth-outside-container">
 		<div class="auth-container-background"></div>
-		<div class="auth-inside-container">
+		<RegisterForm v-if="formType === 'register'" :setForm="setFormType" />
+		<div v-else class="auth-inside-container">
 			<div class="stripe-container"></div>
 			<div class="image-container">
 				<img :src="booksImage" alt="Books on shelf" />
 			</div>
 			<div class="form-container">
 				<LoginForm v-if="formType === 'login'" :setForm="setFormType" />
-				<RegisterForm v-if="formType === 'register'" :setForm="setFormType" />
 				<ForgotPassword v-if="formType === 'reset'" :setForm="setFormType" />
 			</div>
 		</div>

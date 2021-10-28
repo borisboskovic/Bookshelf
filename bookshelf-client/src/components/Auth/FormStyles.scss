@@ -28,6 +28,12 @@
 	width: 20rem;
 	color: map-get($colors, "subtle-text");
 	font-family: "Open Sans";
+}
+
+.pt-1 {
+	padding-top: 1rem;
+}
+.pt-2 {
 	padding-top: 2rem;
 }
 
@@ -41,7 +47,8 @@
 	bottom: 5px;
 	left: 10px;
 }
-.additional-controls span {
+.additional-controls span,
+.subtle-label span {
 	cursor: pointer;
 	font-weight: bold;
 

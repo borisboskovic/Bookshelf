@@ -4,10 +4,10 @@
 			<h3>Log in</h3>
 
 			<Form :validation-schema="loginFormSchema" @submit="loginSubmitHandler">
-				<div class="form-control">
+				<div class="form-control pt-2">
 					<InputField label="Email adress" name="email" type="email" />
 				</div>
-				<div class="form-control">
+				<div class="form-control pt-2">
 					<InputField label="Password" name="password" type="password" />
 				</div>
 				<div class="button-container">

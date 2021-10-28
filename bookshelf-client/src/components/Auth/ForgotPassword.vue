@@ -3,7 +3,7 @@
 		<div class="card-container">
 			<h3>Reset your password</h3>
 			<Form :validation-schema="resetFormSchema" @submit="resetSubmitHandler">
-				<div class="form-control">
+				<div class="form-control pt-2">
 					<InputField label="Email adress" name="email" type="email" />
 				</div>
 				<div class="button-container">

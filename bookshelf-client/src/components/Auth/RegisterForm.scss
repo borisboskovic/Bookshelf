@@ -1,0 +1,7 @@
+.form-split-container {
+	display: flex;
+}
+
+.form-split-container > div:first-child {
+	margin-right: 2rem;
+}
