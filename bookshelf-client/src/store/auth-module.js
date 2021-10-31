@@ -1,3 +1,5 @@
+import { axios } from "@/config";
+
 export default {
 	namespaced: true,
 
@@ -13,6 +15,15 @@ export default {
 	},
 
 	actions: {
-		login: ({ commit }, payload) => {},
+		login: ({ commit }, payload) => {
+			axios
+				.post("User/Authenticate", payload)
+				.then((response) => {
+					console.log("Response", response.data);
+				})
+				.catch((error) => {
+					// console.log(error.response?.data);
+				});
+		},
 	},
 };

@@ -104,6 +104,17 @@ namespace BookshelfAPI.Web
             services.AddTransient<IRoleService, RoleService>();
             services.AddSingleton(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
 
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder.AllowAnyHeader();
+                    builder.AllowAnyMethod();
+                    builder.AllowAnyOrigin();
+                    builder.WithOrigins(new string[] { Configuration["TokenConstants:Audience"] });
+                });
+            });
+
             services.AddControllers().AddNewtonsoftJson();
 
             services.AddFluentValidation(fv =>
@@ -140,6 +151,8 @@ namespace BookshelfAPI.Web
             app.UseAuthentication();
 
             app.UseAuthorization();
+
+            app.UseCors();
 
             app.UseEndpoints(endpoints =>
             {

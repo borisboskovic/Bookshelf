@@ -32,8 +32,8 @@ namespace BookshelfAPI.Web.Controllers
             var result = await _userService.AuthenticateAsync(requestModel.Email, requestModel.Password);
 
             return result.Succeeded
-                ? Ok(result)
-                : BadRequest(result);
+                ? Ok(result.Body)
+                : BadRequest(result.Errors);
         }
 
         //TODO: Add validation
@@ -43,7 +43,7 @@ namespace BookshelfAPI.Web.Controllers
         {
             var result = await _userService.RegisterAsync(model);
 
-            return (result.Succeeded) ? Ok() : BadRequest(result);
+            return (result.Succeeded) ? Ok() : BadRequest(result.Errors);
         }
 
         //TODO: Da li je zaista potrebna lozinka ???

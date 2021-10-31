@@ -4,6 +4,6 @@ namespace BookshelfAPI.Services.DTOs
 {
     public class AuthenticationResultDto : ActionResult
     {
-        public string TokenJson { get; set; }
+        public string Token { get; set; }
     }
 }

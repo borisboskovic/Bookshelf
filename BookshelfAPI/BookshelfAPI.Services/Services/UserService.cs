@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Localization;
 using Microsoft.IdentityModel.Tokens;
 using System;
+using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -125,14 +126,14 @@ namespace BookshelfAPI.Services
             var audience = _configuration["TokenConstants:Audience"];
             var secret = _configuration["TokenConstants:Secret"]; //TODO: Use user secrets for this
 
-            var claims = new[]
+            var claims = new List<Claim>()
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new Claim("name", $"{user.FirstName} {user.LastName}"),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim("role", roles[0]),
                 new Claim(JwtRegisteredClaimNames.Iat, DateTime.Now.ToString())
             };
+            roles.ToList().ForEach(role => claims.Add(new Claim("roles", role)));
 
             var secretBytes = Encoding.UTF8.GetBytes(secret);
             var key = new SymmetricSecurityKey(secretBytes);
@@ -153,7 +154,7 @@ namespace BookshelfAPI.Services
             response.Succeeded = true;
             response.Body = new AuthenticationResultDto
             {
-                TokenJson = tokenJson
+                Token = tokenJson
             };
             return response;
         }

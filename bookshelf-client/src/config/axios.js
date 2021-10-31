@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BASE_URL } from ".";
+import { BASE_URL } from "@/config/constants";
 import { logout } from "@/services/auth-service.js";
 
 const instance = axios.create({
@@ -9,6 +9,8 @@ const instance = axios.create({
 		"Content-Type": "application/json",
 	},
 });
+
+axios.defaults.baseURL = BASE_URL;
 
 instance.interceptors.request.use(
 	async (config) => {

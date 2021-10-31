@@ -28,6 +28,7 @@
 </template>
 
 <script>
+	import { useStore } from "vuex";
 	import { Form } from "vee-validate";
 	import { loginFormSchema } from "@/helpers/validaton-schemas/login-form-validation";
 	import InputField from "@/components/Ui/Validation/InputField.vue";
@@ -43,6 +44,7 @@
 			InputField,
 		},
 		setup: (props) => {
+			const { dispatch } = useStore();
 			const navigateResetPassword = () => {
 				props.setForm("reset");
 			};
@@ -52,7 +54,7 @@
 			};
 
 			const loginSubmitHandler = (values) => {
-				console.log("Submit", values);
+				dispatch("auth/login", values);
 			};
 
 			return {
