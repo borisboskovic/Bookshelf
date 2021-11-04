@@ -2,7 +2,7 @@
 	<div>
 		<div class="card-container">
 			<h3>Register</h3>
-			<Form @submit="registerSubmitHandler">
+			<Form :validation-schema="registerFormSchema" @submit="registerSubmitHandler">
 				<div class="form-split-container">
 					<div>
 						<div class="form-control pt-2">
@@ -35,9 +35,7 @@
 					</div>
 				</div>
 				<div class="button-container">
-					<ButtonComponent :size="'large'">
-						Register
-					</ButtonComponent>
+					<ButtonComponent :size="'large'"> Register </ButtonComponent>
 				</div>
 			</Form>
 		</div>
@@ -50,6 +48,7 @@
 
 <script>
 	import { Form } from "vee-validate";
+	import { registerFormSchema } from "@/helpers/validaton-schemas/register-form-validation";
 	import InputField from "@/components/Ui/Validation/InputField";
 	import ButtonComponent from "@/components/Ui/Buttons/ButtonComponent.vue";
 
@@ -74,6 +73,7 @@
 			return {
 				navigateLogin,
 				registerSubmitHandler,
+				registerFormSchema,
 			};
 		},
 	};
