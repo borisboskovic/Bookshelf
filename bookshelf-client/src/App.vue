@@ -6,7 +6,7 @@
 </template>
 
 <script>
-	import { computed } from "vue";
+	import { computed, onMounted } from "vue";
 	import { useStore } from "vuex";
 	import LayoutComponent from "./components/Layout/LayoutComponent.vue";
 
@@ -18,6 +18,10 @@
 			const store = useStore();
 
 			const isLoggedIn = computed(() => store.state.auth.isLoggedIn);
+
+			onMounted(() => {
+				store.dispatch("auth/persistedLogin");
+			});
 
 			return {
 				isLoggedIn,

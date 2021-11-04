@@ -7,6 +7,7 @@
 <script>
 	import { onMounted } from "vue";
 	import CurrentlyReadingList from "@/components/Home/ReadingProgress/CurrentlyReadingList.vue";
+
 	export default {
 		components: {
 			CurrentlyReadingList,

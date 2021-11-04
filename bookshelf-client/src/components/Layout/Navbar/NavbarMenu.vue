@@ -18,9 +18,12 @@
 </template>
 
 <script>
-	import { logout } from "@/services/auth-service";
+	import { useStore } from "vuex";
+
 	export default {
 		setup: () => {
+			const store = useStore();
+
 			const profileItemHandler = () => {
 				console.log("Profile");
 			};
@@ -28,8 +31,7 @@
 				console.log("Settings");
 			};
 			const logoutItemHandler = () => {
-				console.log("Logout");
-				logout();
+				store.dispatch("auth/logout");
 			};
 
 			return {

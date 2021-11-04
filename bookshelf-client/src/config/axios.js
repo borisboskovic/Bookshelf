@@ -1,6 +1,6 @@
 import axios from "axios";
+import store from "../store";
 import { BASE_URL } from "@/config/constants";
-import { logout } from "@/services/auth-service.js";
 
 const instance = axios.create({
 	baseURL: BASE_URL,
@@ -29,10 +29,14 @@ instance.interceptors.response.use(
 	(response) => {
 		return response;
 	},
-	async function(error) {
+	async function (error) {
 		if (error && error.response && error.response.status === 401) {
-			logout();
+			store.dispatch("auth/logout");
 		}
+
+		// TODO: Notify
+		console.log("AXIOS error.response", error.response);
+		console.log("AXIOS error.response.data", error.response.data);
 
 		return Promise.reject(error);
 	}

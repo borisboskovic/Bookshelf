@@ -9,7 +9,7 @@ namespace BookshelfAPI.Web.Controllers
 {
     [ApiController]
     [Route("/api/[Controller]/[Action]")]
-    [Authorize(Roles = "Reader")]
+    [Authorize(Roles = "reader")]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -19,7 +19,7 @@ namespace BookshelfAPI.Web.Controllers
             _userService = userService;
         }
 
-        //[HttpGet("Secret")]
+        [HttpGet]
         public IActionResult Secret()
         {
             return Ok(_userService.User);

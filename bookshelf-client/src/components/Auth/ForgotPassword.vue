@@ -7,15 +7,11 @@
 					<InputField label="Email adress" name="email" type="email" />
 				</div>
 				<div class="button-container">
-					<ButtonComponent :size="'large'">
-						Log In
-					</ButtonComponent>
+					<ButtonComponent :size="'large'"> Log In </ButtonComponent>
 				</div>
 			</Form>
 		</div>
-		<div class="action-label subtle-label" @click="navigateLogin">
-			Back to Login page
-		</div>
+		<div class="action-label subtle-label" @click="navigateLogin">Back to Login page</div>
 	</div>
 	<div class="additional-controls subtle-label">
 		Dont have an account?
@@ -50,8 +46,6 @@
 			const resetSubmitHandler = (values) => {
 				console.log("Submit", values);
 			};
-
-			console.log(resetFormSchema, "Šema");
 
 			return {
 				navigateRegister,

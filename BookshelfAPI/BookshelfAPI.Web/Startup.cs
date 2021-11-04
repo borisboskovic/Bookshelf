@@ -124,15 +124,14 @@ namespace BookshelfAPI.Web
             services.AddSwaggerGen(c =>
             {
                 c.EnableAnnotations();
-                c.SwaggerDoc("v1", new OpenApiInfo
+                c.SwaggerDoc("v1.1", new OpenApiInfo
                 {
                     Title = "Bookshelf API",
-                    Version = "v1",
-                    Description = "All endpoints for Bookshelf API",
+                    Version = "v1.1",
                     Contact = new OpenApiContact
                     {
                         Name = "Boris Boskovic",
-                        Email = "boris.boskovic92@gmail.com"
+                        Email = "boris.boskovic92@gmail.com",
                     }
                 });
                 c.IgnoreObsoleteActions();
@@ -146,13 +145,13 @@ namespace BookshelfAPI.Web
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors();
+
             app.UseRouting();
 
             app.UseAuthentication();
 
             app.UseAuthorization();
-
-            app.UseCors();
 
             app.UseEndpoints(endpoints =>
             {
@@ -160,10 +159,10 @@ namespace BookshelfAPI.Web
             });
 
             app.UseSwagger();
-            app.UseSwaggerUI(config =>
+            app.UseSwaggerUI(c =>
             {
-                config.SwaggerEndpoint("/swagger/v1/swagger.json", "Bookshelf API");
-                config.DocumentTitle = "Bookshelf API";
+                c.SwaggerEndpoint("/swagger/v1.1/swagger.json", "Bookshelf API v1.1");
+                c.DocumentTitle = "Bookshelf API";
             });
         }
     }
