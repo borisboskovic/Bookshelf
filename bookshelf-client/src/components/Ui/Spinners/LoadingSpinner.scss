@@ -1,0 +1,67 @@
+@import "../../../assets/style/main.scss";
+@keyframes spinner-line-fade-more {
+	0%,
+	100% {
+		opacity: 0; /* minimum opacity */
+	}
+	1% {
+		opacity: 1;
+	}
+}
+
+@keyframes spinner-line-fade-quick {
+	0%,
+	39%,
+	100% {
+		opacity: 0.25; /* minimum opacity */
+	}
+	40% {
+		opacity: 1;
+	}
+}
+
+@keyframes spinner-line-fade-default {
+	0%,
+	100% {
+		opacity: 0.22; /* minimum opacity */
+	}
+	1% {
+		opacity: 1;
+	}
+}
+
+@keyframes spinner-line-shrink {
+	0%,
+	25%,
+	100% {
+		/* minimum scale and opacity */
+		transform: scale(0.5);
+		opacity: 0.25;
+	}
+	26% {
+		transform: scale(1);
+		opacity: 1;
+	}
+}
+
+.loading-spinner__container {
+	position: absolute;
+	inset: 0 0 0 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background-color: rgba(255, 255, 255, 0.85);
+	border-radius: 5px;
+}
+
+.loading-spinner__spinner-element {
+	height: 12rem;
+	width: 12rem;
+}
+
+.loading-spinner__caption {
+	color: map-get($colors, "accent");
+	font: map-get($fonts, "regular-lg");
+	font: map-get($fonts, "heading-l");
+}

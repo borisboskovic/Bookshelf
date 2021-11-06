@@ -22,5 +22,8 @@ export const registerFormSchema = Yup.object({
 		.oneOf([Yup.ref("password"), null], passwordMismatch())
 		.required(fieldRequired()),
 
-	dob: Yup.date().min(new Date(1900, 0, 1), minDate()).max(new Date(), dateNotFuture()),
+	dob: Yup.date()
+		.required(fieldRequired())
+		.min(new Date(1900, 0, 1), minDate())
+		.max(new Date(), dateNotFuture()),
 });

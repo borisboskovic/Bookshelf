@@ -1,6 +1,7 @@
 <template>
 	<div>
 		<div class="card-container">
+			<LoadingSpinner v-if="isSubmitting" />
 			<h3>Register</h3>
 			<Form :validation-schema="registerFormSchema" @submit="registerSubmitHandler">
 				<div class="form-split-container">
@@ -35,7 +36,9 @@
 					</div>
 				</div>
 				<div class="button-container">
-					<ButtonComponent :size="'large'"> Register </ButtonComponent>
+					<ButtonComponent :size="'large'" :disabled="isSubmitting">
+						Register
+					</ButtonComponent>
 				</div>
 			</Form>
 		</div>
@@ -47,33 +50,42 @@
 </template>
 
 <script>
+	import { computed } from "vue";
+	import { useStore } from "vuex";
 	import { Form } from "vee-validate";
 	import { registerFormSchema } from "@/helpers/validaton-schemas/register-form-validation";
 	import InputField from "@/components/Ui/Validation/InputField";
 	import ButtonComponent from "@/components/Ui/Buttons/ButtonComponent.vue";
+	import LoadingSpinner from "@/components/Ui/Spinners/LoadingSpinner.vue";
 
 	export default {
 		components: {
 			InputField,
 			ButtonComponent,
 			Form,
+			LoadingSpinner,
 		},
 		props: {
 			setForm: Function,
 		},
 		setup: (props) => {
+			const { dispatch, state } = useStore();
+
+			const isSubmitting = computed(() => state.auth.isSubmitting);
+
 			const navigateLogin = () => {
 				props.setForm("login");
 			};
 
 			const registerSubmitHandler = (values) => {
-				console.log("Register", values);
+				dispatch("auth/register", values);
 			};
 
 			return {
 				navigateLogin,
 				registerSubmitHandler,
 				registerFormSchema,
+				isSubmitting,
 			};
 		},
 	};

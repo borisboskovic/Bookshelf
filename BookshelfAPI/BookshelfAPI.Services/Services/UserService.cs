@@ -97,7 +97,7 @@ namespace BookshelfAPI.Services
             if (user == null)
             {
                 //TODO: Localize
-                response.Errors.Add("LoginFailed", new string[] { "Wrong credentials. User not found." });
+                response.Errors.Add("Login failed", new string[] { "Wrong credentials." });
                 return response;
             }
 
@@ -105,7 +105,7 @@ namespace BookshelfAPI.Services
             if (!isPasswordCorrect)
             {
                 //TODO: Localize
-                response.Errors.Add("LoginFailed", new string[] { "Wrong password." });
+                response.Errors.Add("Login failed", new string[] { "Wrong credentials." });
                 return response;
             }
 

@@ -1,5 +1,5 @@
 <template>
-	<button :class="buttonClasses">
+	<button :class="buttonClasses" :disabled="disabled">
 		<slot />
 	</button>
 </template>
@@ -15,6 +15,7 @@
 					return ["small", "normal", "large"].indexOf(value) !== -1;
 				},
 			},
+			disabled: Boolean,
 		},
 		setup: (props) => {
 			const buttonClasses = `button-element ${props.size}`;

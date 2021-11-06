@@ -24,12 +24,8 @@
 		setup: () => {
 			const store = useStore();
 
-			const profileItemHandler = () => {
-				console.log("Profile");
-			};
-			const settingsItemHandler = () => {
-				console.log("Settings");
-			};
+			const profileItemHandler = () => {};
+			const settingsItemHandler = () => {};
 			const logoutItemHandler = () => {
 				store.dispatch("auth/logout");
 			};

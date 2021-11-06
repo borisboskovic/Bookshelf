@@ -27,9 +27,9 @@ namespace BookshelfAPI.Web.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Authenticate(Authenticatie_RequestModel requestModel)
+        public async Task<IActionResult> Authenticate(Authenticatie_RequestModel model)
         {
-            var result = await _userService.AuthenticateAsync(requestModel.Email, requestModel.Password);
+            var result = await _userService.AuthenticateAsync(model.Email, model.Password);
 
             return result.Succeeded
                 ? Ok(result.Body)
@@ -49,32 +49,16 @@ namespace BookshelfAPI.Web.Controllers
         //TODO: Da li je zaista potrebna lozinka ???
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> ConfirmEmail([FromBody] object requestBody)
+        public async Task<IActionResult> ConfirmEmail(ConfirmEmail_RequestModel model)
         {
-            var requestModel = new
-            {
-                Email = "",
-                Password = "",
-                Token = ""
-            };
-            requestModel = JsonConvert.DeserializeAnonymousType(requestBody.ToString(), requestModel);
-
-            var result = await _userService.ConfirmEmailAsync(requestModel.Email, requestModel.Token);
+            var result = await _userService.ConfirmEmailAsync(model.Email, model.Token);
             return (result.Succeeded) ? Ok(result) : BadRequest(result);
         }
 
-
-
-        [HttpGet("ResetPassword")]
+        [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> SendResetPasswordEmail([FromBody] object requestModel)
+        public async Task<IActionResult> SendResetPasswordEmail(SendResetPasswordEmail_RequestModel model)
         {
-            var model = new
-            {
-                Email = ""
-            };
-            model = JsonConvert.DeserializeAnonymousType(requestModel.ToString(), model);
-
             return Ok(model.Email);
         }
     }

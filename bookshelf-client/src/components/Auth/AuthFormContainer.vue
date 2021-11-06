@@ -16,7 +16,8 @@
 </template>
 
 <script>
-	import { ref, onMounted, onUpdated } from "vue";
+	import { onMounted, onUpdated, computed } from "vue";
+	import { useStore } from "vuex";
 	import LoginForm from "./LogInForm.vue";
 	import RegisterForm from "./RegisterForm.vue";
 	import ForgotPassword from "./ForgotPassword.vue";
@@ -29,10 +30,11 @@
 			ForgotPassword,
 		},
 		setup: () => {
-			const formType = ref("login"); // login, register, reset
+			const { state, dispatch } = useStore();
+			const formType = computed(() => state.auth.formType);
 
 			const setFormType = (nextVal) => {
-				formType.value = nextVal;
+				dispatch("auth/setFormType", nextVal);
 			};
 
 			const updateDocumentTitle = () => {

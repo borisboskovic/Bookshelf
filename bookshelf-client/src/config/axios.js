@@ -1,6 +1,7 @@
 import axios from "axios";
-import store from "../store";
+import store from "@/store";
 import { BASE_URL } from "@/config/constants";
+import { showErrorToast } from "@/services/notifications/notification-templates";
 
 const instance = axios.create({
 	baseURL: BASE_URL,
@@ -34,9 +35,11 @@ instance.interceptors.response.use(
 			store.dispatch("auth/logout");
 		}
 
-		// TODO: Notify
-		console.log("AXIOS error.response", error.response);
-		console.log("AXIOS error.response.data", error.response.data);
+		const errors = error.response?.data?.errors;
+		if (errors) {
+			const errorEntries = Object.entries(errors);
+			errorEntries.forEach((e) => showErrorToast(e[0], e[1]));
+		}
 
 		return Promise.reject(error);
 	}

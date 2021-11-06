@@ -16,6 +16,13 @@
 		background-color: map-get($colors, "light-background");
 		color: map-get($colors, "accent");
 	}
+
+	&:disabled {
+		background-color: map-get($colors, "subtle-text");
+		color: white;
+		border: 1px solid transparent;
+		cursor: default;
+	}
 }
 
 .small {
