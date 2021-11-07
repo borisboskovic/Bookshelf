@@ -7,16 +7,36 @@
 	margin-bottom: 5px;
 }
 
+.field-container {
+	position: relative;
+
+	& > i {
+		position: absolute;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		cursor: pointer;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+}
+
 .input-component {
 	border: none;
 	border-bottom: 2px map-get($colors, "subtle-text") solid;
 	font-size: 16px;
 	padding: 4px 0;
 	outline: none;
+	width: 100%;
 
 	&:focus {
 		border-bottom: 2px map-get($colors, "accent") solid;
 	}
+}
+
+.field-with-icon {
+	padding-right: 2rem;
 }
 
 .error-container {
