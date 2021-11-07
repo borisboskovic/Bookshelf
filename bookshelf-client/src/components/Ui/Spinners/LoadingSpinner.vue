@@ -8,7 +8,7 @@
 <script>
 	import { onMounted } from "vue";
 	import { Spinner } from "spin.js";
-	import colors from "../../../assets/strings/colors";
+	import colors from "@/assets/strings/colors";
 
 	const opts = {
 		lines: 8,
