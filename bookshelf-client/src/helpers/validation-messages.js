@@ -9,3 +9,5 @@ export const passwordMismatch = () => "Lozinke se ne podudaraju";
 export const minDate = () => "Izaberite noviji datum";
 
 export const dateNotFuture = () => "Izabrani datum ne bi trebao biti u budućnosti";
+
+export const sizeTooBig = (size) => `Izaberite sliku veličine <= ${size} MB`;

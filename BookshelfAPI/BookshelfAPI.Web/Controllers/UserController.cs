@@ -2,7 +2,6 @@
 using BookshelfAPI.Services.RequestModels.User;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using System.Threading.Tasks;
 
 namespace BookshelfAPI.Web.Controllers
@@ -25,6 +24,16 @@ namespace BookshelfAPI.Web.Controllers
             return Ok(_userService.User);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Info()
+        {
+            var result = await _userService.GetUserInfo();
+            
+            return result.Succeeded
+                ? Ok(result.Body)
+                : BadRequest(result);
+        }
+
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Authenticate(Authenticatie_RequestModel model)
@@ -39,10 +48,9 @@ namespace BookshelfAPI.Web.Controllers
         //TODO: Add validation
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Register(Register_RequestModel model)
+        public async Task<IActionResult> Register([FromForm] Register_RequestModel model)
         {
             var result = await _userService.RegisterAsync(model);
-
             return (result.Succeeded) ? Ok() : BadRequest(result);
         }
 

@@ -1,0 +1,67 @@
+.image-uploader__outside-container {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.image-uploader__label {
+	align-self: flex-start;
+	font-size: 12px;
+	text-transform: uppercase;
+	font-weight: bold;
+	margin-bottom: 5px;
+}
+
+.image-uploader__image-container {
+	cursor: pointer;
+	height: 10rem;
+	width: 10rem;
+	user-select: none;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+
+	& * {
+		pointer-events: none;
+	}
+
+	& img {
+		max-width: 100%;
+		max-height: 100%;
+		background-size: contain;
+	}
+}
+
+.drag-border {
+	position: absolute;
+	inset: 0 0 0 0;
+	border: 3px gray dashed;
+}
+
+.image-uploader__placeholder {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	background-color: rgba(0, 0, 0, 0.1);
+	border-radius: 0.5rem;
+	height: 100%;
+	width: 100%;
+
+	&:hover {
+		background-color: rgba(0, 0, 0, 0.2);
+	}
+
+	& > i {
+		font-size: 4rem;
+	}
+}
+
+.error-container {
+	font-size: 12px;
+	text-align: left;
+	color: red;
+	align-self: stretch;
+}

@@ -23,6 +23,18 @@ export const showOptionPopup = (text, actionName, callback) => {
 	});
 };
 
+export const showSuccessToast = (title, description) => {
+	toastr.success(description, title, toastOptions);
+};
+
+export const showInfoToast = (title, description) => {
+	toastr.info(description, title, toastOptions);
+};
+
+export const showWarningToast = (title, description) => {
+	toastr.warning(description, title, toastOptions);
+};
+
 export const showErrorToast = (title, description) => {
 	toastr.error(description, title, toastOptions);
 };

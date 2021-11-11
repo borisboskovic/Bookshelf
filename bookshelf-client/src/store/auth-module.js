@@ -12,23 +12,31 @@ export default {
 		formType: "login", // login, register, reset
 		isSubmitting: false,
 		isLoggedIn: false,
+		id: null,
 		email: null,
 		fullName: null,
+		avatar: null,
 		roles: [],
 	},
 
 	mutations: {
 		LOGIN: (state, payload) => {
 			state.isLoggedIn = true;
+			state.id = payload.sub;
 			state.email = payload.email;
 			state.fullName = payload.name;
 			state.roles = Array.of(payload.roles);
 		},
 		LOGOUT: (state) => {
 			state.isLoggedIn = false;
+			state.id = null;
 			state.email = null;
 			state.fullName = null;
+			state.avatar = null;
 			state.roles = [];
+		},
+		SET_USER_INFO: (state, payload) => {
+			state.avatar = payload.avatar;
 		},
 		SET_FORM_TYPE: (state, payload) => {
 			state.formType = payload;
@@ -65,7 +73,6 @@ export default {
 								localStorage.removeItem("token");
 								commit("LOGOUT");
 							}, tokenLifetime);
-
 							commit("LOGIN", tokenPayload);
 
 							router.push({ name: "Home" });
@@ -75,6 +82,11 @@ export default {
 				.finally(() => {
 					commit("SET_SUBMITTING", false);
 				});
+		},
+		fetchUserInfo: ({ commit }) => {
+			axios.get("User/Info").then((response) => {
+				commit("SET_USER_INFO", response.data);
+			});
 		},
 		persistedLogin: ({ commit }) => {
 			const token = localStorage.getItem("token");
@@ -106,16 +118,16 @@ export default {
 		register: ({ commit }, payload) => {
 			commit("SET_SUBMITTING", true);
 
-			const requestBody = {
-				firstName: payload.firstName,
-				lastName: payload.lastName,
-				email: payload.email,
-				dateOfBirth: payload.dob,
-				password: payload.password,
-			};
+			const formData = new FormData();
+			formData.append("firstName", payload.firstName);
+			formData.append("lastName", payload.lastName);
+			formData.append("email", payload.email);
+			formData.append("dateOfBirth", payload.dob);
+			formData.append("password", payload.password);
+			formData.append("profilePhoto", payload.profilePhoto);
 
 			axios
-				.post("User/Register", requestBody)
+				.post("User/Register", formData)
 				.then(() => {
 					notifyRegisterSuccess();
 				})

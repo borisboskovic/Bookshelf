@@ -7,9 +7,19 @@ import {
 	passwordMismatch,
 	minDate,
 	dateNotFuture,
+	sizeTooBig,
 } from "@/helpers/validation-messages";
 
 export const registerFormSchema = Yup.object({
+	profilePhoto: Yup.mixed()
+		.nullable()
+		.test("file-size-limit", sizeTooBig(2), (file) => {
+			if (file?.size > 2 * 1024 * 1024) {
+				return false;
+			}
+			return true;
+		}),
+
 	firstName: Yup.string().min(2, minLength(2)).required(fieldRequired()),
 
 	lastName: Yup.string().min(2, minLength(2)).required(fieldRequired()),

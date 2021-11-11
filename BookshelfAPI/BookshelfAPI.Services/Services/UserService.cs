@@ -1,7 +1,9 @@
 ﻿using BookshelfAPI.Data;
 using BookshelfAPI.Data.Models;
 using BookshelfAPI.Services.DTOs;
+using BookshelfAPI.Services.DTOs.User;
 using BookshelfAPI.Services.Helpers;
+using BookshelfAPI.Services.Interfaces;
 using BookshelfAPI.Services.RequestModels.User;
 using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Http;
@@ -12,6 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
@@ -27,6 +30,7 @@ namespace BookshelfAPI.Services
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly EmailConfiguration _emailConfiguration;
         private readonly IStringLocalizer<UserService> _localizer;
+        private readonly IAzureStorageService _azureStorageService;
 
         public BookshelfUser User
         {
@@ -43,7 +47,8 @@ namespace BookshelfAPI.Services
             BookshelfDbContext context,
             IHttpContextAccessor httpContextAccessor,
             EmailConfiguration emailConfiguration,
-            IStringLocalizer<UserService> localizer
+            IStringLocalizer<UserService> localizer,
+            IAzureStorageService azureStorageService
             )
         {
             _userManager = userManager;
@@ -52,10 +57,38 @@ namespace BookshelfAPI.Services
             _httpContextAccessor = httpContextAccessor;
             _emailConfiguration = emailConfiguration;
             _localizer = localizer;
+            _azureStorageService = azureStorageService;
+        }
+
+        public async Task<ServiceResponse> GetUserInfo()
+        {
+            return await Task.Run(() =>
+            {
+                var blobStorageUrl = _configuration["Azure:BlobStorageUrl"];
+                var userImageName = User.ImageUrl;
+
+                var response = new ServiceResponse
+                {
+                    Succeeded = true,
+                    Body = new UserInfoDto
+                    {
+                        Id = User.Id,
+                        Avatar = userImageName != null ? $"{blobStorageUrl}/{userImageName}" : null,
+                    },
+                };
+
+                return response;
+            });
         }
 
         public async Task<ServiceResponse> RegisterAsync(Register_RequestModel model)
         {
+            string uploadedFileName = "";
+            if (model.ProfilePhoto != null)
+            {
+                uploadedFileName = await _azureStorageService.PrepareAndUploadFormFile(model.ProfilePhoto);
+            }
+
             var user = new BookshelfUser
             {
                 FirstName = model.FirstName,
@@ -66,7 +99,8 @@ namespace BookshelfAPI.Services
                 DateOfBirth = model.DateOfBirth,
                 RegistrationTime = DateTime.Now,
                 Active = true,
-                LockoutEnabled = false
+                LockoutEnabled = false,
+                ImageUrl = uploadedFileName,
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
@@ -74,14 +108,14 @@ namespace BookshelfAPI.Services
             var response = new ServiceResponse();
             if (result.Succeeded)
             {
-                _ = SendConfirmationEmailAsync(user);
                 await _userManager.AddToRoleAsync(user, "Reader");
+                _ = SendConfirmationEmailAsync(user);
                 response.Succeeded = true;
                 return response;
             }
             else
             {   //TODO: Provjeriti koje su moguće greške i vratiti odgovarajuće kodove
-                foreach(var error in result.Errors)
+                foreach (var error in result.Errors)
                 {
                     response.Errors.Add(error.Code, new string[] { error.Description });
                 }
@@ -109,16 +143,16 @@ namespace BookshelfAPI.Services
                 return response;
             }
 
-            if (!user.EmailConfirmed)
-            {
-                _ = SendConfirmationEmailAsync(user);
-                //TODO: Localize
-                response.Errors.Add(
-                    "LoginFailed",
-                    new string[] { "Email is not confirmed. Confirmation email has been sent." }
-                );
-                return response;
-            }
+            //if (!user.EmailConfirmed)
+            //{
+            //    _ = SendConfirmationEmailAsync(user);
+            //    //TODO: Localize
+            //    response.Errors.Add(
+            //        "LoginFailed",
+            //        new string[] { "Email is not confirmed. Confirmation email has been sent." }
+            //    );
+            //    return response;
+            //}
 
             var roles = await _userManager.GetRolesAsync(user);
 
@@ -131,7 +165,7 @@ namespace BookshelfAPI.Services
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new Claim("name", $"{user.FirstName} {user.LastName}"),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim(JwtRegisteredClaimNames.Iat, DateTime.Now.ToString())
+                new Claim(JwtRegisteredClaimNames.Iat, DateTime.Now.ToString()),
             };
             roles.ToList().ForEach(role => claims.Add(new Claim("roles", role)));
 

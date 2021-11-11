@@ -8,14 +8,16 @@
 }
 
 .navbar-dropdown-container i {
-	margin-right: 10px;
+	margin-left: 0.5rem;
+	margin-right: 0.25rem;
 	color: map-get($colors, "accent");
 }
 
-.avatar-photo {
+.avatar-photo-container {
 	width: 36px;
 	height: 36px;
 	border-radius: 50%;
+	overflow: hidden;
 }
 
 .backdrop {

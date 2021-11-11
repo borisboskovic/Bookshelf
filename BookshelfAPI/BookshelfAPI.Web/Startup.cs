@@ -1,8 +1,11 @@
+using Azure.Storage.Blobs;
 using BookshelfAPI.Data;
 using BookshelfAPI.Data.Models;
 using BookshelfAPI.Services;
 using BookshelfAPI.Services.Helpers;
+using BookshelfAPI.Services.Interfaces;
 using BookshelfAPI.Services.Interfaces.Admin;
+using BookshelfAPI.Services.Services;
 using BookshelfAPI.Services.Services.Admin;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authorization;
@@ -51,7 +54,7 @@ namespace BookshelfAPI.Web
                 options.Password.RequiredUniqueChars = 0;
                 options.Password.RequiredLength = 8;
                 options.User.RequireUniqueEmail = true;
-                options.SignIn.RequireConfirmedEmail = true;
+                options.SignIn.RequireConfirmedEmail = false;
                 options.Lockout.AllowedForNewUsers = false;
             })
                 .AddRoles<IdentityRole>()
@@ -102,7 +105,13 @@ namespace BookshelfAPI.Web
             //Application services
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IRoleService, RoleService>();
+            services.AddTransient<IAzureStorageService, AzureStorageService>();
+
+            // Email configuration
             services.AddSingleton(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
+            
+            // Azure BLOB client
+            services.AddSingleton(x => new BlobServiceClient(Configuration.GetConnectionString("AzureBlobStorage")));
 
             services.AddCors(options =>
             {
