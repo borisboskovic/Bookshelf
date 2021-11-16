@@ -1,7 +1,7 @@
 import { axios } from "@/config";
 import jwtDecode from "jwt-decode";
 import router from "@/router";
-import { notifyRegisterSuccess } from "../services/notifications/auth-notifications";
+import { notifyRegisterSuccess } from "@/services/notifications/auth-notifications";
 
 let timeout;
 
@@ -71,6 +71,7 @@ export default {
 							clearTimeout(timeout);
 							timeout = setTimeout(() => {
 								localStorage.removeItem("token");
+								router.push({ name: "Auth" });
 								commit("LOGOUT");
 							}, tokenLifetime);
 							commit("LOGIN", tokenPayload);
@@ -103,6 +104,7 @@ export default {
 					clearTimeout(timeout);
 					timeout = setTimeout(() => {
 						localStorage.removeItem("token");
+						router.push({ name: "Auth" });
 						commit("LOGOUT");
 					}, tokenLifetime);
 

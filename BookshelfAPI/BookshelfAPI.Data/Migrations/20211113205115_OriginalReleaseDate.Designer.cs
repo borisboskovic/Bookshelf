@@ -4,14 +4,16 @@ using BookshelfAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BookshelfAPI.Data.Migrations
 {
     [DbContext(typeof(BookshelfDbContext))]
-    partial class BookshelfDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211113205115_OriginalReleaseDate")]
+    partial class OriginalReleaseDate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -188,27 +190,21 @@ namespace BookshelfAPI.Data.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("ISBN")
-                        .HasMaxLength(50)
+                        .HasMaxLength(10)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("varchar(10)");
 
                     b.Property<string>("ISBN13")
-                        .HasMaxLength(50)
+                        .HasMaxLength(13)
                         .IsUnicode(false)
-                        .HasColumnType("varchar(50)");
+                        .HasColumnType("varchar(13)");
 
                     b.Property<string>("ImageUrl")
                         .HasMaxLength(2000)
                         .IsUnicode(false)
                         .HasColumnType("varchar(2000)");
 
-                    b.Property<bool>("IsHardcover")
-                        .HasColumnType("bit");
-
                     b.Property<int>("Language_Id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NumberOfPages")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("PublishedOn")
@@ -221,13 +217,6 @@ namespace BookshelfAPI.Data.Migrations
                         .HasMaxLength(4000)
                         .IsUnicode(false)
                         .HasColumnType("varchar(4000)");
-
-                    b.Property<int>("Tirage")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Book_Id", "Id")
                         .HasName("PK_BOOKISSUE");

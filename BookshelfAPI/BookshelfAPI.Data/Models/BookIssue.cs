@@ -31,9 +31,14 @@ namespace BookshelfAPI.Data.Models
         public int Book_Id { get; set; }
         public int Publisher_Id { get; set; }
         public int Language_Id { get; set; }
-        [StringLength(10)]
+        [StringLength(255)]
+        public string Title { get; set; }
+        public int Tirage { get; set; }
+        public int NumberOfPages { get; set; }
+        public bool IsHardcover { get; set; }
+        [StringLength(50)]
         public string ISBN { get; set; }
-        [StringLength(13)]
+        [StringLength(50)]
         public string ISBN13 { get; set; }
         [StringLength(4000)]
         public string Summary { get; set; }

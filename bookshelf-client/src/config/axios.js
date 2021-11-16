@@ -39,6 +39,8 @@ instance.interceptors.response.use(
 		if (errors) {
 			const errorEntries = Object.entries(errors);
 			errorEntries.forEach((e) => showErrorToast(e[0], e[1]));
+		} else {
+			showErrorToast(error.name, error.message);
 		}
 
 		return Promise.reject(error);

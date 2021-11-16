@@ -1,5 +1,5 @@
 import Swal from "sweetalert2";
-import colors from "../../assets/strings/colors";
+import colors from "@/assets/strings/colors";
 import toastr from "toastr";
 
 const toastOptions = {

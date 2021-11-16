@@ -1,14 +1,14 @@
 <template>
 	<div class="reading-item-container">
 		<div class="image-container">
-			<router-link :to="`/book/${id}`">
+			<router-link :to="`/book-details/${id}`">
 				<img :src="image" :alt="title" />
 			</router-link>
 		</div>
 		<div class="details-container">
 			<div>
 				<div class="title">
-					<router-link :to="`/book/${id}`">
+					<router-link :to="`/book-details/${id}`">
 						{{ title }}
 					</router-link>
 				</div>
@@ -19,9 +19,7 @@
 				<span>{{ progressLabel }}</span>
 			</div>
 			<div class="button-container">
-				<ButtonComponent size="small">
-					Update progress
-				</ButtonComponent>
+				<ButtonComponent size="small"> Update progress </ButtonComponent>
 			</div>
 		</div>
 	</div>

@@ -27,7 +27,7 @@ export const items = [
 	// 	pagesRead: 178,
 	// },
 	{
-		id: 3,
+		id: 2,
 		title: "Vrbe",
 		authors: [
 			{

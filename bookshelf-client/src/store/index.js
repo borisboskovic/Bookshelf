@@ -1,8 +1,12 @@
 import { createStore } from "vuex";
-import AuthModule from "./auth-module";
+import authModule from "./auth-module";
+import bookDetailsModule from "./book-details-module";
+import authorDetailsModule from "./author-details-module";
 
 export default createStore({
 	modules: {
-		auth: AuthModule,
+		auth: authModule,
+		bookDetails: bookDetailsModule,
+		authorDetails: authorDetailsModule,
 	},
 });

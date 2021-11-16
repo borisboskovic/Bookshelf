@@ -1,0 +1,45 @@
+@import "@/assets/style/main.scss";
+
+.main-container {
+	display: flex;
+	flex-direction: column;
+}
+
+.lifespan-container {
+	display: flex;
+}
+
+.date-of-birth-container {
+	flex-grow: 1;
+	text-align: left;
+	flex-basis: 0;
+}
+
+.date-of-death-container {
+	flex-grow: 1;
+	text-align: right;
+	flex-basis: 0;
+}
+
+.label {
+	font-size: 0.8rem;
+	font-weight: 500;
+	text-transform: uppercase;
+}
+.date-container {
+	color: map-get($colors, "accent");
+	font-size: 1.3rem;
+}
+
+.separator {
+	display: flex;
+	justify-content: end;
+	align-items: flex-end;
+	font-weight: bold;
+	font-size: 1.3rem;
+	color: map-get($colors, "accent");
+}
+
+.place-of-birth {
+	max-width: fit-content;
+}

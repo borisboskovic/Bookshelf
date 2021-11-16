@@ -1,8 +1,11 @@
-import AuthPage from "@/pages/AuthPage";
-import HomePage from "@/pages/HomePage";
-import MyBooksPage from "@/pages/MyBooksPage";
-import AuthorPage from "@/pages/AuthorPage";
-import BookPage from "@/pages/BookPage";
+import {
+	AuthorDetailsPage,
+	AuthPage,
+	BookDetailsPage,
+	HomePage,
+	MyBooksPage,
+	NotFoundPage,
+} from "@/pages";
 
 const routes = [
 	{
@@ -22,13 +25,18 @@ const routes = [
 	},
 	{
 		name: "Author",
-		path: "/author/:id",
-		component: AuthorPage,
+		path: "/author-details/:id",
+		component: AuthorDetailsPage,
 	},
 	{
-		name: "Book",
-		path: "/book/:id",
-		component: BookPage,
+		name: "BookDetails",
+		path: "/book-details/:id",
+		component: BookDetailsPage,
+	},
+	{
+		name: "NotFound",
+		path: "/:catchAll(.*)",
+		component: NotFoundPage,
 	},
 ];
 

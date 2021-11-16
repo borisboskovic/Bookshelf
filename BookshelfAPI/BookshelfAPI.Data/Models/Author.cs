@@ -30,7 +30,12 @@ namespace BookshelfAPI.Data.Models
         public DateTime? DateOfDeath { get; set; }
         [StringLength(2000)]
         public string ImageUrl { get; set; }
-
+        [Required]
+        [StringLength(2000)]
+        public string Bio { get; set; }
+        [Required]
+        [StringLength(255)]
+        public string PlaceOfBirth { get; set; }
         [InverseProperty("Author")]
         public virtual ICollection<BookAuthor> BookAuthor { get; set; }
     }

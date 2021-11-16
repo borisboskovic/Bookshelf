@@ -24,6 +24,9 @@ namespace BookshelfAPI.Data.Models
         [Required]
         [StringLength(256)]
         public string OriginalTitle { get; set; }
+        [Column(TypeName = "datetime")]
+        public DateTime? ReleaseDate { get; set; }
+        public int ReleaseYearOnly { get; set; }
         public int? Series_Id { get; set; }
         public int? OrderInSeries { get; set; }
 

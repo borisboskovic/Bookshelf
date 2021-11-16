@@ -1,0 +1,35 @@
+@import "@/assets/style/main.scss";
+
+.left-container {
+	margin-top: 1rem;
+}
+
+.avatar-container {
+	width: 16rem;
+	height: 20rem;
+	border-radius: 1rem;
+	overflow: hidden;
+	margin-bottom: 2rem;
+}
+
+.right-container {
+	flex-grow: 1;
+	margin-top: 1rem;
+	margin-left: 2rem;
+}
+
+.name-large {
+	font-weight: 500;
+	font-size: 2rem;
+}
+
+.biography {
+	margin-top: 0.5rem;
+}
+
+.popular-books-header {
+	font-size: 1.5rem;
+	font-weight: 500;
+	margin-top: 1rem;
+	margin-bottom: 0.5rem;
+}
