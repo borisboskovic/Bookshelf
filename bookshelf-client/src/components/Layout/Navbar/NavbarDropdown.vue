@@ -4,7 +4,7 @@
 		<div class="avatar-photo-container">
 			<FallbackImage :source="avatar" :defaultImage="defaultImage" title="Avatar photo" />
 		</div>
-		<NavbarMenu v-if="isDropdownOpened" />
+		<NavbarMenu v-if="isDropdownOpened" @dismissmenu="toggleDropdownOpened" />
 	</div>
 </template>
 

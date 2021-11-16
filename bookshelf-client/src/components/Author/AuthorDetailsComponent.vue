@@ -18,7 +18,7 @@
 </template>
 
 <script>
-	import { computed } from "vue";
+	import { computed, onMounted } from "vue";
 	import defaultImage from "@/assets/images/rasters/avatar-placeholder.png";
 	import FallbackImage from "@/components/Ui/FallbackImage.vue";
 	import BasicAuthorInfo from "@/components/Author/BasicAuthorInfo.vue";
@@ -39,6 +39,10 @@
 			const authorImage = author.value.imageUrl;
 			const bio = author.value.bio;
 			const books = author.value.bookIssues;
+
+			onMounted(() => {
+				document.title = `${authorName} - Author page`;
+			});
 
 			return {
 				authorName,
