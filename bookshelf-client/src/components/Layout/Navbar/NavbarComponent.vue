@@ -23,7 +23,7 @@
 <script>
 	import NavbarItem from "./NavbarItem.vue";
 	import NavigationSelect from "./NavigationSelect.vue";
-	import VectorImage from "@/components/Ui/VectorImage.vue";
+	import VectorImage from "@/components/Ui/Imaging/VectorImage.vue";
 	import SearchField from "@/components/Ui/SearchField.vue";
 	import NavbarDropdown from "./NavbarDropdown.vue";
 	import { booksLogo } from "@/assets/strings/icon-paths";

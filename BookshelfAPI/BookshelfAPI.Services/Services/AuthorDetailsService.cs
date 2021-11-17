@@ -53,7 +53,7 @@ namespace BookshelfAPI.Services.Services
                 (
                     _context.Review,
                     bookIssue => bookIssue.BookId,
-                    review => review.Book.Id,
+                    review => review.Book_Id,
                     (bookIssue, review) => new
                     {
                         BookId = bookIssue.BookId,

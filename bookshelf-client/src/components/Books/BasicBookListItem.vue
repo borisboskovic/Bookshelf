@@ -13,7 +13,7 @@
 		<div class="details-container">
 			<div class="rating-container">
 				<i class="fa fa-star"></i>
-				{{ visibleRating ?? "Not reviewed" }}
+				{{ visibleRating ?? "Not rated" }}
 			</div>
 			<template v-if="visibleRating">
 				<span> &middot; </span>
@@ -25,7 +25,7 @@
 
 <script>
 	import { computed } from "vue";
-	import FallbackImage from "@/components/Ui/FallbackImage.vue";
+	import FallbackImage from "@/components/Ui/Imaging/FallbackImage.vue";
 	import defaultImage from "@/assets/images/rasters/book-placeholder.jpg";
 
 	export default {

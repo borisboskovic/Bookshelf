@@ -12,7 +12,7 @@
 	import { ref, computed } from "vue";
 	import { useStore } from "vuex";
 	import NavbarMenu from "./NavbarMenu.vue";
-	import FallbackImage from "@/components/Ui/FallbackImage.vue";
+	import FallbackImage from "@/components/Ui/Imaging/FallbackImage.vue";
 	import defaultImage from "@/assets/images/rasters/avatar-placeholder.png";
 
 	export default {

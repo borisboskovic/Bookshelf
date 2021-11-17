@@ -1,6 +1,7 @@
 <template>
 	<div class="left-container">
-		<div class="avatar-container">
+		<PopupImage v-if="popupShown" :image="authorImage" @dismiss="toggleAvatarPopup" />
+		<div class="avatar-container" @click="toggleAvatarPopup">
 			<FallbackImage :source="authorImage" :defaultImage="defaultImage" :title="authorName" />
 		</div>
 		<BasicAuthorInfo
@@ -19,11 +20,12 @@
 </template>
 
 <script>
-	import { computed, onMounted } from "vue";
+	import { ref, computed, onMounted } from "vue";
 	import defaultImage from "@/assets/images/rasters/avatar-placeholder.png";
-	import FallbackImage from "@/components/Ui/FallbackImage.vue";
+	import FallbackImage from "@/components/Ui/Imaging/FallbackImage.vue";
 	import BasicAuthorInfo from "@/components/Author/BasicAuthorInfo.vue";
 	import BasicBookList from "@/components/Books/BasicBookList.vue";
+	import PopupImage from "../../components/Ui/Imaging/PopupImage.vue";
 
 	export default {
 		props: {
@@ -33,8 +35,10 @@
 			FallbackImage,
 			BasicAuthorInfo,
 			BasicBookList,
+			PopupImage,
 		},
 		setup: (props) => {
+			const popupShown = ref(false);
 			const author = computed(() => props.author);
 			const authorName = `${author.value.name} ${author.value.surname}`;
 			const authorImage = author.value.imageUrl;
@@ -46,6 +50,10 @@
 				document.title = `${authorName} - Author page`;
 			});
 
+			const toggleAvatarPopup = () => {
+				popupShown.value = !popupShown.value;
+			};
+
 			return {
 				authorName,
 				authorImage,
@@ -53,6 +61,8 @@
 				bio,
 				books,
 				genres,
+				popupShown,
+				toggleAvatarPopup,
 			};
 		},
 	};
