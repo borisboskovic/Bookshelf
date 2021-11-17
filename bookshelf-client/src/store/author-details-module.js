@@ -14,8 +14,8 @@ export default {
 			state.isLoading = payload;
 		},
 
-		SET_NOT_FOUND: (state) => {
-			state.notFoundError = true;
+		SET_NOT_FOUND: (state, payload) => {
+			state.notFoundError = payload;
 		},
 
 		SET_AUTHOR: (state, payload) => {
@@ -29,13 +29,15 @@ export default {
 
 	actions: {
 		fetchDetails: ({ commit }, payload) => {
+			commit("SET_LOADING", true);
+			commit("SET_NOT_FOUND", false);
 			axios
 				.get(`AuthorDetails?authorId=${payload}`)
 				.then((response) => {
 					commit("SET_AUTHOR", response.data);
 				})
 				.catch(() => {
-					commit("SET_NOT_FOUND");
+					commit("SET_NOT_FOUND", true);
 				})
 				.finally(() => {
 					commit("SET_LOADING", false);
