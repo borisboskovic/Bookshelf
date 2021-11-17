@@ -3,8 +3,11 @@
 		<BasicBookListItem
 			v-for="book in items"
 			:key="book.bookIssueId"
+			:id="book.bookIssueId"
 			:title="book.title"
 			:image="book.imageUrl"
+			:rating="book.rating"
+			:reviewsCount="book.reviewsCount"
 		/>
 	</ResponsiveGridContainer>
 </template>

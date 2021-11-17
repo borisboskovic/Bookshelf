@@ -32,7 +32,6 @@ export default {
 			axios
 				.get(`AuthorDetails?authorId=${payload}`)
 				.then((response) => {
-					console.log("Response", response.data);
 					commit("SET_AUTHOR", response.data);
 				})
 				.catch(() => {

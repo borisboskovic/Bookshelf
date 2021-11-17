@@ -39,16 +39,74 @@ namespace BookshelfAPI.Services.Services
                 .Join
                 (
                     _context.BookIssue,
-                    book => book.Book_Id,
+                    bookAuthor => bookAuthor.Book_Id,
                     bookIssue => bookIssue.Book.Id,
-                    (book, bookIssue) => new BookSummaryDto
+                    (book, bookIssue) => new
                     {
                         BookId = bookIssue.Book_Id,
                         BookIssueId = bookIssue.Id,
-                        ImageUrl = $"{_configuration["Azure:BlobStorageUrl"]}/{bookIssue.ImageUrl}",
+                        ImageUrl = bookIssue.ImageUrl,
                         Title = bookIssue.Title
                     }
-                ).ToListAsync();
+                )
+                .GroupJoin
+                (
+                    _context.Review,
+                    bookIssue => bookIssue.BookId,
+                    review => review.Book.Id,
+                    (bookIssue, review) => new
+                    {
+                        BookId = bookIssue.BookId,
+                        BookIssueId = bookIssue.BookIssueId,
+                        ImageUrl = bookIssue.ImageUrl,
+                        Title = bookIssue.Title,
+                        Review = review
+                    }
+                )
+                .SelectMany
+                (
+                    bookIssue => bookIssue.Review.DefaultIfEmpty(),
+                    (bookIssue, review) => new
+                    {
+                        bookIssue.BookId,
+                        bookIssue.BookIssueId,
+                        bookIssue.ImageUrl,
+                        bookIssue.Title,
+                        Review = review
+                    }
+                )
+                .GroupBy(e => new { e.BookId, e.BookIssueId, e.ImageUrl, e.Title })
+                .Select(e => new BookSummaryDto
+                {
+                    BookId = e.Key.BookId,
+                    BookIssueId = e.Key.BookIssueId,
+                    ImageUrl = $"{_configuration["Azure:BlobStorageUrl"]}/{e.Key.ImageUrl}",
+                    Title = e.Key.Title,
+                    Rating = e.Average(bookReview => bookReview.Review.Rating),
+                    ReviewsCount = e.Count()
+                })
+                .ToListAsync();
+
+            bookIssues.ForEach(b =>
+            {
+                if (b.Rating == null) b.ReviewsCount = 0;
+            });
+
+            var genres = _context.BookAuthor
+                .Where(e => e.Author_Id == authorId)
+                .Join
+                (
+                    _context.BookTag,
+                    bookAuthor => bookAuthor.Book_Id,
+                    bookTag => bookTag.Book_Id,
+                    (bookAuthor, bookTag) => new
+                    {
+                        bookTag.Tag.Name
+                    }
+                )
+                .Distinct()
+                .Select(e => e.Name)
+                .ToList();
 
             response.Succeeded = true;
             response.Body = new AuthorDetailsDto
@@ -60,7 +118,8 @@ namespace BookshelfAPI.Services.Services
                 DateOfDeath = author.DateOfDeath,
                 ImageUrl = $"{_configuration["Azure:BlobStorageUrl"]}/{author.ImageUrl}",
                 PlaceOfBirth = author.PlaceOfBirth,
-                BookIssues = bookIssues
+                BookIssues = bookIssues,
+                Genres = genres
             };
             return response;
         }

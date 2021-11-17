@@ -14,6 +14,7 @@ namespace BookshelfAPI.Services.DTOs.AuthorDetails
         public string Bio { get; set; }
         public string PlaceOfBirth { get; set; }
 
+        public virtual List<string> Genres { get; set; }
         public virtual List<BookSummaryDto> BookIssues { get; set; }
     }
 }

@@ -11,6 +11,7 @@
 	</div>
 	<div class="right-container">
 		<div class="name-large">{{ authorName }}</div>
+		<div class="genres">Genres: {{ genres }}</div>
 		<div class="biography">{{ bio }}</div>
 		<div class="popular-books-header">Popular books</div>
 		<BasicBookList :items="books" />
@@ -39,6 +40,7 @@
 			const authorImage = author.value.imageUrl;
 			const bio = author.value.bio;
 			const books = author.value.bookIssues;
+			const genres = author.value.genres?.join(", ");
 
 			onMounted(() => {
 				document.title = `${authorName} - Author page`;
@@ -50,6 +52,7 @@
 				defaultImage,
 				bio,
 				books,
+				genres,
 			};
 		},
 	};

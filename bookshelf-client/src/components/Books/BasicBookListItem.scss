@@ -1,3 +1,5 @@
+@import "@/assets/style/main.scss";
+
 .item-container {
 	display: flex;
 	flex-direction: column;
@@ -9,10 +11,39 @@
 	overflow: hidden;
 	width: 100%;
 	height: 14rem;
+	cursor: pointer;
+
+	&:hover {
+		box-shadow: $shadowDark;
+	}
 }
 
 .book-title {
 	margin-top: 0.5rem;
 	font-weight: 600;
 	line-height: 1rem;
+	cursor: pointer;
+
+	& a {
+		color: initial;
+		text-decoration: none;
+	}
+
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
+.details-container {
+	display: flex;
+	color: map-get($colors, "accent");
+	align-items: center;
+}
+
+.rating-container {
+	flex-grow: 1;
+}
+.reviews-container {
+	flex-grow: 1;
+	text-align: right;
 }
