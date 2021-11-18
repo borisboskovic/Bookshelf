@@ -1,5 +1,5 @@
 <template>
-	<div class="left-container">
+	<div class="side-container">
 		<PopupImage v-if="popupShown" :image="authorImage" @dismiss="toggleAvatarPopup" />
 		<div class="avatar-container" @click="toggleAvatarPopup">
 			<FallbackImage :source="authorImage" :defaultImage="defaultImage" :title="authorName" />
@@ -10,7 +10,7 @@
 			:dateOfDeath="author.dateOfDeath"
 		/>
 	</div>
-	<div class="right-container">
+	<div class="main-container">
 		<div class="name-large">{{ authorName }}</div>
 		<div class="genres">Genres: {{ genres }}</div>
 		<div class="biography">{{ bio }}</div>

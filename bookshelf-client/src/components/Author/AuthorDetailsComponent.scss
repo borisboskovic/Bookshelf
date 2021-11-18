@@ -1,6 +1,6 @@
 @import "@/assets/style/main.scss";
 
-.left-container {
+.side-container {
 	margin-top: 1rem;
 }
 
@@ -13,7 +13,7 @@
 	cursor: pointer;
 }
 
-.right-container {
+.main-container {
 	flex-grow: 1;
 	margin-top: 1rem;
 	margin-left: 2rem;
@@ -33,6 +33,7 @@
 
 .biography {
 	margin-top: 0.5rem;
+	white-space: pre-line;
 }
 
 .popular-books-header {

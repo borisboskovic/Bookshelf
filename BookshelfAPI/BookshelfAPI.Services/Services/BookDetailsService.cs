@@ -2,6 +2,8 @@
 using BookshelfAPI.Services.DTOs.BookDetails;
 using BookshelfAPI.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -11,11 +13,13 @@ namespace BookshelfAPI.Services.Services
     {
         private readonly BookshelfDbContext _context;
         private readonly IUserService _userService;
+        private readonly IConfiguration _configuration;
 
-        public BookDetailsService(BookshelfDbContext context, IUserService userService)
+        public BookDetailsService(BookshelfDbContext context, IUserService userService, IConfiguration configuration)
         {
             _context = context;
             _userService = userService;
+            _configuration = configuration;
         }
 
         public async Task<ServiceResponse> GetBookIssueDetails(int bookIssueId)
@@ -38,6 +42,7 @@ namespace BookshelfAPI.Services.Services
                     ISBN = e.ISBN,
                     ISBN13 = e.ISBN13,
                     PublishedOn = e.PublishedOn,
+                    OriginalPublishedOn = e.Book.ReleaseDate != null ? e.Book.ReleaseDate.Value.ToShortDateString() : e.Book.ReleaseYearOnly.ToString(),
                     Language = e.Language.NativeName,
                     Series = e.Book.Series != null ? new BookSeriesDto
                     {
@@ -63,7 +68,9 @@ namespace BookshelfAPI.Services.Services
                 .AsNoTracking()
                 .FirstOrDefaultAsync(e => e.BookIssueId == bookIssueId);
 
-            bookIssue.ReadingStatus = await GetBookReadingStatus(bookIssueId);
+            bookIssue.ImageUrl = $"{_configuration["Azure:BlobStorageUrl"]}/{bookIssue.ImageUrl}";
+            bookIssue.ReadingStatus = await GetBookIssueReadingStatus(bookIssueId);
+            bookIssue.Authors = await GetBookIssueAuthors(bookIssue.BookId);
 
             if (bookIssue == null)
             {
@@ -76,7 +83,7 @@ namespace BookshelfAPI.Services.Services
             return response;
         }
 
-        public async Task<ReadingStatusDto> GetBookReadingStatus(int bookIssueId)
+        public async Task<ReadingStatusDto> GetBookIssueReadingStatus(int bookIssueId)
         {
             var currentlyReading = await _context.CurrentlyReading
                 .Where(e => e.BookIssue_Id == bookIssueId)
@@ -141,6 +148,28 @@ namespace BookshelfAPI.Services.Services
             }
 
             return null;
+        }
+
+        public async Task<List<AuthorSummaryDto>> GetBookIssueAuthors(int bookId)
+        {
+            var authors = await _context.BookAuthor
+                .Include(e => e.Author)
+                .Where(e => e.Book_Id == bookId)
+                .Select(e => new
+                {
+                    Id = e.Author_Id,
+                    Name = e.Author.Name,
+                    Surname = e.Author.Surname
+                })
+                .ToListAsync();
+
+            return authors
+                .Select(e => new AuthorSummaryDto
+                {
+                    Id = e.Id,
+                    Name = $"{e.Name} {e.Surname}",
+                })
+                .ToList();
         }
     }
 }

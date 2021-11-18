@@ -1,0 +1,27 @@
+.side-container {
+	margin-top: 1rem;
+}
+
+.book-cover-container {
+	width: 16rem;
+	height: 24rem;
+	border-radius: 1rem;
+	overflow: hidden;
+	margin-bottom: 2rem;
+	cursor: pointer;
+}
+
+.main-container {
+	flex-grow: 1;
+	margin-top: 1rem;
+	margin-left: 2rem;
+}
+
+.title-large {
+	font-weight: 500;
+	font-size: 2rem;
+}
+
+.summary {
+	white-space: pre-line;
+}

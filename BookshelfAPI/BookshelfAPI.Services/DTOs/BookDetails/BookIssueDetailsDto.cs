@@ -19,10 +19,12 @@ namespace BookshelfAPI.Services.DTOs.BookDetails
         public string ISBN13 { get; set; }
         public string Language { get; set; }
         public DateTime? PublishedOn { get; set; }
+        public string OriginalPublishedOn { get; set; }
         public BookPublisherDto Publisher { get; set; }
         public BookSeriesDto Series { get; set; }
         public ReadingStatusDto ReadingStatus { get; set; }
 
         public virtual List<BookTagDto> Tags { get; set; }
+        public virtual List<AuthorSummaryDto> Authors { get; set; }
     }
 }
