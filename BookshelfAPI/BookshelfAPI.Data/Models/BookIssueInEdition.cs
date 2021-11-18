@@ -20,8 +20,6 @@ namespace BookshelfAPI.Data.Models
         [Key]
         public int BookIssue_id { get; set; }
         public int OrderInEdition { get; set; }
-        [Column(TypeName = "datetime")]
-        public DateTime? PublishedOn { get; set; }
 
         [ForeignKey("Book_Id,BookIssue_id")]
         [InverseProperty(nameof(BookIssue.BookIssueInEdition))]
