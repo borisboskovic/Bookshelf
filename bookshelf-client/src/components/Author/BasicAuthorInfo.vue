@@ -1,5 +1,5 @@
 <template>
-	<div class="main-container">
+	<div class="autor-info-container">
 		<div class="lifespan-container">
 			<div class="date-of-birth-container">
 				<div class="label">Born</div>

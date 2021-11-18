@@ -7,7 +7,7 @@
 			:title="book.title"
 			:image="book.imageUrl"
 			:rating="book.rating"
-			:reviewsCount="book.reviewsCount"
+			:ratingsCount="book.ratingsCount"
 		/>
 	</ResponsiveGridContainer>
 </template>

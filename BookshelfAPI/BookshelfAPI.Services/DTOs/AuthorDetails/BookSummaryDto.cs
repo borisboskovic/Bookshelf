@@ -10,6 +10,6 @@ namespace BookshelfAPI.Services.DTOs.AuthorDetails
         public string Title { get; set; }
         public string ImageUrl { get; set; }
         public double? Rating { get; set; }
-        public int ReviewsCount { get; set; }
+        public int RatingsCount { get; set; }
     }
 }

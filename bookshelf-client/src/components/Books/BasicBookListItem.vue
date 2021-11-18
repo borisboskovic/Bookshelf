@@ -17,7 +17,9 @@
 			</div>
 			<template v-if="visibleRating">
 				<span> &middot; </span>
-				<span class="reviews-container">{{ reviewsCount }} reviews</span>
+				<span class="reviews-container"
+					>{{ `${ratingsCount} rating${ratingsCount > 1 ? "s" : ""}` }}
+				</span>
 			</template>
 		</div>
 	</div>
@@ -34,7 +36,7 @@
 			title: String,
 			image: String,
 			rating: Number,
-			reviewsCount: Number,
+			ratingsCount: Number,
 		},
 		components: {
 			FallbackImage,

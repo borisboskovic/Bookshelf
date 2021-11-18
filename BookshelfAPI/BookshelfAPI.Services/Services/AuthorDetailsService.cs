@@ -81,13 +81,13 @@ namespace BookshelfAPI.Services.Services
                     ImageUrl = $"{_configuration["Azure:BlobStorageUrl"]}/{e.Key.ImageUrl}",
                     Title = e.Key.Title,
                     Rating = e.Average(bookReview => bookReview.Review.Rating),
-                    ReviewsCount = e.Count()
+                    RatingsCount = e.Count()
                 })
                 .ToListAsync();
 
             bookIssues.ForEach(b =>
             {
-                if (b.Rating == null) b.ReviewsCount = 0;
+                if (b.Rating == null) b.RatingsCount = 0;
             });
 
             var genres = _context.BookAuthor
