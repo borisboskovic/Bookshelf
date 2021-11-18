@@ -1,12 +1,14 @@
 ﻿using BookshelfAPI.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
 namespace BookshelfAPI.Web.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
+    [Authorize(Roles = "reader")]
     public class AuthorDetailsController : ControllerBase
     {
         private readonly IAuthorDetailsService _authorDetailsService;
