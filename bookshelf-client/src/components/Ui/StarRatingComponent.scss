@@ -1,0 +1,17 @@
+@import "@/assets/style/main.scss";
+
+.ratings-container {
+	position: relative;
+}
+
+.stars-container {
+	display: flex;
+	align-items: center;
+	color: map-get($colors, "accent");
+
+	& span {
+		font-size: 2rem;
+		flex-grow: 1;
+		text-align: right;
+	}
+}

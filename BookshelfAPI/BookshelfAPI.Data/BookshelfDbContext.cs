@@ -295,7 +295,7 @@ namespace BookshelfAPI.Data
                 entity.HasKey(e => new { e.Book_Id, e.BookIssue_Id, e.User_Id })
                     .HasName("PK_REVIEW");
 
-                entity.Property(e => e.Review1).IsUnicode(false);
+                entity.Property(e => e.ReviewText).IsUnicode(false);
 
                 entity.HasOne(d => d.Book)
                     .WithMany(p => p.Review)

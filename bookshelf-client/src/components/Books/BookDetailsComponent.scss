@@ -9,8 +9,27 @@
 	height: 24rem;
 	border-radius: 1rem;
 	overflow: hidden;
-	margin-bottom: 2rem;
+	margin-bottom: 1rem;
 	cursor: pointer;
+}
+
+.publication-dates {
+	margin-top: 0.5rem;
+
+	& > .date {
+		color: map-get($colors, "accent");
+		font-size: 2rem;
+		line-height: 1.2rem;
+	}
+}
+
+.original-title {
+	margin-top: 1rem;
+
+	& > .title {
+		color: map-get($colors, "accent");
+		font-size: 1.2rem;
+	}
 }
 
 .main-container {

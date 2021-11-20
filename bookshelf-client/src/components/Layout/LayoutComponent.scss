@@ -3,8 +3,9 @@
 .layout-container {
 	display: flex;
 	flex-direction: column;
-	height: 100%;
-	margin: 0 40px;
+	min-height: 100%;
+	margin: 0 2.5rem;
+	padding-bottom: 2rem;
 }
 
 main {

@@ -28,7 +28,7 @@ namespace BookshelfAPI.Data.Models
         public int? Rating { get; set; }
         [Column("Review")]
         [StringLength(4000)]
-        public string Review1 { get; set; }
+        public string ReviewText { get; set; }
         [Column(TypeName = "datetime")]
         public DateTime PostedOn { get; set; }
 

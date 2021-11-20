@@ -13,12 +13,20 @@ namespace BookshelfAPI.Services.Services
     {
         private readonly BookshelfDbContext _context;
         private readonly IUserService _userService;
+        private readonly IReviewService _reviewService;
         private readonly IConfiguration _configuration;
 
-        public BookDetailsService(BookshelfDbContext context, IUserService userService, IConfiguration configuration)
+        public BookDetailsService
+        (
+            BookshelfDbContext context,
+            IUserService userService,
+            IReviewService reviewService,
+            IConfiguration configuration
+        )
         {
             _context = context;
             _userService = userService;
+            _reviewService = reviewService;
             _configuration = configuration;
         }
 
@@ -71,6 +79,7 @@ namespace BookshelfAPI.Services.Services
             bookIssue.ImageUrl = $"{_configuration["Azure:BlobStorageUrl"]}/{bookIssue.ImageUrl}";
             bookIssue.ReadingStatus = await GetBookIssueReadingStatus(bookIssueId);
             bookIssue.Authors = await GetBookIssueAuthors(bookIssue.BookId);
+            bookIssue.Ratings = await _reviewService.GetBookRatings(bookIssue.BookId);
 
             if (bookIssue == null)
             {

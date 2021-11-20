@@ -65,7 +65,7 @@ namespace BookshelfAPI.Web.Controllers
 
         [HttpGet]
         [AllowAnonymous]
-        public async Task<IActionResult> SendResetPasswordEmail(SendResetPasswordEmail_RequestModel model)
+        public IActionResult SendResetPasswordEmail(SendResetPasswordEmail_RequestModel model)
         {
             return Ok(model.Email);
         }

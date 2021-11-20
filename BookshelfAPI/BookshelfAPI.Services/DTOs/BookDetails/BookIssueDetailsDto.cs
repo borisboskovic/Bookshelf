@@ -1,4 +1,5 @@
 ﻿using BookshelfAPI.Helpers;
+using BookshelfAPI.Services.DTOs.Review;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,7 @@ namespace BookshelfAPI.Services.DTOs.BookDetails
         public BookPublisherDto Publisher { get; set; }
         public BookSeriesDto Series { get; set; }
         public ReadingStatusDto ReadingStatus { get; set; }
+        public RatingsSummaryDto Ratings { get; set; }
 
         public virtual List<BookTagDto> Tags { get; set; }
         public virtual List<AuthorSummaryDto> Authors { get; set; }
