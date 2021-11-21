@@ -4,14 +4,16 @@ using BookshelfAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BookshelfAPI.Data.Migrations
 {
     [DbContext(typeof(BookshelfDbContext))]
-    partial class BookshelfDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211120222027_AuthorDataType")]
+    partial class AuthorDataType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -79,7 +81,7 @@ namespace BookshelfAPI.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(256)
                         .IsUnicode(false)
-                        .HasColumnType("nvarchar(256)");
+                        .HasColumnType("varchar(256)");
 
                     b.Property<DateTime?>("ReleaseDate")
                         .HasColumnType("datetime");

@@ -1,0 +1,120 @@
+@import "@/assets/style/main";
+
+@keyframes test {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 1;
+	}
+}
+
+.button-group__container {
+	position: relative;
+	font: map-get($fonts, "regular-sm");
+}
+
+.button-group__header {
+	display: flex;
+	border-radius: 1rem;
+	padding: 1px 0;
+
+	&.default {
+		border: 2px map-get($colors, "accent") solid;
+		color: map-get($colors, "accent");
+	}
+	&.green {
+		border: 2px map-get($colors, "want-to-read") solid;
+		color: map-get($colors, "want-to-read");
+	}
+	&.yellow {
+		border: 2px map-get($colors, "currently-reading") solid;
+		color: map-get($colors, "currently-reading");
+	}
+	&.red {
+		border: 2px map-get($colors, "read") solid;
+		color: map-get($colors, "read");
+	}
+}
+
+.button-group__visible-label {
+	padding: 0.2rem 0.5rem;
+	flex-grow: 1;
+}
+
+.button-group__handle {
+	color: inherit;
+	width: 2rem;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	cursor: pointer;
+}
+
+.default {
+	& .button-group__handle {
+		border-left: 2px map-get($colors, "accent") solid;
+	}
+}
+.green {
+	& .button-group__handle {
+		border-left: 2px map-get($colors, "want-to-read") solid;
+	}
+}
+.yellow {
+	& .button-group__handle {
+		border-left: 2px map-get($colors, "currently-reading") solid;
+	}
+}
+.red {
+	& .button-group__handle {
+		border-left: 2px map-get($colors, "read") solid;
+	}
+}
+
+.button-group__dropdown {
+	animation-name: test;
+	animation-duration: 250ms;
+	animation-timing-function: linear;
+	z-index: 1;
+
+	position: absolute;
+	left: 0;
+	right: 0;
+	background-color: map-get($colors, "light-background");
+	padding: 0 0.5rem;
+	border-radius: 0.5rem;
+	user-select: none;
+	margin-left: 0.1rem;
+	margin-right: 0.1rem;
+
+	&.default {
+		box-shadow: $boxShadow;
+		border: $borderThin;
+	}
+	&.green {
+		box-shadow: $want-to-read-shadow;
+		border: $want-to-read-border;
+	}
+	&.yellow {
+		box-shadow: $currently-reading-shadow;
+		border: $currently-reading-border;
+	}
+	&.red {
+		box-shadow: $read-shadow;
+		border: $read-border;
+	}
+}
+
+.button-group__dropdown-item {
+	padding: 0.2rem 0;
+	cursor: pointer;
+
+	&:hover {
+		font-weight: bold;
+	}
+
+	&:not(:last-child) {
+		border-bottom: 1px lightgray solid;
+	}
+}

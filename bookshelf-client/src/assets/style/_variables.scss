@@ -1,5 +1,8 @@
 $colors: (
 	accent: #3b94c6,
+	want-to-read: #99c63b,
+	currently-reading: #d6be40,
+	read: #c63b3b,
 	light-background: white,
 	dark-text: black,
 	subtle-text: rgb(128, 128, 128),
@@ -8,6 +11,12 @@ $colors: (
 $colorVariants: (
 	accent-light: rgba(map-get($colors, "accent"), 0.75),
 	accent-lighter: rgba(map-get($colors, "accent"), 0.4),
+	want-to-read-light: rgba(map-get($colors, "want-to-read"), 0.75),
+	want-to-read-lighter: rgba(map-get($colors, "want-to-read"), 0.4),
+	currently-reading-light: rgba(map-get($colors, "currently-reading"), 0.75),
+	currently-reading-lighter: rgba(map-get($colors, "currently-reading"), 0.4),
+	read-light: rgba(map-get($colors, "read"), 0.75),
+	read-lighter: rgba(map-get($colors, "read"), 0.4),
 	dark-text-light: rgba(map-get($colors, "dark-text"), 0.75),
 	dark-text-lighter: rgba(map-get($colors, "dark-text"), 0.4),
 );
@@ -24,5 +33,12 @@ $fonts: (
 );
 
 $boxShadow: 0 0 10px 1px map-get($colorVariants, "accent-lighter");
+$want-to-read-shadow: 0 0 10px 1px map-get($colorVariants, "want-to-read-lighter");
+$currently-reading-shadow: 0 0 10px 1px map-get($colorVariants, "currently-reading-lighter");
+$read-shadow: 0 0 10px 1px map-get($colorVariants, "read-lighter");
 $shadowDark: 0 0 10px map-get($colorVariants, "dark-text-lighter");
+
 $borderThin: 1px map-get($colors, "accent") solid;
+$want-to-read-border: 1px map-get($colors, "want-to-read") solid;
+$currently-reading-border: 1px map-get($colors, "currently-reading") solid;
+$read-border: 1px map-get($colors, "read") solid;

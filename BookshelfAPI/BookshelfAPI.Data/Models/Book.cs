@@ -23,6 +23,7 @@ namespace BookshelfAPI.Data.Models
         public int Id { get; set; }
         [Required]
         [StringLength(256)]
+        [Column(TypeName ="nvarchar")]
         public string OriginalTitle { get; set; }
         [Column(TypeName = "datetime")]
         public DateTime? ReleaseDate { get; set; }

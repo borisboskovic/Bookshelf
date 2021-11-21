@@ -20,9 +20,11 @@ namespace BookshelfAPI.Data.Models
         public int Id { get; set; }
         [Required]
         [StringLength(64)]
+        [Column(TypeName="nvarchar")]
         public string Name { get; set; }
         [Required]
         [StringLength(128)]
+        [Column(TypeName = "nvarchar")]
         public string Surname { get; set; }
         [Column(TypeName = "datetime")]
         public DateTime DateOfBirth { get; set; }
