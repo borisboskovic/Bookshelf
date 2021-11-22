@@ -109,6 +109,7 @@ namespace BookshelfAPI.Web
             services.AddTransient<IBookDetailsService, BookDetailsService>();
             services.AddTransient<IAuthorDetailsService, AuthorDetailsService>();
             services.AddTransient<IReviewService, ReviewService>();
+            services.AddTransient<IBookListService, BookListService>();
 
             // Email configuration
             services.AddSingleton(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());

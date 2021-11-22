@@ -1,7 +1,6 @@
 @import "@/assets/style/main.scss";
 
 .progress-bar {
-	position: relative;
 	width: 100%;
 	height: 10px;
 	border-radius: 5px;
@@ -10,7 +9,6 @@
 
 .progress-done {
 	background-color: map-get($colorVariants, "accent-lighter");
-	// width: 100px;
 	height: 10px;
 	border-radius: 5px;
 }

@@ -1,0 +1,61 @@
+@import "@/assets/style/main";
+
+.progress-modal-container {
+	cursor: default;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: map-get($colors, "light-background");
+	color: black;
+	width: 20rem;
+	box-shadow: $boxShadow;
+	border-radius: 0.5rem;
+	padding: 1rem;
+}
+
+.input-row {
+	display: flex;
+	align-items: center;
+
+	& input {
+		width: 3rem;
+		padding: 0 2px;
+
+		&::-webkit-inner-spin-button {
+			-webkit-appearance: none;
+		}
+	}
+}
+
+.input-row span {
+	flex-shrink: 0;
+}
+
+.finished-row {
+	font: map-get($fonts, "regular-md");
+	text-align: left;
+	cursor: pointer;
+	margin-top: 1rem;
+
+	& span {
+		color: map-get($colors, "accent");
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}
+
+.button-row {
+	text-align: right;
+	margin-top: 1rem;
+
+	& > span {
+		cursor: pointer;
+		margin-right: 1rem;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}
