@@ -18,6 +18,13 @@ namespace BookshelfAPI.Web.Controllers
             _bookListService = bookListService;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetDefaultLists()
+        {
+            var result = await _bookListService.GetDefaultLists();
+            return result.Succeeded ? Ok(result.Body) : BadRequest(result);
+        }
+
         [HttpGet("CurrentlyReading")]
         public IActionResult GetCurrentlyReading()
         {

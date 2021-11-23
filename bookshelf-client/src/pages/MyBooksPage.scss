@@ -1,0 +1,44 @@
+@import "@/assets/style/main";
+
+.page-container {
+	display: flex;
+	align-items: stretch;
+	height: 100%;
+	position: relative;
+}
+
+.side-container {
+	max-width: 20rem;
+	min-width: 20rem;
+	border-right: $borderThin;
+	margin-top: 5px;
+	padding-right: 1rem;
+}
+
+.side-container h2 {
+	font-weight: 500;
+	margin: 2rem 0 1.5rem 0;
+}
+
+.book-list-names {
+	border-bottom: $borderThin;
+	padding-bottom: 2rem;
+}
+
+.book-list-names__item {
+	display: flex;
+	margin-bottom: 0.25rem;
+
+	&.active {
+		color: map-get($colors, "accent");
+	}
+}
+
+.book-list-names__name {
+	flex-grow: 1;
+	cursor: pointer;
+
+	&:hover {
+		text-decoration: underline;
+	}
+}

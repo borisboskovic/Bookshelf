@@ -24,7 +24,7 @@
 				type: String,
 				required: false,
 				validator: (value) => {
-					return ["green", "yellow", "red"].indexOf(value) !== -1;
+					return ["green", "yellow", "red", "default"].indexOf(value) !== -1;
 				},
 			},
 		},

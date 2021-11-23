@@ -1,5 +1,6 @@
 ﻿using BookshelfAPI.Data;
 using BookshelfAPI.Services.DTOs.BookList;
+using BookshelfAPI.Services.DTOs.Review;
 using BookshelfAPI.Services.Interfaces;
 using BookshelfAPI.Services.RequestModels.BookList;
 using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,72 @@ namespace BookshelfAPI.Services.Services
             _configuration = configuration;
         }
 
+        public List<CommonBookItemDto> GetWantToRead()
+        {
+            var list = _context.WantToRead
+                .Include(e => e.Book)
+                .Where(e => e.User_Id == _userService.User.Id)
+                .Join
+                (
+                    _context.BookAuthor,
+                    wantToRead => wantToRead.Book_Id,
+                    bookAuthor => bookAuthor.Book_Id,
+                    (wantToRead, bookAuthor) => new
+                    {
+                        wantToRead.Book_Id,
+                        wantToRead.BookIsse_Id,
+                        wantToRead.Book.Title,
+                        wantToRead.Book.ImageUrl,
+                        wantToRead.AddedOn,
+                        Author = bookAuthor.Author
+                    }
+                )
+                .AsEnumerable()
+                .GroupBy(e => new
+                {
+                    e.BookIsse_Id,
+                    e.Book_Id,
+                    e.Title,
+                    e.ImageUrl,
+                    e.AddedOn,
+                })
+                .Select(wantToRead => new
+                {
+                    wantToRead.Key.Book_Id,
+                    wantToRead.Key.BookIsse_Id,
+                    wantToRead.Key.AddedOn,
+                    wantToRead.Key.Title,
+                    ImageUrl = $"{_configuration["Azure:BlobStorageUrl"]}/{wantToRead.Key.ImageUrl}",
+                    Authors = wantToRead.Select(e => new AuthorBasicInfoDto
+                    {
+                        AuthorId = e.Author.Id,
+                        Name = $"{e.Author.Name} {e.Author.Surname}"
+                    }).ToList()
+                })
+                .GroupJoin
+                (
+                    _context.Review.DefaultIfEmpty(),
+                    wantToRead => wantToRead.Book_Id,
+                    review => review.Book_Id,
+                    (wantToRead, reviews) => new CommonBookItemDto
+                    {
+                        BookIssueId = wantToRead.BookIsse_Id,
+                        Title = wantToRead.Title,
+                        AddedOn = wantToRead.AddedOn,
+                        ImageUrl = wantToRead.ImageUrl,
+                        Authors = wantToRead.Authors,
+                        Ratings = new RatingsSummaryDto
+                        {
+                            Average = reviews.Average(e => e.Rating),
+                            Count = reviews.Count(),
+                            YourRating = reviews.Where(e => e.User_Id == _userService.User.Id).Select(e => e.Rating).FirstOrDefault()
+                        }
+                    })
+                .ToList();
+
+            return list;
+        }
+
         public List<CurrentlyReadingItemDto> GetCurrentlyReading()
         {
             var list = _context.CurrentlyReading
@@ -38,6 +105,7 @@ namespace BookshelfAPI.Services.Services
                     (currentlyReading, bookAuthor) => new
                     {
                         currentlyReading.BookIssue_Id,
+                        currentlyReading.Book_Id,
                         currentlyReading.Book.Title,
                         currentlyReading.Book.ImageUrl,
                         currentlyReading.AddedOn,
@@ -50,28 +118,119 @@ namespace BookshelfAPI.Services.Services
                 .GroupBy(e => new
                 {
                     e.BookIssue_Id,
+                    e.Book_Id,
                     e.Title,
                     e.ImageUrl,
                     e.AddedOn,
                     e.PagesRead,
-                    e.NumberOfPages
+                    e.NumberOfPages,
                 })
                 .Select
                 (
-                    currentlyReading => new CurrentlyReadingItemDto
+                    currentlyReading => new
                     {
-                        BookIssueId = currentlyReading.Key.BookIssue_Id,
-                        AddedOn = currentlyReading.Key.AddedOn,
+                        currentlyReading.Key.Book_Id,
+                        currentlyReading.Key.BookIssue_Id,
+                        currentlyReading.Key.AddedOn,
+                        currentlyReading.Key.Title,
+                        currentlyReading.Key.NumberOfPages,
                         ImageUrl = $"{_configuration["Azure:BlobStorageUrl"]}/{currentlyReading.Key.ImageUrl}",
                         PagesRead = currentlyReading.Key.PagesRead ?? 0,
-                        Title = currentlyReading.Key.Title,
-                        TotalPages = currentlyReading.Key.NumberOfPages,
                         Authors = currentlyReading.Select(e => new AuthorBasicInfoDto
                         {
                             AuthorId = e.Author.Id,
                             Name = $"{e.Author.Name} {e.Author.Surname}"
                         }).ToList()
                     })
+                .GroupJoin
+                (
+                    _context.Review.DefaultIfEmpty(),
+                    currentlyReading => currentlyReading.Book_Id,
+                    review => review.Book_Id,
+                    (currentlyReading, reviews) => new CurrentlyReadingItemDto
+                    {
+                        BookIssueId = currentlyReading.BookIssue_Id,
+                        Title = currentlyReading.Title,
+                        AddedOn = currentlyReading.AddedOn,
+                        ImageUrl = currentlyReading.ImageUrl,
+                        Authors = currentlyReading.Authors,
+                        PagesRead = currentlyReading.PagesRead,
+                        TotalPages = currentlyReading.NumberOfPages,
+                        Ratings = new RatingsSummaryDto
+                        {
+                            Average = reviews.Average(e => e.Rating),
+                            Count = reviews.Count(),
+                            YourRating = reviews.Where(e => e.User_Id == _userService.User.Id).Select(e => e.Rating).FirstOrDefault()
+                        }
+                    }
+                )
+                .ToList();
+
+            return list;
+        }
+
+        public List<CommonBookItemDto> GetRead()
+        {
+            var list = _context.Read
+                .Include(e => e.Book)
+                .Where(e => e.User_Id == _userService.User.Id)
+                .Join
+                (
+                    _context.BookAuthor,
+                    read => read.Book_Id,
+                    bookAuthor => bookAuthor.Book_Id,
+                    (read, bookAuthor) => new
+                    {
+                        read.BookIssue_Id,
+                        read.Book_Id,
+                        read.Book.Title,
+                        read.Book.ImageUrl,
+                        read.AddedOn,
+                        Author = bookAuthor.Author
+                    }
+                )
+                .AsEnumerable()
+                .GroupBy(e => new
+                {
+                    e.Book_Id,
+                    e.BookIssue_Id,
+                    e.Title,
+                    e.ImageUrl,
+                    e.AddedOn
+                })
+                .Select(read => new
+                {
+                    read.Key.Book_Id,
+                    read.Key.BookIssue_Id,
+                    read.Key.Title,
+                    ImageUrl = $"{_configuration["Azure:BlobStorageUrl"]}/{read.Key.ImageUrl}",
+                    read.Key.AddedOn,
+                    Authors = read.Select(e => new AuthorBasicInfoDto
+                    {
+                        AuthorId = e.Author.Id,
+                        Name = $"{e.Author.Name} {e.Author.Surname}"
+                    }).ToList()
+                })
+                .GroupJoin
+                (
+                    _context.Review.DefaultIfEmpty(),
+                    read => read.Book_Id,
+                    review => review.Book_Id,
+                    (read, reviews) => new CommonBookItemDto
+                    {
+                        BookIssueId = read.BookIssue_Id,
+                        Title = read.Title,
+                        AddedOn = read.AddedOn,
+                        ImageUrl = read.ImageUrl,
+                        Authors = read.Authors,
+                        Ratings = new RatingsSummaryDto
+                        {
+                            Average = reviews.Average(e => e.Rating),
+                            Count = reviews.Count(),
+                            YourRating = reviews.Where(e => e.User_Id == _userService.User.Id).Select(e => e.Rating).FirstOrDefault()
+                        },
+                    }
+                )
                 .ToList();
 
             return list;
@@ -79,15 +238,39 @@ namespace BookshelfAPI.Services.Services
 
         public async Task<ServiceResponse> GetDefaultLists()
         {
-            throw new NotImplementedException();
+
+            var wantToRead = GetWantToRead();
+
+            var currentlyReading = GetCurrentlyReading().Select(e => new CommonBookItemDto
+            {
+                AddedOn = e.AddedOn,
+                Authors = e.Authors,
+                BookIssueId = e.BookIssueId,
+                ImageUrl = e.ImageUrl,
+                Ratings = e.Ratings,
+                Title = e.Title
+            }).ToList();
+
+            var read = GetRead();
+
+            return new ServiceResponse
+            {
+                Succeeded =true,
+                Body = new BookListsDto
+                {
+                    CurrentlyReading = currentlyReading,
+                    Read = read,
+                    WantToRead = wantToRead
+                }
+            };
         }
 
         public async Task<ServiceResponse> UpdateReadingProgress(ReadingProgress_RequestModel model)
         {
-            var item = _context.CurrentlyReading
+            var item = await _context.CurrentlyReading
                 .Where(e => e.User_Id == _userService.User.Id)
                 .Where(e => e.BookIssue_Id == model.BookIssueId)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             var response = new ServiceResponse();
             if (item == null)
@@ -97,7 +280,7 @@ namespace BookshelfAPI.Services.Services
             }
 
             item.PagesRead = model.PagesRead;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             response.Succeeded = true;
             response.Body = new CurrentlyReadingItemUpdatedDto
@@ -118,7 +301,7 @@ namespace BookshelfAPI.Services.Services
             var response = new ServiceResponse();
             if (book == null)
             {
-                response.Errors.Add("Update Failed", new string[] { "Book issue not found"});
+                response.Errors.Add("Update Failed", new string[] { "Book issue not found" });
                 return response;
             }
 

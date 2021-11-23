@@ -3,6 +3,7 @@ import authModule from "./auth-module";
 import bookDetailsModule from "./book-details-module";
 import authorDetailsModule from "./author-details-module";
 import currentlyReadingModule from "./currently-reading-module";
+import bookListsModule from "./book-lists-module";
 
 export default createStore({
 	modules: {
@@ -10,5 +11,6 @@ export default createStore({
 		bookDetails: bookDetailsModule,
 		authorDetails: authorDetailsModule,
 		currentlyReading: currentlyReadingModule,
+		bookLists: bookListsModule,
 	},
 });

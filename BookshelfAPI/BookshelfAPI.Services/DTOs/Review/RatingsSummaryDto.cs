@@ -2,7 +2,7 @@
 
 namespace BookshelfAPI.Services.DTOs.Review
 {
-    public class RatingsSummaryDto:ActionResult
+    public class RatingsSummaryDto : ActionResult
     {
         public double? Average { get; set; }
         public int Count { get; set; }
