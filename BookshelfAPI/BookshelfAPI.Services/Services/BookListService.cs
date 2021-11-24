@@ -1,6 +1,7 @@
 ﻿using BookshelfAPI.Data;
 using BookshelfAPI.Services.DTOs.BookList;
 using BookshelfAPI.Services.DTOs.Review;
+using BookshelfAPI.Services.Helpers;
 using BookshelfAPI.Services.Interfaces;
 using BookshelfAPI.Services.RequestModels.BookList;
 using Microsoft.EntityFrameworkCore;
@@ -64,7 +65,7 @@ namespace BookshelfAPI.Services.Services
                     ImageUrl = $"{_configuration["Azure:BlobStorageUrl"]}/{wantToRead.Key.ImageUrl}",
                     Authors = wantToRead.Select(e => new AuthorBasicInfoDto
                     {
-                        AuthorId = e.Author.Id,
+                        Id = e.Author.Id,
                         Name = $"{e.Author.Name} {e.Author.Surname}"
                     }).ToList()
                 })
@@ -138,7 +139,7 @@ namespace BookshelfAPI.Services.Services
                         PagesRead = currentlyReading.Key.PagesRead ?? 0,
                         Authors = currentlyReading.Select(e => new AuthorBasicInfoDto
                         {
-                            AuthorId = e.Author.Id,
+                            Id = e.Author.Id,
                             Name = $"{e.Author.Name} {e.Author.Surname}"
                         }).ToList()
                     })
@@ -207,7 +208,7 @@ namespace BookshelfAPI.Services.Services
                     read.Key.AddedOn,
                     Authors = read.Select(e => new AuthorBasicInfoDto
                     {
-                        AuthorId = e.Author.Id,
+                        Id = e.Author.Id,
                         Name = $"{e.Author.Name} {e.Author.Surname}"
                     }).ToList()
                 })
@@ -238,7 +239,6 @@ namespace BookshelfAPI.Services.Services
 
         public async Task<ServiceResponse> GetDefaultLists()
         {
-
             var wantToRead = GetWantToRead();
 
             var currentlyReading = GetCurrentlyReading().Select(e => new CommonBookItemDto
@@ -255,7 +255,7 @@ namespace BookshelfAPI.Services.Services
 
             return new ServiceResponse
             {
-                Succeeded =true,
+                Succeeded = true,
                 Body = new BookListsDto
                 {
                     CurrentlyReading = currentlyReading,
@@ -319,6 +319,90 @@ namespace BookshelfAPI.Services.Services
 
             response.Succeeded = true;
             return response;
+        }
+
+        public async Task RemoveBookFromList(RemoveBook_RequestModel model)
+        {
+            switch (model.List)
+            {
+                case BookshelfConstants.LIST_CURRENTLY_READING:
+                    var currentlyReading = await _context.CurrentlyReading
+                        .Where(e => e.BookIssue_Id == model.BookIssueId)
+                        .Where(e => e.User_Id == _userService.User.Id)
+                        .FirstOrDefaultAsync();
+                    _context.CurrentlyReading.Remove(currentlyReading);
+                    break;
+
+                case BookshelfConstants.LIST_WANT_TO_READ:
+                    var wantToRead = await _context.WantToRead
+                        .Where(e => e.BookIsse_Id == model.BookIssueId)
+                        .Where(e => e.User_Id == _userService.User.Id)
+                        .FirstOrDefaultAsync();
+                    _context.WantToRead.Remove(wantToRead);
+                    break;
+
+                case BookshelfConstants.LIST_READ:
+                    var read = await _context.Read
+                        .Where(e => e.BookIssue_Id == model.BookIssueId)
+                        .Where(e => e.User_Id == _userService.User.Id)
+                        .FirstOrDefaultAsync();
+                    _context.Read.Remove(read);
+                    break;
+            }
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task AddBookToList(AddBook_RequestModel model)
+        {
+            if (model.PreviousList != null)
+            {
+                await RemoveBookFromList(new RemoveBook_RequestModel
+                {
+                    BookIssueId = model.BookIssueId,
+                    List = model.PreviousList
+                });
+            }
+
+            var bookIssue = _context.BookIssue
+                .Where(e => e.Id == model.BookIssueId)
+                .FirstOrDefault();
+
+            switch (model.NextList)
+            {
+                case BookshelfConstants.LIST_CURRENTLY_READING:
+                    _context.CurrentlyReading.Add(new Data.Models.CurrentlyReading
+                    {
+                        AddedOn = DateTime.Now,
+                        BookIssue_Id = model.BookIssueId,
+                        Book_Id = bookIssue.Book_Id,
+                        User_Id = _userService.User.Id
+                    });
+                    break;
+
+                case BookshelfConstants.LIST_WANT_TO_READ:
+                    _context.WantToRead.Add(new Data.Models.WantToRead
+                    {
+                        AddedOn = DateTime.Now,
+                        BookIsse_Id = model.BookIssueId,
+                        Book_Id = bookIssue.Book_Id,
+                        User_Id = _userService.User.Id,
+                    });
+                    break;
+
+                case BookshelfConstants.LIST_READ:
+                    _context.Read.Add(new Data.Models.Read
+                    {
+                        AddedOn = DateTime.Now,
+                        BookIssue_Id = model.BookIssueId,
+                        Book_Id = bookIssue.Book_Id,
+                        User_Id = _userService.User.Id,
+                        FinishedOn = DateTime.Now,
+                        StartedOn = null,
+                    });
+                    break;
+            }
+
+            await _context.SaveChangesAsync();
         }
     }
 }

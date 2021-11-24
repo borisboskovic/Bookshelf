@@ -11,7 +11,7 @@
 
 .button-group__container {
 	position: relative;
-	font: map-get($fonts, "regular-sm");
+	font: inherit;
 }
 
 .button-group__header {
@@ -22,24 +22,60 @@
 	&.default {
 		border: 2px map-get($colors, "accent") solid;
 		color: map-get($colors, "accent");
+		&:hover {
+			background-color: map-get($colors, "accent");
+			color: map-get($colors, "light-background");
+		}
 	}
+
 	&.green {
 		border: 2px map-get($colors, "want-to-read") solid;
 		color: map-get($colors, "want-to-read");
+		&:hover {
+			background-color: map-get($colors, "want-to-read");
+			color: map-get($colors, "light-background");
+		}
 	}
+
 	&.yellow {
 		border: 2px map-get($colors, "currently-reading") solid;
 		color: map-get($colors, "currently-reading");
+		&:hover {
+			background-color: map-get($colors, "currently-reading");
+			color: map-get($colors, "light-background");
+		}
 	}
+
 	&.red {
 		border: 2px map-get($colors, "read") solid;
 		color: map-get($colors, "read");
+		&:hover {
+			background-color: map-get($colors, "read");
+			color: map-get($colors, "light-background");
+		}
 	}
 }
 
 .button-group__visible-label {
 	padding: 0.2rem 0.5rem;
 	flex-grow: 1;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+
+	& span {
+		padding-left: 0.25rem;
+		flex-grow: 1;
+		width: auto;
+	}
+
+	.delete-icon {
+		visibility: hidden;
+	}
+
+	&:hover .delete-icon {
+		visibility: visible;
+	}
 }
 
 .button-group__handle {
@@ -69,6 +105,15 @@
 .red {
 	& .button-group__handle {
 		border-left: 2px map-get($colors, "read") solid;
+	}
+}
+
+.default,
+.green,
+.yellow,
+.red {
+	&:hover .button-group__handle {
+		border-left: 2px map-get($colors, "light-background") solid;
 	}
 }
 

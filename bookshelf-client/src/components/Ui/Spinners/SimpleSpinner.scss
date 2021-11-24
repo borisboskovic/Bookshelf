@@ -17,6 +17,7 @@
 	align-items: center;
 	justify-content: center;
 	color: map-get($colors, "accent");
+	z-index: 1;
 
 	& i {
 		animation-name: simple-spinner__spin;

@@ -1,5 +1,6 @@
 ﻿using BookshelfAPI.Data;
 using BookshelfAPI.Services.DTOs.BookDetails;
+using BookshelfAPI.Services.Helpers;
 using BookshelfAPI.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -80,6 +81,7 @@ namespace BookshelfAPI.Services.Services
             bookIssue.ReadingStatus = await GetBookIssueReadingStatus(bookIssueId);
             bookIssue.Authors = await GetBookIssueAuthors(bookIssue.BookId);
             bookIssue.Ratings = await _reviewService.GetBookRatings(bookIssue.BookId);
+            bookIssue.List = await GetBookIssueCurrentList(bookIssueId);
 
             if (bookIssue == null)
             {
@@ -179,6 +181,38 @@ namespace BookshelfAPI.Services.Services
                     Name = $"{e.Name} {e.Surname}",
                 })
                 .ToList();
+        }
+
+        private async Task<string> GetBookIssueCurrentList(int bookIssueId)
+        {
+            var currentlyReading = await _context.CurrentlyReading
+                .Where(e => e.BookIssue_Id == bookIssueId)
+                .Where(e => e.User_Id == _userService.User.Id)
+                .FirstOrDefaultAsync();
+            if(currentlyReading != null)
+            {
+                return BookshelfConstants.LIST_CURRENTLY_READING;
+            }
+
+            var wantToRead = await _context.WantToRead
+                .Where(e => e.BookIsse_Id == bookIssueId)
+                .Where(e => e.User_Id == _userService.User.Id)
+                .FirstOrDefaultAsync();
+            if (wantToRead != null)
+            {
+                return BookshelfConstants.LIST_WANT_TO_READ;
+            }
+
+            var read = await _context.Read
+                .Where(e => e.BookIssue_Id == bookIssueId)
+                .Where(e => e.User_Id == _userService.User.Id)
+                .FirstOrDefaultAsync();
+            if (read != null)
+            {
+                return BookshelfConstants.LIST_READ;
+            }
+
+            return "";
         }
     }
 }

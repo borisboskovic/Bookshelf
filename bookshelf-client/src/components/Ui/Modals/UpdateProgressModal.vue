@@ -31,7 +31,7 @@
 
 <script>
 	import { ref, computed, onMounted } from "vue";
-	import ButtonComponent from "../../../components/Ui/Buttons/ButtonComponent.vue";
+	import ButtonComponent from "@/components/Ui/Buttons/ButtonComponent.vue";
 
 	export default {
 		props: {
@@ -48,7 +48,7 @@
 
 			const allowUpdate = computed(() => {
 				return (
-					enteredValue.value != props.pagesRead &&
+					enteredValue.value !== props.pagesRead &&
 					enteredValue.value >= 0 &&
 					enteredValue.value <= props.totalPages &&
 					enteredValue.value !== ""

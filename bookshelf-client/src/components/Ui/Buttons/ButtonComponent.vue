@@ -15,10 +15,11 @@
 					return ["small", "normal", "large"].indexOf(value) !== -1;
 				},
 			},
+			className: String,
 			disabled: Boolean,
 		},
 		setup: (props) => {
-			const buttonClasses = `button-element ${props.size}`;
+			const buttonClasses = `button-element ${props.size} ${props.className}`;
 			return {
 				buttonClasses,
 			};

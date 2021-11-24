@@ -11,6 +11,7 @@ namespace BookshelfAPI.Services.Interfaces
         public Task<ServiceResponse> GetDefaultLists();
         public Task<ServiceResponse> UpdateReadingProgress(ReadingProgress_RequestModel model);
         public Task<ServiceResponse> FinishBokReading(int bookIssueId);
-
+        public Task RemoveBookFromList(RemoveBook_RequestModel model);
+        public Task AddBookToList(AddBook_RequestModel model);
     }
 }

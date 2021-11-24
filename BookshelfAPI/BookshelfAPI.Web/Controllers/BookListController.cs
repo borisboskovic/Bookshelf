@@ -25,6 +25,20 @@ namespace BookshelfAPI.Web.Controllers
             return result.Succeeded ? Ok(result.Body) : BadRequest(result);
         }
 
+        [HttpDelete("RemoveBook")]
+        public async Task<IActionResult> RemoveFromList([FromBody] RemoveBook_RequestModel model)
+        {
+            await _bookListService.RemoveBookFromList(model);
+            return Ok();
+        }
+
+        [HttpPost("AddBook")]
+        public async Task<IActionResult> AddBookToList([FromBody] AddBook_RequestModel model)
+        {
+            await _bookListService.AddBookToList(model);
+            return Ok();
+        }
+
         [HttpGet("CurrentlyReading")]
         public IActionResult GetCurrentlyReading()
         {

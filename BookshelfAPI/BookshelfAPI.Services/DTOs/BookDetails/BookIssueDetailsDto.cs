@@ -21,6 +21,7 @@ namespace BookshelfAPI.Services.DTOs.BookDetails
         public string Language { get; set; }
         public DateTime? PublishedOn { get; set; }
         public string OriginalPublishedOn { get; set; }
+        public string List { get; set; }
         public BookPublisherDto Publisher { get; set; }
         public BookSeriesDto Series { get; set; }
         public ReadingStatusDto ReadingStatus { get; set; }

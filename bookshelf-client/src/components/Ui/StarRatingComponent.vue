@@ -5,7 +5,7 @@
 			Your rating: <strong>{{ yourRating ?? "Not rated" }}</strong>
 		</div>
 		<div>
-			Average rating: <strong>{{ average ?? "Not rated" }}</strong>
+			Average rating: <strong>{{ average?.toFixed(1) ?? "Not rated" }}</strong>
 		</div>
 		<div class="stars-container">
 			<StarRating
@@ -26,7 +26,7 @@
 	import { ref, computed } from "vue";
 	import colors from "@/assets/strings/colors";
 	import StarRating from "vue-star-rating";
-	import SimpleSpinner from "../../components/Ui/Spinners/SimpleSpinner.vue";
+	import SimpleSpinner from "@/components/Ui/Spinners/SimpleSpinner.vue";
 
 	export default {
 		props: {

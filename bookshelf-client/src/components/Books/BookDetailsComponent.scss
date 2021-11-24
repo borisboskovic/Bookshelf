@@ -13,29 +13,16 @@
 	cursor: pointer;
 }
 
-.publication-dates {
-	margin-top: 0.5rem;
-
-	& > .date {
-		color: map-get($colors, "accent");
-		font-size: 2rem;
-		line-height: 1.2rem;
-	}
-}
-
-.original-title {
-	margin-top: 1rem;
-
-	& > .title {
-		color: map-get($colors, "accent");
-		font-size: 1.2rem;
-	}
+.book-details__button-group {
+	font: map-get($fonts, "regular-md");
+	margin-bottom: 1rem;
 }
 
 .main-container {
 	flex-grow: 1;
 	margin-top: 1rem;
 	margin-left: 2rem;
+	margin-right: 2rem;
 }
 
 .title-large {
@@ -60,4 +47,22 @@
 .summary {
 	white-space: pre-line;
 	margin-top: 2rem;
+}
+
+.details-container {
+	margin-top: 1rem;
+	min-width: 15rem;
+}
+
+.details-item {
+	border-bottom: 1px gray solid;
+	margin-bottom: 0.5rem;
+}
+
+.details-item__label {
+	color: #333;
+}
+
+.details-item__content {
+	color: map-get($colors, "accent");
 }

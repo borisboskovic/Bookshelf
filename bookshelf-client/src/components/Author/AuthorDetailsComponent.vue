@@ -25,7 +25,7 @@
 	import FallbackImage from "@/components/Ui/Imaging/FallbackImage.vue";
 	import BasicAuthorInfo from "@/components/Author/BasicAuthorInfo.vue";
 	import BasicBookList from "@/components/Books/BasicBookList.vue";
-	import PopupImage from "../../components/Ui/Imaging/PopupImage.vue";
+	import PopupImage from "@/components/Ui/Imaging/PopupImage.vue";
 
 	export default {
 		props: {

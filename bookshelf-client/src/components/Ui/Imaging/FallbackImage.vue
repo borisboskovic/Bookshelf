@@ -10,6 +10,7 @@
 
 <script>
 	import { ref, computed } from "vue";
+
 	export default {
 		props: {
 			defaultImage: String,
