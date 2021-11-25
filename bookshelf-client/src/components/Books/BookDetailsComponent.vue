@@ -9,7 +9,12 @@
 			/>
 		</div>
 		<div class="book-details__button-group">
-			<ButtonGroup :list="book.list" />
+			<SimpleSpinner v-if="showListSpinner" />
+			<ButtonGroup
+				:list="actualList"
+				@add-to-list="addToListHandler"
+				@remove-from-list="removeFromListHandler"
+			/>
 		</div>
 		<RatingComponent
 			:average="ratings.average"
@@ -46,6 +51,18 @@
 			<div class="details-item__label">Language</div>
 			<div class="details-item__content">{{ book.language }}</div>
 		</div>
+		<div class="details-item">
+			<div class="details-item__label">Publisher</div>
+			<div class="details-item__content">{{ book.publisher.name }}</div>
+			<div class="details-item__image">
+				<FallbackImage
+					:source="book.publisher.imageUrl"
+					:defaultImage="defaultImage"
+					:title="book.publisher.name"
+					objectFit="contain"
+				/>
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -58,6 +75,7 @@
 	import AuthorLinks from "@/components/Author/AuthorLinks.vue";
 	import RatingComponent from "@/components/Ui/StarRatingComponent.vue";
 	import ButtonGroup from "@/components/Ui/Buttons/ButtonGroup.vue";
+	import SimpleSpinner from "../../components/Ui/Spinners/SimpleSpinner.vue";
 
 	export default {
 		props: {
@@ -69,20 +87,22 @@
 			AuthorLinks,
 			RatingComponent,
 			ButtonGroup,
+			SimpleSpinner,
 		},
 		setup: (props) => {
 			const { state, dispatch } = useStore();
 			const popupShown = ref(false);
-			const book = computed(() => props.book);
+			const showListSpinner = ref(false);
 
+			const actualList = computed(() => (props.book.list !== "" ? props.book.list : null));
+			const book = computed(() => props.book);
 			const ratings = computed(() => book.value.ratings);
 			const publishedOn = computed(() =>
 				new Date(book.value.publishedOn).toLocaleDateString("sr")
 			);
+			const isSubmittingRating = computed(() => state.bookDetails.isSubmittingRating);
 
 			const bookIssueId = book.value.bookIssueId;
-
-			const isSubmittingRating = computed(() => state.bookDetails.isSubmittingRating);
 
 			console.log("Knjiga", book.value);
 
@@ -98,13 +118,33 @@
 				dispatch("bookDetails/postRating", { rating: value, bookIssueId });
 			};
 
+			const addToListHandler = (listNames) => {
+				showListSpinner.value = true;
+				dispatch("bookDetails/addToList", { id: bookIssueId, ...listNames }).finally(() => {
+					showListSpinner.value = false;
+				});
+			};
+
+			const removeFromListHandler = (listName) => {
+				showListSpinner.value = true;
+				dispatch("bookDetails/removeFromList", { id: bookIssueId, list: listName }).finally(
+					() => {
+						showListSpinner.value = false;
+					}
+				);
+			};
+
 			return {
+				actualList,
 				ratings,
 				defaultImage,
 				publishedOn,
 				popupShown,
+				showListSpinner,
 				toggleCoverPopup,
 				bookRatingHandler,
+				addToListHandler,
+				removeFromListHandler,
 				isSubmittingRating,
 			};
 		},

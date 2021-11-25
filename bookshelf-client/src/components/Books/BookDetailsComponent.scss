@@ -16,6 +16,7 @@
 .book-details__button-group {
 	font: map-get($fonts, "regular-md");
 	margin-bottom: 1rem;
+	position: relative;
 }
 
 .main-container {
@@ -54,9 +55,16 @@
 	min-width: 15rem;
 }
 
+@include maxWidth(72rem) {
+	.details-container {
+		display: none;
+	}
+}
+
 .details-item {
 	border-bottom: 1px gray solid;
 	margin-bottom: 0.5rem;
+	padding-bottom: 2px;
 }
 
 .details-item__label {
@@ -65,4 +73,9 @@
 
 .details-item__content {
 	color: map-get($colors, "accent");
+}
+
+.details-item__image {
+	text-align: center;
+	height: 10rem;
 }

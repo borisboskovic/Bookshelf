@@ -31,6 +31,10 @@ export default {
 			state.book.ratings = payload;
 		},
 
+		UPDATE_LIST: (state, payload) => {
+			state.book.list = payload;
+		},
+
 		CLEAR_BOOK: (state) => {
 			state.book = null;
 		},
@@ -62,6 +66,22 @@ export default {
 				})
 				.finally(() => {
 					commit("SET_SUBMITTING_RATING", false);
+				});
+		},
+
+		addToList: async ({ commit }, payload) => {
+			await axios.post("BookList/AddBook", payload).then(() => {
+				commit("UPDATE_LIST", payload.nextList);
+			});
+		},
+
+		removeFromList: async ({ commit }, payload) => {
+			await axios
+				.delete("BookList/RemoveBook", {
+					data: payload,
+				})
+				.then(() => {
+					commit("UPDATE_LIST", null);
 				});
 		},
 

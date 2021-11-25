@@ -65,7 +65,7 @@ namespace BookshelfAPI.Services.Services
                     {
                         Id = e.Publisher.Id,
                         Name = e.Publisher.Name,
-                        ImageUrl = e.Publisher.ImageUrl,
+                        ImageUrl = $"{_configuration["Azure:BlobStorageUrl"]}/{e.Publisher.ImageUrl}",
                         Address = e.Publisher.Address
                     },
                     Tags = e.Book.BookTag.Select(tag => new BookTagDto
@@ -77,16 +77,17 @@ namespace BookshelfAPI.Services.Services
                 .AsNoTracking()
                 .FirstOrDefaultAsync(e => e.BookIssueId == bookIssueId);
 
+            if (bookIssue == null)
+            {
+                response.Errors.Add("Error", new string[] { "Book issue not found" });
+                return response;
+            }
+
             bookIssue.ImageUrl = $"{_configuration["Azure:BlobStorageUrl"]}/{bookIssue.ImageUrl}";
             bookIssue.ReadingStatus = await GetBookIssueReadingStatus(bookIssueId);
             bookIssue.Authors = await GetBookIssueAuthors(bookIssue.BookId);
             bookIssue.Ratings = await _reviewService.GetBookRatings(bookIssue.BookId);
             bookIssue.List = await GetBookIssueCurrentList(bookIssueId);
-
-            if (bookIssue == null)
-            {
-                response.Errors.Add("Error", new string[] { "Book issue not found" });
-            }
 
             response.Succeeded = true;
             response.Body = bookIssue;

@@ -4,6 +4,7 @@
 		ref="imageRef"
 		:alt="title"
 		class="image-element"
+		:style="{ objectFit: actualObjectFit }"
 		@error="loadingErrorHandler"
 	/>
 </template>
@@ -17,6 +18,7 @@
 			source: String,
 			className: String,
 			title: String,
+			objectFit: String,
 		},
 		setup: (props) => {
 			const imageRef = ref();
@@ -25,12 +27,15 @@
 				imageRef.value.src = props.defaultImage;
 			};
 
+			const actualObjectFit = computed(() => props.objectFit ?? "cover");
+
 			const avatar = computed(() => props.source ?? props.defaultImage);
 
 			return {
 				imageRef,
 				loadingErrorHandler,
 				avatar,
+				actualObjectFit,
 			};
 		},
 	};
@@ -38,9 +43,7 @@
 
 <style lang="scss" scoped>
 	.image-element {
-		background-size: cover;
 		width: 100%;
 		height: 100%;
-		object-fit: cover;
 	}
 </style>
