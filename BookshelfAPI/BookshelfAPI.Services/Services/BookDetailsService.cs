@@ -4,6 +4,7 @@ using BookshelfAPI.Services.Helpers;
 using BookshelfAPI.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,14 +15,14 @@ namespace BookshelfAPI.Services.Services
     {
         private readonly BookshelfDbContext _context;
         private readonly IUserService _userService;
-        private readonly IReviewService _reviewService;
+        private readonly IBookReviewService _reviewService;
         private readonly IConfiguration _configuration;
 
         public BookDetailsService
         (
             BookshelfDbContext context,
             IUserService userService,
-            IReviewService reviewService,
+            IBookReviewService reviewService,
             IConfiguration configuration
         )
         {

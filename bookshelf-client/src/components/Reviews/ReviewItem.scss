@@ -1,0 +1,62 @@
+@import "@/assets/style/main.scss";
+
+.review-item__container {
+	border-radius: 1rem;
+	padding: 1rem;
+	display: flex;
+	box-shadow: $boxShadow;
+
+	&:not(:last-child) {
+		margin-bottom: 1rem;
+	}
+}
+
+.review-item__image-container {
+	width: 3rem;
+	height: 3rem;
+	border-radius: 50%;
+	overflow: hidden;
+	flex-shrink: 0;
+}
+
+.review-item__inner-container {
+	display: flex;
+	flex-direction: column;
+	margin-left: 0.5rem;
+	flex-grow: 1;
+}
+
+.review-item__name {
+	color: map-get($colors, "accent");
+}
+.review-item__content {
+	font-size: 0.8rem;
+}
+
+.review-item__posted-date {
+	text-align: right;
+	color: gray;
+	font-size: 0.8rem;
+}
+
+.review-item__admin-controls {
+	display: flex;
+	font-weight: bold;
+	font-size: 0.9rem;
+
+	& > div {
+		cursor: pointer;
+		&:hover {
+			text-decoration: underline;
+		}
+
+		&:not(:last-child) {
+			margin-right: 1rem;
+			color: map-get($colors, "want-to-read");
+		}
+
+		&:last-child {
+			color: map-get($colors, "read");
+		}
+	}
+}

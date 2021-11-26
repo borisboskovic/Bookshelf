@@ -60,7 +60,7 @@
 	import { computed } from "vue";
 	import { useStore } from "vuex";
 	import { Form } from "vee-validate";
-	import { registerFormSchema } from "@/helpers/validaton-schemas/register-form-validation";
+	import { registerFormSchema } from "@/helpers/validation-schemas/register-form-validation";
 	import { showErrorToast } from "@/services/notifications/notification-templates";
 	import InputField from "@/components/Ui/Validation/InputField";
 	import ButtonComponent from "@/components/Ui/Buttons/ButtonComponent.vue";

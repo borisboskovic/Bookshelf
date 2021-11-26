@@ -28,6 +28,9 @@
 		<div class="title-large">{{ book.title }}</div>
 		<AuthorLinks className="author-links" :authors="book.authors" />
 		<div class="summary">{{ book.summary }}</div>
+		<div class="reviews-container">
+			<BookReviews :bookIssueId="book.bookIssueId" />
+		</div>
 	</div>
 
 	<div class="details-container">
@@ -75,7 +78,8 @@
 	import AuthorLinks from "@/components/Author/AuthorLinks.vue";
 	import RatingComponent from "@/components/Ui/StarRatingComponent.vue";
 	import ButtonGroup from "@/components/Ui/Buttons/ButtonGroup.vue";
-	import SimpleSpinner from "../../components/Ui/Spinners/SimpleSpinner.vue";
+	import SimpleSpinner from "@/components/Ui/Spinners/SimpleSpinner.vue";
+	import BookReviews from "@/components/Reviews/BookReviews.vue";
 
 	export default {
 		props: {
@@ -88,6 +92,7 @@
 			RatingComponent,
 			ButtonGroup,
 			SimpleSpinner,
+			BookReviews,
 		},
 		setup: (props) => {
 			const { state, dispatch } = useStore();
@@ -103,8 +108,6 @@
 			const isSubmittingRating = computed(() => state.bookDetails.isSubmittingRating);
 
 			const bookIssueId = book.value.bookIssueId;
-
-			console.log("Knjiga", book.value);
 
 			onMounted(() => {
 				document.title = `${book.value.title} - Book page`;

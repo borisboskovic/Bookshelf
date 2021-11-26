@@ -1,0 +1,35 @@
+@import "@/assets/style/main.scss";
+
+.title-accent {
+	color: map-get($colors, "accent");
+	font: map-get($fonts, "regular-lg");
+	text-align: center;
+}
+
+.no-comments-text {
+	text-align: center;
+	margin: 0.5rem 0;
+}
+
+.loading-spinner-container {
+	position: relative;
+	height: 5rem;
+}
+
+.reviews__main-container {
+	padding-top: 0.5rem;
+}
+
+.reviews__my-review {
+	margin-bottom: 1rem;
+
+	& .reviews__my-review__title {
+		margin-bottom: 0.25rem;
+		font-weight: 500;
+	}
+}
+
+.reviews__other-reviews {
+	border-top: 1px solid rgba(0, 0, 0, 0.05);
+	padding-top: 1rem;
+}

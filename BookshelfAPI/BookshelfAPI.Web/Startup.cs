@@ -108,7 +108,7 @@ namespace BookshelfAPI.Web
             services.AddTransient<IAzureStorageService, AzureStorageService>();
             services.AddTransient<IBookDetailsService, BookDetailsService>();
             services.AddTransient<IAuthorDetailsService, AuthorDetailsService>();
-            services.AddTransient<IReviewService, ReviewService>();
+            services.AddTransient<IBookReviewService, BookReviewService>();
             services.AddTransient<IBookListService, BookListService>();
 
             // Email configuration

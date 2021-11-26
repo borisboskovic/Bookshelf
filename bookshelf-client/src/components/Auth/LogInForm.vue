@@ -32,7 +32,7 @@
 	import { computed } from "vue";
 	import { useStore } from "vuex";
 	import { Form } from "vee-validate";
-	import { loginFormSchema } from "@/helpers/validaton-schemas/login-form-validation";
+	import { loginFormSchema } from "@/helpers/validation-schemas/login-form-validation";
 	import InputField from "@/components/Ui/Validation/InputField.vue";
 	import ButtonComponent from "@/components/Ui/Buttons/ButtonComponent";
 	import LoadingSpinner from "@/components/Ui/Spinners/LoadingSpinner.vue";

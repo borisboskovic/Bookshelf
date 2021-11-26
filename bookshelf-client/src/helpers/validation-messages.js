@@ -4,6 +4,8 @@ export const invalidEmailAddress = () => "Email adresa nije validna";
 
 export const minLength = (min) => `Minimalna dužina je ${min} karaktera`;
 
+export const maxLength = (max) => `Maksimalna dužina je ${max} karaktera`;
+
 export const passwordMismatch = () => "Lozinke se ne podudaraju";
 
 export const minDate = () => "Izaberite noviji datum";

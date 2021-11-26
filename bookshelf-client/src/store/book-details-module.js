@@ -8,6 +8,8 @@ export default {
 		isSubmittingRating: false,
 		notFoundError: false,
 		book: null,
+		myReview: null,
+		otherReviews: [],
 	},
 
 	mutations: {
@@ -38,6 +40,15 @@ export default {
 		CLEAR_BOOK: (state) => {
 			state.book = null;
 		},
+
+		SET_REVIEWS: (state, payload) => {
+			state.myReview = payload.myReview;
+			state.otherReviews = payload.otherReviews;
+		},
+
+		UPDATE_MY_REVIEW: (state, payload) => {
+			state.myReview = payload;
+		},
 	},
 
 	actions: {
@@ -60,7 +71,7 @@ export default {
 		postRating: ({ commit }, payload) => {
 			commit("SET_SUBMITTING_RATING", true);
 			axios
-				.post("Review/RateBook", payload)
+				.post("BookReview/RateBook", payload)
 				.then((response) => {
 					commit("UPDATE_RATINGS", response.data);
 				})
@@ -87,6 +98,19 @@ export default {
 
 		clearBook: ({ commit }) => {
 			commit("CLEAR_BOOK");
+		},
+
+		fetchReviews: async ({ commit }, payload) => {
+			await axios.get(`BookReview?bookIssueId=${payload}`).then((response) => {
+				commit("SET_REVIEWS", response.data);
+			});
+		},
+
+		postReview: async ({ commit }, payload) => {
+			await axios.post("BookReview/AddReview", payload).then((response) => {
+				console.log(response.data);
+				commit("UPDATE_MY_REVIEW", response.data);
+			});
 		},
 	},
 };

@@ -19,6 +19,9 @@ namespace BookshelfAPI.Data.Models
         }
 
         [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+        [Key]
         public int Book_Id { get; set; }
         [Key]
         public int BookIssue_Id { get; set; }
@@ -27,6 +30,7 @@ namespace BookshelfAPI.Data.Models
         [Key]
         public string CommentAuthor_Id { get; set; }
         [StringLength(4000)]
+        [Column(TypeName ="nvarchar")]
         public string Content { get; set; }
 
         [ForeignKey("Book_Id,BookIssue_Id,Review_User_Id")]

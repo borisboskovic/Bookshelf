@@ -32,6 +32,7 @@ namespace BookshelfAPI.Data.Models
         public int Publisher_Id { get; set; }
         public int Language_Id { get; set; }
         [StringLength(255)]
+        [Column(TypeName ="nvarchar")]
         public string Title { get; set; }
         public int Tirage { get; set; }
         public int NumberOfPages { get; set; }
@@ -41,6 +42,7 @@ namespace BookshelfAPI.Data.Models
         [StringLength(50)]
         public string ISBN13 { get; set; }
         [StringLength(4000)]
+        [Column(TypeName ="nvarchar")]
         public string Summary { get; set; }
         [Column(TypeName = "datetime")]
         public DateTime? PublishedOn { get; set; }

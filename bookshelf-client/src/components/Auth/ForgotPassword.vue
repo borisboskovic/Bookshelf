@@ -21,7 +21,7 @@
 
 <script>
 	import { Form } from "vee-validate";
-	import { resetFormSchema } from "@/helpers/validaton-schemas/password-reset-form-validation";
+	import { resetFormSchema } from "@/helpers/validation-schemas/password-reset-form-validation";
 	import InputField from "@/components/Ui/Validation/InputField.vue";
 	import ButtonComponent from "@/components/Ui/Buttons/ButtonComponent";
 

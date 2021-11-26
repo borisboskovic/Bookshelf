@@ -23,9 +23,11 @@ namespace BookshelfAPI.Data.Models
         public string Review_User_Id { get; set; }
         [Key]
         public string CommentAuthor_Id { get; set; }
+        [Key]
+        public int ReviewId { get; set; }
         public bool Like { get; set; }
 
-        [ForeignKey("Book_Id,BookIssue_Id,Review_User_Id,CommentAuthor_Id")]
+        [ForeignKey("Book_Id,BookIssue_Id,Review_User_Id,CommentAuthor_Id,ReviewId")]
         [InverseProperty("CommentReaction")]
         public virtual ReviewComment ReviewComment { get; set; }
     }

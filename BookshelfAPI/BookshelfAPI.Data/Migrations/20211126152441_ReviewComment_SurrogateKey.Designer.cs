@@ -4,14 +4,16 @@ using BookshelfAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BookshelfAPI.Data.Migrations
 {
     [DbContext(typeof(BookshelfDbContext))]
-    partial class BookshelfDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211126152441_ReviewComment_SurrogateKey")]
+    partial class ReviewComment_SurrogateKey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -420,16 +422,11 @@ namespace BookshelfAPI.Data.Migrations
                     b.Property<string>("CommentAuthor_Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("ReviewId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("Like")
                         .HasColumnType("bit");
 
-                    b.HasKey("User_Id", "Book_Id", "BookIssue_Id", "Review_User_Id", "CommentAuthor_Id", "ReviewId")
+                    b.HasKey("User_Id", "Book_Id", "BookIssue_Id", "Review_User_Id", "CommentAuthor_Id")
                         .HasName("PK_COMMENTREACTION");
-
-                    b.HasIndex("Book_Id", "BookIssue_Id", "Review_User_Id", "CommentAuthor_Id", "ReviewId");
 
                     b.HasIndex(new[] { "User_Id" }, "REACTIONONCOMMENTBY_FK");
 
@@ -655,17 +652,17 @@ namespace BookshelfAPI.Data.Migrations
                     b.Property<string>("CommentAuthor_Id")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
                     b.Property<string>("Content")
                         .HasMaxLength(4000)
                         .IsUnicode(false)
                         .HasColumnType("nvarchar(4000)");
 
-                    b.HasKey("Book_Id", "BookIssue_Id", "Review_User_Id", "CommentAuthor_Id", "Id")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.HasKey("Book_Id", "BookIssue_Id", "Review_User_Id", "CommentAuthor_Id")
                         .HasName("PK_REVIEWCOMMENT");
 
                     b.HasIndex(new[] { "CommentAuthor_Id" }, "COMMENTBY_FK");
@@ -1115,7 +1112,7 @@ namespace BookshelfAPI.Data.Migrations
                 {
                     b.HasOne("BookshelfAPI.Data.Models.ReviewComment", "ReviewComment")
                         .WithMany("CommentReaction")
-                        .HasForeignKey("Book_Id", "BookIssue_Id", "Review_User_Id", "CommentAuthor_Id", "ReviewId")
+                        .HasForeignKey("Book_Id", "BookIssue_Id", "Review_User_Id", "CommentAuthor_Id")
                         .HasConstraintName("FK_COMMENTR_REACTIONO_REVIEWCO")
                         .IsRequired();
 

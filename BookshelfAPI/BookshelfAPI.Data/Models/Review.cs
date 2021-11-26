@@ -26,7 +26,7 @@ namespace BookshelfAPI.Data.Models
         [Key]
         public string User_Id { get; set; }
         public int? Rating { get; set; }
-        [Column("Review")]
+        [Column("Review", TypeName ="nvarchar")]
         [StringLength(4000)]
         public string ReviewText { get; set; }
         [Column(TypeName = "datetime")]

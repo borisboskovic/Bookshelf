@@ -1,0 +1,17 @@
+@import "@/assets/style/main";
+
+.text-area__element {
+	resize: none;
+	flex-grow: 1;
+	border: $borderThin;
+}
+
+.error-container {
+	font-size: 12px;
+	height: 1rem;
+}
+
+.error-message {
+	color: red;
+	font-size: 12px;
+}

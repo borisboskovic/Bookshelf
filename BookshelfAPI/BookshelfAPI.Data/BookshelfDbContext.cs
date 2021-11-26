@@ -229,12 +229,12 @@ namespace BookshelfAPI.Data
 
             modelBuilder.Entity<CommentReaction>(entity =>
             {
-                entity.HasKey(e => new { e.User_Id, e.Book_Id, e.BookIssue_Id, e.Review_User_Id, e.CommentAuthor_Id })
+                entity.HasKey(e => new { e.User_Id, e.Book_Id, e.BookIssue_Id, e.Review_User_Id, e.CommentAuthor_Id, e.ReviewId })
                     .HasName("PK_COMMENTREACTION");
 
                 entity.HasOne(d => d.ReviewComment)
                     .WithMany(p => p.CommentReaction)
-                    .HasForeignKey(d => new { d.Book_Id, d.BookIssue_Id, d.Review_User_Id, d.CommentAuthor_Id })
+                    .HasForeignKey(d => new { d.Book_Id, d.BookIssue_Id, d.Review_User_Id, d.CommentAuthor_Id, d.ReviewId})
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_COMMENTR_REACTIONO_REVIEWCO");
             });
@@ -306,7 +306,7 @@ namespace BookshelfAPI.Data
 
             modelBuilder.Entity<ReviewComment>(entity =>
             {
-                entity.HasKey(e => new { e.Book_Id, e.BookIssue_Id, e.Review_User_Id, e.CommentAuthor_Id })
+                entity.HasKey(e => new { e.Book_Id, e.BookIssue_Id, e.Review_User_Id, e.CommentAuthor_Id, e.Id})
                     .HasName("PK_REVIEWCOMMENT");
 
                 entity.Property(e => e.Content).IsUnicode(false);
