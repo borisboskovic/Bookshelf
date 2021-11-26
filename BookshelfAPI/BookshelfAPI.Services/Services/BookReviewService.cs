@@ -70,7 +70,8 @@ namespace BookshelfAPI.Services.Services
             {
                 review.ReviewText = model.Content;
                 _context.Review.Update(review);
-            }else
+            }
+            else
             {
                 review = new Review
                 {
@@ -189,15 +190,82 @@ namespace BookshelfAPI.Services.Services
                     review.ReviewText,
                     review.User_Id,
                 })
+                .Select(e => new
+                {
+                    e.Key.BookIssue_Id,
+                    e.Key.User_Id,
+                    e.Key.ImageUrl,
+                    e.Key.FirstName,
+                    e.Key.LastName,
+                    e.Key.ReviewText,
+                    e.Key.PostedOn,
+                    LikeCount = e.Where(e => e.Reaction?.Like == true).Count(),
+                    DislikeCount = e.Where(e => e.Reaction?.Like == false).Count(),
+                })
+                .GroupJoin
+                (
+                    _context.ReviewComment,
+                    review => new { review.User_Id, review.BookIssue_Id },
+                    comment => new { User_Id = comment.Review_User_Id, comment.BookIssue_Id },
+                    (review, comment) => new
+                    {
+                        review.BookIssue_Id,
+                        review.DislikeCount,
+                        review.FirstName,
+                        review.LastName,
+                        review.ImageUrl,
+                        review.LikeCount,
+                        review.PostedOn,
+                        review.ReviewText,
+                        review.User_Id,
+                        Comment = comment
+                    }
+                )
+                .SelectMany
+                (
+                    review => review.Comment.DefaultIfEmpty(),
+                    (review, comment) => new
+                    {
+                        review.BookIssue_Id,
+                        review.DislikeCount,
+                        review.FirstName,
+                        review.LastName,
+                        review.ImageUrl,
+                        review.LikeCount,
+                        review.PostedOn,
+                        review.ReviewText,
+                        review.User_Id,
+                        Comment = comment
+                    }
+                )
+                .AsEnumerable()
+                .GroupBy(review => new
+                {
+                    review.BookIssue_Id,
+                    review.DislikeCount,
+                    review.FirstName,
+                    review.LastName,
+                    review.ImageUrl,
+                    review.LikeCount,
+                    review.PostedOn,
+                    review.ReviewText,
+                    review.User_Id,
+                })
                 .Select(e => new BookReviewItemDto
                 {
                     AuthorId = e.Key.User_Id,
                     AuthorImage = $"{_configuration["Azure:BlobStorageUrl"]}/{e.Key.ImageUrl}",
                     AuthorName = $"{e.Key.FirstName} {e.Key.LastName}",
                     Content = e.Key.ReviewText,
+                    LikeCount = e.Key.LikeCount,
+                    DislikeCount = e.Key.DislikeCount,
                     PostedOn = e.Key.PostedOn,
-                    LikeCount = e.Where(e => e.Reaction?.Like == true).Count(),
-                    DislikeCount = e.Where(e => e.Reaction?.Like == false).Count(),
+                    Comments = e.Where(e => e.Comment != null).Select(e => new ReviewCommentDto
+                    {
+                        CommentUser_Id = e.Comment?.CommentAuthor_Id,
+                        Content = e.Comment?.Content,
+                        PostedOn = e.Comment?.PostedOn
+                    }).ToList()
                 })
                 .ToList();
 

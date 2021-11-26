@@ -4,14 +4,16 @@ using BookshelfAPI.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace BookshelfAPI.Data.Migrations
 {
     [DbContext(typeof(BookshelfDbContext))]
-    partial class BookshelfDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211126181024_ReviewComment_DateTime")]
+    partial class ReviewComment_DateTime
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -665,7 +667,7 @@ namespace BookshelfAPI.Data.Migrations
                         .IsUnicode(false)
                         .HasColumnType("nvarchar(4000)");
 
-                    b.Property<DateTime>("PostedOn")
+                    b.Property<DateTime?>("PostedOn")
                         .HasColumnType("datetime");
 
                     b.HasKey("Book_Id", "BookIssue_Id", "Review_User_Id", "CommentAuthor_Id", "Id")

@@ -1,5 +1,6 @@
 ﻿using BookshelfAPI.Helpers;
 using System;
+using System.Collections.Generic;
 
 namespace BookshelfAPI.Services.DTOs.Review
 {
@@ -12,5 +13,6 @@ namespace BookshelfAPI.Services.DTOs.Review
         public int LikeCount { get; set; }
         public int DislikeCount { get; set; }
         public DateTime PostedOn { get; set; }
+        public List<ReviewCommentDto> Comments { get; set; }
     }
 }

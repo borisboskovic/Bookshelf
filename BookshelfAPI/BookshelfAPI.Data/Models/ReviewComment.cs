@@ -32,6 +32,8 @@ namespace BookshelfAPI.Data.Models
         [StringLength(4000)]
         [Column(TypeName ="nvarchar")]
         public string Content { get; set; }
+        [Column(TypeName = "datetime")]
+        public DateTime PostedOn { get; set; }
 
         [ForeignKey("Book_Id,BookIssue_Id,Review_User_Id")]
         [InverseProperty("ReviewComment")]
