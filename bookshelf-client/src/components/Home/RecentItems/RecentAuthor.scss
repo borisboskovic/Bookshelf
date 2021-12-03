@@ -1,0 +1,38 @@
+@import "@/assets/style/main.scss";
+
+.author-container {
+	display: inline-flex;
+	flex-direction: column;
+	width: 10rem;
+}
+
+.author-image {
+	border-radius: 1rem;
+	overflow: hidden;
+	width: 100%;
+	height: 14rem;
+	cursor: pointer;
+
+	&:hover {
+		box-shadow: $shadowDark;
+	}
+}
+
+.author-name {
+	padding-top: 0.25rem;
+	font-weight: bold;
+	text-align: center;
+	max-width: max-content;
+	flex-grow: 1;
+	min-width: 100%;
+
+	& a {
+		text-decoration: none;
+		color: inherit;
+	}
+
+	& span:hover {
+		text-decoration: underline;
+		cursor: pointer;
+	}
+}

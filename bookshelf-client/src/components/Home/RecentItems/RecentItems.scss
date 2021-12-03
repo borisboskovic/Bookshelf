@@ -1,0 +1,15 @@
+@import "@/assets/style/main.scss";
+
+.list-wrapper:first-child {
+	margin-bottom: 2rem;
+}
+
+.list-wrapper:not(:first-child) {
+	border-top: $borderThin;
+}
+
+.list-title {
+	font-weight: 500;
+	font-size: 2rem;
+	margin-bottom: 1rem;
+}

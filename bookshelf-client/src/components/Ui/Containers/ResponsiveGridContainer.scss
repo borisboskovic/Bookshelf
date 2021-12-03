@@ -2,12 +2,23 @@
 
 .grid-container {
 	display: grid;
-	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+	// grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
 	grid-row-gap: 2rem;
 	grid-column-gap: 2rem;
 	justify-items: center;
 }
 
+// @include maxWidth(104rem) {
+// 	.grid-container {
+// 		grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+// 	}
+// }
+@include maxWidth(92rem) {
+	.grid-container {
+		grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+	}
+}
 @include maxWidth(80rem) {
 	.grid-container {
 		grid-template-columns: 1fr 1fr 1fr 1fr;
