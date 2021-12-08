@@ -46,8 +46,11 @@ export default {
 			state.otherReviews = payload.otherReviews;
 		},
 
-		UPDATE_MY_REVIEW: (state, payload) => {
-			state.myReview = payload;
+		SET_MY_REVIEW: (state, payload) => {
+			state.myReview = {
+				...payload,
+				comments: [],
+			};
 		},
 	},
 
@@ -108,8 +111,7 @@ export default {
 
 		postReview: async ({ commit }, payload) => {
 			await axios.post("BookReview/AddReview", payload).then((response) => {
-				console.log(response.data);
-				commit("UPDATE_MY_REVIEW", response.data);
+				commit("SET_MY_REVIEW", response.data);
 			});
 		},
 	},

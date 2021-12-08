@@ -29,7 +29,7 @@
 		<AuthorLinks className="author-links" :authors="book.authors" />
 		<div class="summary">{{ book.summary }}</div>
 		<div class="reviews-container">
-			<BookReviews :bookIssueId="book.bookIssueId" />
+			<BookReviews :bookIssueId="book.bookIssueId" :key="book.bookIssueId" />
 		</div>
 	</div>
 
@@ -106,31 +106,36 @@
 				new Date(book.value.publishedOn).toLocaleDateString("sr")
 			);
 			const isSubmittingRating = computed(() => state.bookDetails.isSubmittingRating);
-
-			const bookIssueId = book.value.bookIssueId;
+			const bookIssueId = computed(() => book.value.bookIssueId);
 
 			const toggleCoverPopup = () => {
 				popupShown.value = !popupShown.value;
 			};
 
 			const bookRatingHandler = (value) => {
-				dispatch("bookDetails/postRating", { rating: value, bookIssueId });
+				dispatch("bookDetails/postRating", {
+					rating: value,
+					bookIssueId: bookIssueId.value,
+				});
 			};
 
 			const addToListHandler = (listNames) => {
 				showListSpinner.value = true;
-				dispatch("bookDetails/addToList", { id: bookIssueId, ...listNames }).finally(() => {
-					showListSpinner.value = false;
-				});
-			};
-
-			const removeFromListHandler = (listName) => {
-				showListSpinner.value = true;
-				dispatch("bookDetails/removeFromList", { id: bookIssueId, list: listName }).finally(
+				dispatch("bookDetails/addToList", { id: bookIssueId.value, ...listNames }).finally(
 					() => {
 						showListSpinner.value = false;
 					}
 				);
+			};
+
+			const removeFromListHandler = (listName) => {
+				showListSpinner.value = true;
+				dispatch("bookDetails/removeFromList", {
+					id: bookIssueId.value,
+					list: listName,
+				}).finally(() => {
+					showListSpinner.value = false;
+				});
 			};
 
 			return {

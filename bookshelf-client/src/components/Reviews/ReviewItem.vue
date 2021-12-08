@@ -52,8 +52,6 @@
 				commentsShown.value = !commentsShown.value;
 			};
 
-			console.log("Review", props.review);
-
 			return {
 				postedOn,
 				commentsCount,

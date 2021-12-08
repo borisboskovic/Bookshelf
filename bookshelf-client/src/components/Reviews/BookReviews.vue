@@ -48,7 +48,6 @@
 			});
 
 			const submitReviewHandler = (text) => {
-				console.log("Submited review:", text);
 				dispatch("bookDetails/postReview", {
 					bookIssueId: props.bookIssueId,
 					content: text,
