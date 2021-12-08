@@ -117,6 +117,7 @@ namespace BookshelfAPI.Services.Services
                 .Where(e => keywords.All(keyword =>
                     e.Name.ToLower().Contains(keyword.ToLower()) || e.Surname.ToLower().Contains(keyword.ToLower())
                 ))
+                .Take(5)
                 .Select(e => new AuthorItemDto
                 {
                     Id = e.Id,
@@ -133,6 +134,7 @@ namespace BookshelfAPI.Services.Services
                 .Where(e => keywords.All(keyword =>
                     e.Title.ToLower().Contains(keyword.ToLower())
                 ))
+                .Take(5)
                 .Select(e => new BookItemDto
                 {
                     BookIssueId = e.Id,

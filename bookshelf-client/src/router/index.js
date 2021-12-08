@@ -16,6 +16,14 @@ router.beforeEach((to, from, next) => {
 	} else {
 		next();
 	}
+
+	if (from.name === "BookDetails" && to.name === "BookDetails") {
+		store.dispatch("bookDetails/fetchDetails", to.params.id);
+	}
+
+	if (from.name === "Author" && to.name === "Author") {
+		store.dispatch("authorDetails/fetchDetails", to.params.id);
+	}
 });
 
 export default router;

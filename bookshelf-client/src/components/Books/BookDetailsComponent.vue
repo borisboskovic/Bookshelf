@@ -70,7 +70,7 @@
 </template>
 
 <script>
-	import { ref, computed, onMounted } from "vue";
+	import { ref, computed } from "vue";
 	import { useStore } from "vuex";
 	import defaultImage from "@/assets/images/rasters/book-placeholder.jpg";
 	import FallbackImage from "@/components/Ui/Imaging/FallbackImage.vue";
@@ -108,10 +108,6 @@
 			const isSubmittingRating = computed(() => state.bookDetails.isSubmittingRating);
 
 			const bookIssueId = book.value.bookIssueId;
-
-			onMounted(() => {
-				document.title = `${book.value.title} - Book page`;
-			});
 
 			const toggleCoverPopup = () => {
 				popupShown.value = !popupShown.value;

@@ -7,7 +7,7 @@
 </template>
 
 <script>
-	import { onMounted, onUnmounted, computed } from "vue";
+	import { onMounted, onUnmounted, computed, watch } from "vue";
 	import { useRoute } from "vue-router";
 	import { useStore } from "vuex";
 	import LoadingSpinner from "@/components/Ui/Spinners/LoadingSpinner.vue";
@@ -37,6 +37,10 @@
 
 			onUnmounted(() => {
 				dispatch("authorDetails/clearAuthor");
+			});
+
+			watch(author, (next) => {
+				document.title = `${next.name} ${next.surname} - Author details`;
 			});
 
 			return {

@@ -20,7 +20,7 @@
 </template>
 
 <script>
-	import { ref, computed, onMounted } from "vue";
+	import { ref, computed } from "vue";
 	import defaultImage from "@/assets/images/rasters/avatar-placeholder.png";
 	import FallbackImage from "@/components/Ui/Imaging/FallbackImage.vue";
 	import BasicAuthorInfo from "@/components/Author/BasicAuthorInfo.vue";
@@ -40,15 +40,11 @@
 		setup: (props) => {
 			const popupShown = ref(false);
 			const author = computed(() => props.author);
-			const authorName = `${author.value.name} ${author.value.surname}`;
-			const authorImage = author.value.imageUrl;
-			const bio = author.value.bio;
-			const books = author.value.bookIssues;
-			const genres = author.value.genres?.join(", ");
-
-			onMounted(() => {
-				document.title = `${authorName} - Author page`;
-			});
+			const authorName = computed(() => `${author.value.name} ${author.value.surname}`);
+			const authorImage = computed(() => author.value.imageUrl);
+			const bio = computed(() => author.value.bio);
+			const books = computed(() => author.value.bookIssues);
+			const genres = computed(() => author.value.genres?.join(", "));
 
 			const toggleAvatarPopup = () => {
 				popupShown.value = !popupShown.value;

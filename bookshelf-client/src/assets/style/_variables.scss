@@ -33,6 +33,7 @@ $fonts: (
 );
 
 $boxShadow: 0 0 10px 1px map-get($colorVariants, "accent-lighter");
+$offsetShadow: 0 5px 5px 2px rgba(0, 0, 0, 0.5);
 $want-to-read-shadow: 0 0 10px 1px map-get($colorVariants, "want-to-read-lighter");
 $currently-reading-shadow: 0 0 10px 1px map-get($colorVariants, "currently-reading-lighter");
 $read-shadow: 0 0 10px 1px map-get($colorVariants, "read-lighter");

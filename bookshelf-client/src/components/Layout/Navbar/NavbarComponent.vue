@@ -10,9 +10,7 @@
 			<NavbarItem to="/">Home</NavbarItem>
 			<NavbarItem to="/my-books">My Books</NavbarItem>
 			<NavigationSelect />
-			<div class="search-container">
-				<SearchField />
-			</div>
+			<MainSearchComponent />
 		</div>
 		<div class="profile-icon-container">
 			<NavbarDropdown />
@@ -24,8 +22,8 @@
 	import NavbarItem from "./NavbarItem.vue";
 	import NavigationSelect from "./NavigationSelect.vue";
 	import VectorImage from "@/components/Ui/Imaging/VectorImage.vue";
-	import SearchField from "@/components/Ui/SearchField.vue";
 	import NavbarDropdown from "./NavbarDropdown.vue";
+	import MainSearchComponent from "@/components/Search/MainSearchComponent.vue";
 	import { booksLogo } from "@/assets/strings/icon-paths";
 
 	export default {
@@ -33,8 +31,8 @@
 			NavbarItem,
 			NavigationSelect,
 			VectorImage,
-			SearchField,
 			NavbarDropdown,
+			MainSearchComponent,
 		},
 		setup: () => {
 			return {

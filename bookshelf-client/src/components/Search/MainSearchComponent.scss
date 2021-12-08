@@ -1,0 +1,69 @@
+@import "../../assets/style/main.scss";
+
+.search-wrapper {
+	align-self: stretch;
+	display: flex;
+	flex-direction: column;
+}
+
+.search-field-container {
+	display: flex;
+	align-items: center;
+	flex-grow: 1;
+}
+
+.search__body-container {
+	position: relative;
+}
+
+.search__body {
+	position: absolute;
+	background-color: white;
+	border: $borderThin;
+	z-index: 1;
+	box-shadow: $offsetShadow;
+	padding: 5px;
+}
+
+.search__body-section {
+	&:not(:last-child) {
+		border-bottom: $borderThin;
+		border-bottom: 2px lightgray solid;
+		margin-bottom: 5px;
+	}
+}
+
+.search__body-title {
+	font-weight: bold;
+	font: map-get($fonts, "regular-lg");
+}
+
+.search__result-item {
+	display: flex;
+	width: 20rem;
+	padding: 5px;
+	color: initial;
+	text-decoration: none;
+
+	&:hover {
+		background-color: map-get($colors, "accent");
+		color: white;
+		cursor: pointer;
+	}
+}
+
+.search__image-container {
+	width: 4rem;
+	height: 6rem;
+	min-width: 4rem;
+	border-radius: 0.5rem;
+	overflow: hidden;
+}
+
+.search__result-item-text {
+	margin-left: 10px;
+	display: flex;
+	align-items: center;
+	font: map-get($fonts, "regular-md");
+	font-size: 16px;
+}
