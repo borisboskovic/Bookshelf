@@ -19,7 +19,14 @@ namespace BookshelfAPI.Web.Controllers
         public async Task<IActionResult> GetItems()
         {
             var result = await _homePageService.GetPreviewItems();
-            return result.Succeeded ? Ok(result.Body): BadRequest(result);
+            return result.Succeeded ? Ok(result.Body) : BadRequest(result);
+        }
+
+        [HttpGet("Search")]
+        public async Task<IActionResult> Search([FromQuery] string searchString)
+        {
+            var result = await _homePageService.Search(searchString);
+            return result.Succeeded ? Ok(result.Body) : BadRequest(result);
         }
     }
 }

@@ -223,7 +223,18 @@ namespace BookshelfAPI.Services.Services
                 )
                 .SelectMany
                 (
-                    review => review.Comment.DefaultIfEmpty(),
+                    review => review.Comment
+                    .Join(_context.Users, comment => comment.CommentAuthor_Id, user => user.Id,
+                    (comment, user) => new
+                    {
+                        comment.CommentAuthor_Id,
+                        comment.PostedOn,
+                        comment.Content,
+                        comment.Id,
+                        user.FirstName,
+                        user.LastName,
+                        user.ImageUrl
+                    }).DefaultIfEmpty(),
                     (review, comment) => new
                     {
                         review.BookIssue_Id,
@@ -264,7 +275,10 @@ namespace BookshelfAPI.Services.Services
                     {
                         CommentUser_Id = e.Comment?.CommentAuthor_Id,
                         Content = e.Comment?.Content,
-                        PostedOn = e.Comment?.PostedOn
+                        PostedOn = e.Comment?.PostedOn,
+                        AuthorName = $"{e.Comment.FirstName} {e.Comment.LastName}",
+                        CommentId = e.Comment.Id,
+                        ImageUrl = $"{_configuration["Azure:BlobStorageUrl"]}/{e.Comment.ImageUrl}"
                     }).ToList()
                 })
                 .ToList();

@@ -1,0 +1,16 @@
+@import "@/assets/style/main.scss";
+
+.comment-item__container {
+	border: 1px black solid;
+}
+
+.comment-item__image-container {
+	border-radius: 50%;
+	width: 3rem;
+	height: 3rem;
+	overflow: hidden;
+}
+
+.comment-item__content {
+	border: 1px blue solid;
+}

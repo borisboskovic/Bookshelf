@@ -21,7 +21,8 @@
 	import LoginForm from "./LogInForm.vue";
 	import RegisterForm from "./RegisterForm.vue";
 	import ForgotPassword from "./ForgotPassword.vue";
-	import booksImage from "@/assets/images/rasters/pile-of-books.jpg";
+	// import booksImage from "@/assets/images/rasters/pile-of-books.jpg";
+	import booksImage from "@/assets/images/rasters/watch-gc320662af_1920.jpg";
 
 	export default {
 		components: {

@@ -60,3 +60,17 @@
 		}
 	}
 }
+
+.review-item__toggle-comments {
+	font-size: 0.8rem;
+	text-align: center;
+	color: map-get($colors, "accent");
+
+	& > span {
+		cursor: pointer;
+
+		&:hover {
+			text-decoration: underline;
+		}
+	}
+}

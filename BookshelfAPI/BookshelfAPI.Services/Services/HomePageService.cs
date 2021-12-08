@@ -3,6 +3,7 @@ using BookshelfAPI.Services.DTOs.Home;
 using BookshelfAPI.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,7 +25,7 @@ namespace BookshelfAPI.Services.Services
 
             var recentAuthors = _context.Author
                 .OrderByDescending(e => e.Id)
-                .Take(10)
+                .Take(12)
                 .AsEnumerable()
                 .Select(e => new AuthorItemDto
                 {
@@ -37,7 +38,7 @@ namespace BookshelfAPI.Services.Services
             var recentBookIssues = await _context.BookIssue
                 .Include(e => e.Book)
                 .OrderByDescending(e => e.Id)
-                .Take(10)
+                .Take(12)
                 .GroupJoin
                 (
                     _context.Review,
@@ -90,6 +91,56 @@ namespace BookshelfAPI.Services.Services
                     BookIssues = recentBookIssues,
                 }
             };
+        }
+
+        public async Task<ServiceResponse> Search(string searchString)
+        {
+            var searchTerms = searchString.Split(" ");
+
+            var response = new SearchResultsDto
+            {
+                Authors = SearchAuthors(searchTerms),
+                Books = SearchBooks(searchTerms)
+            };
+
+            return new ServiceResponse
+            {
+                Succeeded = true,
+                Body = response
+            };
+        }
+
+        public List<AuthorItemDto> SearchAuthors(string[] keywords)
+        {
+            return _context.Author
+                .AsEnumerable()
+                .Where(e => keywords.All(keyword =>
+                    e.Name.ToLower().Contains(keyword.ToLower()) || e.Surname.ToLower().Contains(keyword.ToLower())
+                ))
+                .Select(e => new AuthorItemDto
+                {
+                    Id = e.Id,
+                    ImageUrl = $"{_configuration["Azure:BlobStorageUrl"]}/{e.ImageUrl}",
+                    Name = $"{e.Name} {e.Surname}"
+                })
+                .ToList();
+        }
+
+        public List<BookItemDto> SearchBooks(string[] keywords)
+        {
+            return _context.BookIssue
+                .AsEnumerable()
+                .Where(e => keywords.All(keyword =>
+                    e.Title.ToLower().Contains(keyword.ToLower())
+                ))
+                .Select(e => new BookItemDto
+                {
+                    BookIssueId = e.Id,
+                    BookId = e.Book_Id,
+                    Title = e.Title,
+                    ImageUrl = $"{_configuration["Azure:BlobStorageUrl"]}/{e.ImageUrl}"
+                })
+                .ToList();
         }
     }
 }

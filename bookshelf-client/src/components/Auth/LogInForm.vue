@@ -16,6 +16,7 @@
 						Log In
 					</ButtonComponent>
 				</div>
+				<div class="action-label subtle-label test">Continue as guest</div>
 			</Form>
 		</div>
 		<div class="action-label subtle-label" @click="navigateResetPassword">
@@ -77,4 +78,10 @@
 
 <style lang="scss" scoped>
 	@import "./FormStyles";
+
+	.test {
+		text-align: center;
+		position: relative;
+		top: 10px;
+	}
 </style>
