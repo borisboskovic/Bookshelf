@@ -61,7 +61,7 @@
 	import AuthorLinks from "@/components/Author/AuthorLinks.vue";
 	import ButtonGroup from "@/components/Ui/Buttons/ButtonGroup.vue";
 	import ButtonComponent from "@/components/Ui/Buttons/ButtonComponent.vue";
-	import SimpleSpinner from "../../components/Ui/Spinners/SimpleSpinner.vue";
+	import SimpleSpinner from "@/components/Ui/Spinners/SimpleSpinner.vue";
 
 	export default {
 		props: {

@@ -16,7 +16,7 @@
 	import { useStore } from "vuex";
 	import ResponsiveGridContainer from "@/components/Ui/Containers/ResponsiveGridContainer.vue";
 	import RecentAuthor from "./RecentAuthor.vue";
-	import BasicBookList from "../../../components/Books/BasicBookList.vue";
+	import BasicBookList from "@/components/Books/BasicBookList.vue";
 
 	export default {
 		components: {

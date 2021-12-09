@@ -1,13 +1,53 @@
 @import "@/assets/style/main.scss";
 
 .navigation-select-container {
+	align-self: stretch;
+	margin-right: 48px;
+}
+
+.navigation-select__header {
 	display: flex;
 	align-items: center;
-	padding-right: 48px;
+	height: 100%;
 	color: map-get($colors, "accent");
 	cursor: pointer;
+	user-select: none;
 }
 
 .navigation-select-container i {
 	margin-left: 5px;
+}
+
+.navigation-select__body-container {
+	position: relative;
+}
+
+.navigation-select__body {
+	position: absolute;
+	background-color: white;
+	border-radius: 5px;
+	overflow: hidden;
+	padding: 5px;
+	width: 12rem;
+	z-index: 1;
+	box-shadow: $shadowDark;
+	box-shadow: 0 0 10px 1px map-get($colorVariants, "accent-light");
+}
+
+.navigation-select__list-item {
+	padding: 0.5rem;
+	cursor: pointer;
+	color: map-get($colors, "accent");
+
+	display: block;
+	text-decoration: none;
+
+	&:not(:last-child) {
+		border-bottom: $borderThin;
+	}
+
+	&:hover {
+		background-color: map-get($colors, "accent");
+		color: white;
+	}
 }

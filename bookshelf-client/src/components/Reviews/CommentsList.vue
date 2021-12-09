@@ -10,7 +10,7 @@
 </template>
 
 <script>
-	import FallbackImage from "../../components/Ui/Imaging/FallbackImage.vue";
+	import FallbackImage from "@/components/Ui/Imaging/FallbackImage.vue";
 	export default {
 		props: {
 			comments: Array,

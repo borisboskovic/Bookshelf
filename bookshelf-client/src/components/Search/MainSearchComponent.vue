@@ -57,8 +57,8 @@
 	import axios from "@/config/axios";
 	import SearchField from "@/components/Ui/SearchField.vue";
 	import FallbackImage from "@/components/Ui/Imaging/FallbackImage";
-	import defaultBookImage from "../../assets/images/rasters/book-placeholder.jpg";
-	import defaultAuthorImage from "../../assets/images/rasters/avatar-placeholder.png";
+	import defaultBookImage from "@/assets/images/rasters/book-placeholder.jpg";
+	import defaultAuthorImage from "@/assets/images/rasters/avatar-placeholder.png";
 
 	export default {
 		components: {

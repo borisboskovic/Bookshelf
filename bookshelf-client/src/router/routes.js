@@ -5,6 +5,7 @@ import {
 	HomePage,
 	MyBooksPage,
 	NotFoundPage,
+	CreateAuthorPage,
 } from "@/pages";
 
 const routes = [
@@ -37,6 +38,11 @@ const routes = [
 		name: "NotFound",
 		path: "/:catchAll(.*)",
 		component: NotFoundPage,
+	},
+	{
+		name: "CreateAuthor",
+		path: "/create-author",
+		component: CreateAuthorPage,
 	},
 ];
 

@@ -107,6 +107,6 @@
 </script>
 
 <style lang="scss" scoped>
-	@import "./FormStyles";
+	@import "@/assets/style/form-styles";
 	@import "./RegisterForm";
 </style>

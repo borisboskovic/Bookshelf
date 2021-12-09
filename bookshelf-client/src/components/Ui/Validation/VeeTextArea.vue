@@ -1,12 +1,16 @@
 <template>
-	<textarea rows="3" :name="name" class="text-area__element" @input="textChangeHandler" />
+	<textarea
+		rows="3"
+		:name="name"
+		:class="className ?? 'text-area__element'"
+		@input="textChangeHandler"
+	/>
 	<div class="error-container">
 		<ErrorMessage :name="name" class="error-message" />
 	</div>
 </template>
 
 <script>
-	import { ref, computed } from "vue";
 	import { useField, ErrorMessage } from "vee-validate";
 
 	export default {
@@ -17,6 +21,7 @@
 			label: String,
 			name: String,
 			type: String,
+			className: String,
 		},
 		setup: (props) => {
 			const { setValue } = useField(props.name);

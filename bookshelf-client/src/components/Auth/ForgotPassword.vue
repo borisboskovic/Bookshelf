@@ -58,5 +58,5 @@
 </script>
 
 <style lang="scss" scoped>
-	@import "FormStyles";
+	@import "@/assets/style/form-styles";
 </style>

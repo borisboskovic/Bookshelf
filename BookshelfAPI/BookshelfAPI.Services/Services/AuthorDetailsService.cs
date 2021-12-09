@@ -1,8 +1,11 @@
 ﻿using BookshelfAPI.Data;
+using BookshelfAPI.Data.Models;
 using BookshelfAPI.Services.DTOs.AuthorDetails;
 using BookshelfAPI.Services.Interfaces;
+using BookshelfAPI.Services.RequestModels.AuthorDetails;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,11 +16,55 @@ namespace BookshelfAPI.Services.Services
     {
         private readonly BookshelfDbContext _context;
         private readonly IConfiguration _configuration;
+        private readonly IAzureStorageService _azureStorageService;
 
-        public AuthorDetailsService(BookshelfDbContext context, IConfiguration configuration)
+        public AuthorDetailsService(BookshelfDbContext context, IConfiguration configuration, IAzureStorageService azureStorageService)
         {
             _context = context;
             _configuration = configuration;
+            _azureStorageService = azureStorageService;
+        }
+
+        public async Task<ServiceResponse> CreateAuthorAsync(CreateAuthor_RequestModel model)
+        {
+            string uploadedFileName = "";
+            if (model.AuthorPhoto != null)
+            {
+                uploadedFileName = await _azureStorageService.PrepareAndUploadFormFile(model.AuthorPhoto);
+            }
+
+            var author = new Author
+            {
+                Bio = model.Biography,
+                ImageUrl = uploadedFileName,
+                Name = model.FirstName,
+                Surname = model.LastName,
+                PlaceOfBirth = model.PlaceOfBirth != "undefined" ? model.PlaceOfBirth : ""
+            };
+            if(model.DateOfBirth != "undefined")
+            {
+                author.DateOfBirth = DateTime.Parse(model.DateOfBirth);
+            }
+            if(model.DateOfDeath != "undefined")
+            {
+                author.DateOfDeath = DateTime.Parse(model.DateOfDeath);
+            }
+
+            var response = new ServiceResponse();
+
+            try
+            {
+                _context.Author.Add(author);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                response.Errors.Add(e.Message, new string[] { e.StackTrace });
+                return response;
+            }
+
+            var created = await GetDetails(author.Id);
+            return created;
         }
 
         public async Task<ServiceResponse> GetDetails(int authorId)

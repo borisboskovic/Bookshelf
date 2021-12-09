@@ -77,7 +77,7 @@
 </script>
 
 <style lang="scss" scoped>
-	@import "./FormStyles";
+	@import "@/assets/style/form-styles";
 
 	.test {
 		text-align: center;
