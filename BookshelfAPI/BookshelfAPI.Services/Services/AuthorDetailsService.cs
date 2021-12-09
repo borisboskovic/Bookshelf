@@ -156,6 +156,7 @@ namespace BookshelfAPI.Services.Services
             response.Succeeded = true;
             response.Body = new AuthorDetailsDto
             {
+                Id = authorId,
                 Bio = author.Bio,
                 Name = author.Name,
                 Surname = author.Surname,

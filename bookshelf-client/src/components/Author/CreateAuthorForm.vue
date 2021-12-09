@@ -36,9 +36,7 @@
 				</div>
 			</div>
 			<div class="button-container">
-				<ButtonComponent :size="'large'" :disabled="isSubmitting">
-					Register
-				</ButtonComponent>
+				<ButtonComponent :size="'large'" :disabled="isSubmitting"> Submit </ButtonComponent>
 			</div>
 		</Form>
 	</div>
@@ -46,6 +44,7 @@
 
 <script>
 	import { ref } from "vue";
+	import router from "@/router";
 	import axios from "@/config/axios";
 	import { createAuthorSchema } from "@/helpers/validation-schemas/create-author-validation";
 	import { showErrorToast } from "@/services/notifications/notification-templates";
@@ -73,7 +72,6 @@
 			};
 
 			const submitHandler = (values) => {
-				console.log("Values", values);
 				isSubmitting.value = true;
 
 				const formData = new FormData();
@@ -88,7 +86,7 @@
 				axios
 					.post("AuthorDetails", formData)
 					.then((response) => {
-						console.log("Created", response.data);
+						router.push(`/author-details/${response.data.id}`);
 					})
 					.finally(() => {
 						isSubmitting.value = false;

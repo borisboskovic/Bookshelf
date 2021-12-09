@@ -19,12 +19,12 @@
 					class="navigation-select__list-item"
 					>Add Book</router-link
 				>
-				<router-link
+				<!-- <router-link
 					@click="dismissDropdownHandler"
 					to="/create-book-issue"
 					class="navigation-select__list-item"
 					>Add Book Issue</router-link
-				>
+				> -->
 			</div>
 		</div>
 	</div>

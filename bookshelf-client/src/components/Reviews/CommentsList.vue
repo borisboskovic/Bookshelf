@@ -4,7 +4,12 @@
 			<FallbackImage :source="c.imageUrl" />
 		</div>
 		<div class="comment-item__content">
-			{{ c.content }}
+			<div class="comment-item__content-main">
+				{{ c.content }}
+			</div>
+			<div class="comment-item__posted-on">
+				{{ new Date(c.postedOn).toLocaleDateString("sr") }}
+			</div>
 		</div>
 	</div>
 </template>
@@ -17,6 +22,9 @@
 		},
 		components: {
 			FallbackImage,
+		},
+		setup: (props) => {
+			console.log("Komentari", props.comments.values);
 		},
 	};
 </script>

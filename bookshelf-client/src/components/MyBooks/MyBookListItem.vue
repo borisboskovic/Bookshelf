@@ -46,7 +46,11 @@
 					@remove-from-list="removeFromListHandler"
 				/>
 			</div>
-			<ButtonComponent size="small" :className="'book-list-item__btn'">
+			<ButtonComponent
+				size="small"
+				:className="'book-list-item__btn'"
+				@click="postReviewHandler"
+			>
 				Post a review
 			</ButtonComponent>
 		</div>
@@ -56,6 +60,7 @@
 <script>
 	import { ref, computed } from "vue";
 	import { useStore } from "vuex";
+	import router from "@/router";
 	import defaultImage from "@/assets/images/rasters/book-placeholder.jpg";
 	import FallbackImage from "@/components/Ui/Imaging/FallbackImage.vue";
 	import AuthorLinks from "@/components/Author/AuthorLinks.vue";
@@ -105,12 +110,17 @@
 				});
 			};
 
+			const postReviewHandler = () => {
+				router.push(`/book-details/${props.id}`);
+			};
+
 			return {
 				defaultImage,
 				formattedDate,
 				isSubmitting,
 				addToListHandler,
 				removeFromListHandler,
+				postReviewHandler,
 			};
 		},
 	};

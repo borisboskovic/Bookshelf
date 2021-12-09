@@ -27,7 +27,7 @@ namespace BookshelfAPI.Data.Models
         [Column(TypeName = "nvarchar")]
         public string Surname { get; set; }
         [Column(TypeName = "datetime")]
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
         [Column(TypeName = "datetime")]
         public DateTime? DateOfDeath { get; set; }
         [StringLength(2000)]

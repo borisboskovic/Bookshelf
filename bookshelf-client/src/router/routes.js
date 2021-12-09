@@ -6,6 +6,7 @@ import {
 	MyBooksPage,
 	NotFoundPage,
 	CreateAuthorPage,
+	CreateBookPage,
 } from "@/pages";
 
 const routes = [
@@ -43,6 +44,11 @@ const routes = [
 		name: "CreateAuthor",
 		path: "/create-author",
 		component: CreateAuthorPage,
+	},
+	{
+		name: "CreateBook",
+		path: "/create-book",
+		component: CreateBookPage,
 	},
 ];
 

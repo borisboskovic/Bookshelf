@@ -1,5 +1,6 @@
 <template>
 	<div class="create-author-page__container">
+		<div class="page-background"></div>
 		<CreateAuthorForm />
 	</div>
 </template>
