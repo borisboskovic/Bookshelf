@@ -1,7 +1,9 @@
 ﻿using BookshelfAPI.Data;
+using BookshelfAPI.Data.Models;
 using BookshelfAPI.Services.DTOs.BookDetails;
 using BookshelfAPI.Services.Helpers;
 using BookshelfAPI.Services.Interfaces;
+using BookshelfAPI.Services.RequestModels.BookDetails;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -215,6 +217,36 @@ namespace BookshelfAPI.Services.Services
             }
 
             return "";
+        }
+
+        public async Task<ServiceResponse> CreateBookAsync(CreateBook_RequestModel model)
+        {
+            var book = new Book
+            {
+                OriginalTitle = model.OriginalTitle,
+                ReleaseDate = model.OriginalReleaseDate
+            };
+
+            var response = new ServiceResponse();
+            try
+            {
+                _context.Book.Add(book);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                response.Errors.Add(e.Message, new string[] { e.StackTrace });
+                return response;
+            }
+
+            model.AuthorIds.ToList().ForEach(e =>
+            {
+                _context.BookAuthor.Add(new BookAuthor { Book_Id = book.Id, Author_Id = e });
+            });
+            await _context.SaveChangesAsync();
+
+            response.Succeeded = true;
+            return response;
         }
     }
 }

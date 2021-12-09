@@ -9,7 +9,11 @@
 						<InputField label="Original title" name="originalTitle" type="text" />
 					</div>
 					<div class="form-control pt-1">
-						<InputField label="Original release date" name="releaseDate" type="date" />
+						<InputField
+							label="Original release date"
+							name="originalReleaseDate"
+							type="date"
+						/>
 					</div>
 				</div>
 				<div>
@@ -34,10 +38,12 @@
 <script>
 	import { ref } from "vue";
 	import { Form } from "vee-validate";
+	import axios from "@/config/axios";
+	import { showSuccessToast } from "../../services/notifications/notification-templates";
 	import LoadingSpinner from "@/components/Ui/Spinners/LoadingSpinner.vue";
-	import ButtonComponent from "../../components/Ui/Buttons/ButtonComponent.vue";
+	import ButtonComponent from "@/components/Ui/Buttons/ButtonComponent.vue";
 	import InputField from "@/components/Ui/Validation/InputField";
-	import AuthorSearchComponent from "../../components/Search/AuthorSearchComponent.vue";
+	import AuthorSearchComponent from "@/components/Search/AuthorSearchComponent.vue";
 
 	export default {
 		components: {
@@ -49,23 +55,25 @@
 		},
 		setup: () => {
 			const isSubmitting = ref(false);
-			const authors = ref([
-				{
-					id: 1,
-					name: "Ljubivoje ršumović",
-				},
-				{
-					id: 2,
-					name: "Branko Ćopić",
-				},
-			]);
+			const authors = ref([]);
 
 			const submitHandler = (values) => {
+				isSubmitting.value = true;
 				const authorIds = authors.value.map((e) => e.id);
 				const body = {
 					...values,
 					authorIds,
 				};
+
+				axios
+					.post("BookDetails/CreateBook", body)
+					.then((response) => {
+						console.log("Response", response.data);
+					})
+					.finally(() => {
+						isSubmitting.value = false;
+						showSuccessToast("Success", "Book added");
+					});
 			};
 
 			const removeAuthorHandler = (id) => {
