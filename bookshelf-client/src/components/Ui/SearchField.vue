@@ -2,7 +2,7 @@
 	<div class="input-container">
 		<input
 			type="text"
-			placeholder="Search Books..."
+			:placeholder="placeholder"
 			@input="searchTermChangeHandler"
 			:value="searchTerm"
 		/>
@@ -15,6 +15,7 @@
 		emits: ["search-term-change"],
 		props: {
 			searchTerm: String,
+			placeholder: String,
 		},
 		setup: (_, context) => {
 			const searchTermChangeHandler = (event) => {
