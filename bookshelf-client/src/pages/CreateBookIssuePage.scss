@@ -1,0 +1,16 @@
+@import "@/assets/style/main.scss";
+
+.create-book-issue-page__container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 100%;
+	position: relative;
+}
+
+.page-background {
+	position: absolute;
+	inset: 0;
+	background-color: map-get($colors, "accent");
+	clip-path: polygon(42% 0%, 100% 0, 100% 100%, 58% 100%);
+}

@@ -1,0 +1,38 @@
+@import "@/assets/style/main.scss";
+
+.form-split-container {
+	display: flex;
+	gap: 2rem;
+
+	& > div {
+		display: flex;
+		flex-direction: column;
+	}
+}
+
+.flex-grow {
+	flex-grow: 1;
+}
+
+.input-label {
+	font-size: 12px;
+	text-transform: uppercase;
+	font-weight: bold;
+	margin-bottom: 5px;
+}
+
+.original-book__container {
+	display: flex;
+
+	& > i {
+		cursor: pointer;
+
+		&:hover {
+			color: map-get($colors, "accent");
+		}
+	}
+}
+
+.original-book__container-title {
+	flex-grow: 1;
+}

@@ -19,19 +19,22 @@ namespace BookshelfAPI.Services.Services
         private readonly IUserService _userService;
         private readonly IBookReviewService _reviewService;
         private readonly IConfiguration _configuration;
+        private readonly IAzureStorageService _azureStorageService;
 
         public BookDetailsService
         (
             BookshelfDbContext context,
             IUserService userService,
             IBookReviewService reviewService,
-            IConfiguration configuration
+            IConfiguration configuration,
+            IAzureStorageService azureStorageService
         )
         {
             _context = context;
             _userService = userService;
             _reviewService = reviewService;
             _configuration = configuration;
+            _azureStorageService = azureStorageService;
         }
 
         public async Task<ServiceResponse> GetBookIssueDetails(int bookIssueId)
@@ -193,7 +196,7 @@ namespace BookshelfAPI.Services.Services
                 .Where(e => e.BookIssue_Id == bookIssueId)
                 .Where(e => e.User_Id == _userService.User.Id)
                 .FirstOrDefaultAsync();
-            if(currentlyReading != null)
+            if (currentlyReading != null)
             {
                 return BookshelfConstants.LIST_CURRENTLY_READING;
             }
@@ -247,6 +250,65 @@ namespace BookshelfAPI.Services.Services
 
             response.Succeeded = true;
             return response;
+        }
+
+        public async Task<List<BookSearchDto>> SearchBooks(string searchString)
+        {
+            var keywords = searchString.Split(" ");
+            return _context.Book
+                .AsEnumerable()
+                .Where(e => keywords.All(keyword =>
+                    e.OriginalTitle.ToLower().Contains(keyword.ToLower())
+                ))
+                .Take(10)
+                .Select(e => new BookSearchDto
+                {
+                    Id = e.Id,
+                    Title = e.OriginalTitle
+                }).ToList();
+        }
+
+        public async Task<ServiceResponse> CreateBookIssueAsync(CreateBookIssue_RequestModel model)
+        {
+            string uploadedFileName = "";
+            if (model.CoverPhoto != null)
+            {
+                uploadedFileName = await _azureStorageService.PrepareAndUploadFormFile(model.CoverPhoto);
+            }
+
+
+            var bookIssue = new BookIssue
+            {
+                Book_Id = model.BookId,
+                Publisher_Id = model.PublisherId,
+                Language_Id = 1,
+                IsHardcover = false,
+                ImageUrl = uploadedFileName,
+                ISBN13 = model.ISBN,
+                NumberOfPages = model.NumberOfPages,
+                Tirage = model.Tirage,
+                Summary = model.Summary,
+                Title = model.Title
+            };
+            if (model.ReleaseDate != "undefined")
+            {
+                bookIssue.PublishedOn = DateTime.Parse(model.ReleaseDate);
+            }
+
+            var response = new ServiceResponse();
+            try
+            {
+                _context.BookIssue.Add(bookIssue);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception e)
+            {
+                response.Errors.Add(e.Message, new string[] { e.StackTrace });
+                return response;
+            }
+
+            var created = await GetBookIssueDetails(bookIssue.Id);
+            return created;
         }
     }
 }

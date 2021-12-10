@@ -7,6 +7,7 @@ import {
 	NotFoundPage,
 	CreateAuthorPage,
 	CreateBookPage,
+	CreateBookIssuePage,
 } from "@/pages";
 
 const routes = [
@@ -49,6 +50,11 @@ const routes = [
 		name: "CreateBook",
 		path: "/create-book",
 		component: CreateBookPage,
+	},
+	{
+		name: "CreateBookIssue",
+		path: "/create-book-issue",
+		component: CreateBookIssuePage,
 	},
 ];
 

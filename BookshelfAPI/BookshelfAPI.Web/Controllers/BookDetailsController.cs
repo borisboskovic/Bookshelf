@@ -32,5 +32,19 @@ namespace BookshelfAPI.Web.Controllers
             var result = await _bookDetailsService.CreateBookAsync(model);
             return result.Succeeded ? Ok(result.Body) : BadRequest(result);
         }
+
+        [HttpPost("CreateBookIssue")]
+        public async Task<IActionResult> CreateBookIssue([FromForm] CreateBookIssue_RequestModel model)
+        {
+            var result = await _bookDetailsService.CreateBookIssueAsync(model);
+            return result.Succeeded ? Ok(result.Body) : BadRequest(result);
+        }
+
+        [HttpGet("SearchBooks")]
+        public async Task<IActionResult> SearchBooks([FromQuery] string searchString)
+        {
+            var result = await _bookDetailsService.SearchBooks(searchString);
+            return Ok(result);
+        }
     }
 }

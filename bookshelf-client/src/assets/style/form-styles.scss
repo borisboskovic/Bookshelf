@@ -31,6 +31,14 @@
 	font-family: "Open Sans";
 }
 
+.divided-form-control {
+	display: flex;
+	color: map-get($colors, "subtle-text");
+	font-family: "Open Sans";
+	max-width: 20rem;
+	gap: 1rem;
+}
+
 .pt-1 {
 	padding-top: 1rem;
 }

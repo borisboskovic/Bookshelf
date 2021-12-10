@@ -11,5 +11,7 @@ namespace BookshelfAPI.Services.Interfaces
         public Task<ReadingStatusDto> GetBookIssueReadingStatus(int bookIssueId);
         public Task<List<AuthorSummaryDto>> GetBookIssueAuthors(int bookId);
         public Task<ServiceResponse> CreateBookAsync(CreateBook_RequestModel model);
+        public Task<ServiceResponse> CreateBookIssueAsync(CreateBookIssue_RequestModel model);
+        public Task<List<BookSearchDto>> SearchBooks(string searchString);
     }
 }

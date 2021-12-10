@@ -6,3 +6,4 @@ export { default as MyBooksPage } from "@/pages/MyBooksPage";
 export { default as NotFoundPage } from "@/pages/NotFoundPage";
 export { default as CreateAuthorPage } from "@/pages/CreateAuthorPage";
 export { default as CreateBookPage } from "@/pages/CreateBookPage";
+export { default as CreateBookIssuePage } from "@/pages/CreateBookIssuePage";
