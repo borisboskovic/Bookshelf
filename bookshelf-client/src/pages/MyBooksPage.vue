@@ -26,7 +26,7 @@
 				</div>
 				<div :class="`book-list-names__item ${selectedName === 'read' ? 'active' : ''}`">
 					<div class="book-list-names__name" @click="(event) => setSelectedList('read')">
-						Read
+						Finished Books
 					</div>
 					<div class="book-list-count">({{ readCount }})</div>
 				</div>

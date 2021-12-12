@@ -54,7 +54,7 @@
 		read: {
 			action: "read",
 			className: "red",
-			label: "Read",
+			label: "Finished",
 		},
 	};
 
