@@ -12,6 +12,9 @@
 						:key="publisher.id"
 						@click="() => itemSelectHandler(publisher.id, publisher.name)"
 					>
+						<div class="search-result__image-container">
+							<img :src="publisher.imageUrl" />
+						</div>
 						<div class="search__result-item-text">
 							{{ publisher.name }}
 						</div>
@@ -70,4 +73,5 @@
 
 <style lang="scss" scoped>
 	@import "./MainSearchComponent";
+	@import "./PublisherSearchComponent";
 </style>

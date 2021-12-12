@@ -5,7 +5,7 @@
 			Your rating: <strong>{{ yourRating ?? "Not rated" }}</strong>
 		</div>
 		<div>
-			Average rating: <strong>{{ average?.toFixed(1) ?? "Not rated" }}</strong>
+			Average rating: <strong>{{ average?.toFixed(2) ?? "Not rated" }}</strong>
 		</div>
 		<div class="stars-container">
 			<StarRating
