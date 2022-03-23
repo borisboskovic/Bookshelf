@@ -4,6 +4,7 @@
 			<FallbackImage :source="c.imageUrl" />
 		</div>
 		<div class="comment-item__content">
+			<div class="comment-item__author-name">{{ c.authorName }}</div>
 			<div class="comment-item__content-main">
 				{{ c.content }}
 			</div>
@@ -22,9 +23,6 @@
 		},
 		components: {
 			FallbackImage,
-		},
-		setup: (props) => {
-			console.log("Komentari", props.comments.values);
 		},
 	};
 </script>
