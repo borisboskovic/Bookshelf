@@ -7,7 +7,7 @@
 					<InputField label="Email adress" name="email" type="email" />
 				</div>
 				<div class="button-container">
-					<ButtonComponent :size="'large'"> Log In </ButtonComponent>
+					<ButtonComponent :size="'large'"> Reset </ButtonComponent>
 				</div>
 			</Form>
 		</div>

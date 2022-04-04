@@ -36,7 +36,9 @@
 			const items = computed(() => state.currentlyReading.items);
 
 			onMounted(() => {
-				dispatch("currentlyReading/fetchItems");
+				if (state?.auth?.isLoggedIn) {
+					dispatch("currentlyReading/fetchItems");
+				}
 			});
 
 			return {
